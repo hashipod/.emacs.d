@@ -128,26 +128,15 @@
              '(font . "Ubuntu Mono derivative Powerline-13.2"))
 
 
-
-;;;_*======================================================================
-;;;_* define a function to scroll with the cursor in place, moving the
-;;;_* page instead
-;; Navigation Functions
-(defun scroll-down-in-place (n)
-  (interactive "p")
-  (previous-line n)
-  (unless (eq (window-start) (point-min))
-    (scroll-down n)))
-
-(defun scroll-up-in-place (n)
-  (interactive "p")
-  (next-line n)
-  (unless (eq (window-end) (point-max))
-    (scroll-up n)))
-
+(defun gcm-scroll-down ()
+      (interactive)
+      (scroll-up 1))
+(defun gcm-scroll-up ()
+      (interactive)
+      (scroll-down 1))
 ;; scroll with cursor not move
-(global-set-key "\M-n" 'scroll-up-in-place)
-(global-set-key "\M-p" 'scroll-down-in-place)
+(global-set-key "\M-n" 'gcm-scroll-down)
+(global-set-key "\M-p" 'gcm-scroll-up)
 
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
@@ -155,6 +144,14 @@
 ;; (global-set-key (kbd "s-<backspace>") 'backward-kill-word)
 ;; (global-set-key (kbd "M-k") 'kill-region)
 ;; (global-set-key (kbd "C-j") 'save-buffer)
+
+(global-set-key (kbd "C-z") 'undo)
+
+(defun only-current-buffer ()
+  (interactive)
+    (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+(global-set-key (kbd "C-c b l") 'only-current-buffer)
+
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
@@ -168,6 +165,7 @@
        (list (region-beginning) (region-end))
      (message "Copied line")
      (list (line-beginning-position) (line-beginning-position 2)))))
+
 
 
 
