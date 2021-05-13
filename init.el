@@ -2,7 +2,7 @@
 (define-key special-event-map [config-changed-event] #'ignore)
 
 ;; unset C-m, seperate it with the RET key
-(define-key input-decode-map [?\C-m] [C-m])
+;; (define-key input-decode-map [?\C-m] [C-m])
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -49,10 +49,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(deadgrep ripgrep persp-mode treemacs-persp lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spacemacs-dark t)
@@ -112,7 +112,7 @@
 (define-key global-map [?\s-d] 'projectile-find-dir)
 (define-key global-map [?\s-e] 'er/expand-region)
 (define-key global-map [?\s-f] 'projectile-find-file)
-(define-key global-map [?\s-g] 'projectile-grep)
+(define-key global-map [?\s-g] 'deadgrep)
 (define-key global-map [?\s-j] 'prelude-top-join-line)
 (define-key global-map [?\s-k] 'prelude-kill-whole-line)
 (define-key global-map [?\s-l] 'goto-line)
@@ -149,7 +149,9 @@
 
 (defun only-current-buffer ()
   (interactive)
-    (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+    (mapc 'kill-buffer (cdr (buffer-list (current-buffer))))
+    (message "killed other buffers")
+    )
 (global-set-key (kbd "C-c b l") 'only-current-buffer)
 
 (defadvice kill-region (before slick-cut activate compile)
@@ -172,8 +174,8 @@
 
 
 ;; scroll with C-m  C-,
-(global-set-key (kbd "<C-m>") 'golden-ratio-scroll-screen-up)
-(global-set-key (kbd "C-,") 'golden-ratio-scroll-screen-down)
+;; (global-set-key (kbd "<C-m>") 'golden-ratio-scroll-screen-up)
+;; (global-set-key (kbd "C-,") 'golden-ratio-scroll-screen-down)
 
 ;; (global-set-key (kbd "C-:") 'avy-goto-char)
 (global-set-key (kbd "M-;") 'avy-goto-word-0)
@@ -189,6 +191,10 @@
 (global-set-key (kbd "C-c C-d") 'mc/mark-all-like-this)
 
 
+(with-eval-after-load "persp-mode-autoloads"
+      (setq wg-morph-on nil) ;; switch off animation
+      (setq persp-autokill-buffer-on-remove 'kill-weak)
+      (add-hook 'window-setup-hook #'(lambda () (persp-mode 1))))
 
 
 
@@ -260,7 +266,22 @@
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
 
+(use-package treemacs-persp
+  :after treemacs persp-mode
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
+
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+
 
 ;; (require 'neotree)
 ;; (global-set-key [f8] 'neotree-toggle)
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil)))))
