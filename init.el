@@ -24,7 +24,7 @@
 
 
 (require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-c =") 'er/expand-region)
 
 (use-package spacemacs-theme
   :defer t
@@ -111,7 +111,7 @@
 
 
 (projectile-mode 1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
 
 
 
@@ -263,7 +263,7 @@
   :config (treemacs-set-scope-type 'Perspectives))
 
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 
 
