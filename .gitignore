@@ -3,6 +3,7 @@ request/
 .depend
 pyim/
 /persp-confs
+/persp-confs/*
 anaconda-mode/
 .wg-file.el
 /url/cache
