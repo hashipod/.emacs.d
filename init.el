@@ -26,6 +26,11 @@
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (load-theme 'spacemacs-dark t))
+
 
 ;; (setq evil-want-C-u-scroll t)
 ;; (require 'evil)
@@ -36,7 +41,7 @@
 (use-package lsp-mode
    :init
    (setq
-    lsp-keymap-prefix "s-i"
+    lsp-keymap-prefix "C-c l"
     lsp-ui-doc-enable nil
     ))
 (use-package lsp-ui)
@@ -54,8 +59,7 @@
  '(package-selected-packages
    '(deadgrep ripgrep persp-mode treemacs-persp lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'spacemacs-dark t)
+
 
 
 
@@ -107,20 +111,7 @@
 
 
 (projectile-mode 1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;; make some use of the Super key
-(define-key global-map [?\s-d] 'projectile-find-dir)
-(define-key global-map [?\s-e] 'er/expand-region)
-(define-key global-map [?\s-f] 'projectile-find-file)
-(define-key global-map [?\s-g] 'deadgrep)
-(define-key global-map [?\s-j] 'prelude-top-join-line)
-(define-key global-map [?\s-k] 'prelude-kill-whole-line)
-(define-key global-map [?\s-l] 'goto-line)
-(define-key global-map [?\s-m] 'magit-status)
-(define-key global-map [?\s-o] 'prelude-open-line-above)
-(define-key global-map [?\s-w] 'delete-frame)
-(define-key global-map [?\s-x] 'exchange-point-and-mark)
-(define-key global-map [?\s-p] 'projectile-switch-project)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 
 
@@ -185,10 +176,10 @@
 
 
 (require 'multiple-cursors)
-(global-set-key (kbd "s-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "s-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "s-/") 'mc/skip-to-next-like-this)
-(global-set-key (kbd "C-c C-d") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c m n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c m s") 'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-c m d") 'mc/mark-all-like-this)
 
 
 (with-eval-after-load "persp-mode-autoloads"
