@@ -15,13 +15,15 @@
 ;;      ("http" . "192.168.31.60")
 ;;      ("https" . "192.168.31.60")))
 
-(setq  x-meta-keysym 'super
-       x-super-keysym 'meta)
+;; (setq  x-meta-keysym 'super
+;;         x-super-keysym 'meta)
+;; 
+;; (when (eq system-type 'darwin)
+;;    (setq mac-option-modifier 'super
+;;          mac-command-modifier 'meta))
 
-(when (eq system-type 'darwin)
-  (setq mac-option-modifier 'super
-        mac-command-modifier 'meta))
-
+(setq visible-bell nil)
+(setq ring-bell-function #'ignore)
 
 (require 'expand-region)
 (global-set-key (kbd "C-c =") 'er/expand-region)
@@ -57,7 +59,7 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(deadgrep ripgrep persp-mode treemacs-persp lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(treemacs-projectile deadgrep ripgrep persp-mode treemacs-persp lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 
 
@@ -75,6 +77,7 @@
           (tab-mark 9 [707 9] [92 9]) ; tab
           ))
 
+(set-face-attribute 'region nil :background "white" :foreground "black")
 
 
 (add-hook 'prog-mode-hook 'linum-mode)
@@ -171,8 +174,8 @@
 ;; (global-set-key (kbd "C-:") 'avy-goto-char)
 (global-set-key (kbd "M-;") 'avy-goto-word-0)
 
-(setq-default cursor-type 'bar)
-(set-cursor-color "#00ff00")
+
+
 
 
 (require 'multiple-cursors)
@@ -251,11 +254,11 @@
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+        ("C-c t 1"   . treemacs-delete-other-windows)
+        ("C-c t t"   . treemacs)
+        ("C-c t B"   . treemacs-bookmark)
+        ("C-c t C-t" . treemacs-find-file)
+        ("C-c t M-t" . treemacs-find-tag)))
 
 (use-package treemacs-persp
   :after treemacs persp-mode
