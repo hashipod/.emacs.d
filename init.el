@@ -17,7 +17,7 @@
 
 ;; (setq  x-meta-keysym 'super
 ;;         x-super-keysym 'meta)
-;; 
+;;
 ;; (when (eq system-type 'darwin)
 ;;    (setq mac-option-modifier 'super
 ;;          mac-command-modifier 'meta))
@@ -59,7 +59,8 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(treemacs-projectile deadgrep ripgrep persp-mode treemacs-persp lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+ '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 
 
@@ -83,12 +84,13 @@
 (add-hook 'prog-mode-hook 'linum-mode)
 
 
-
 (global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-c C-n") #'helm-find-files)
+(global-set-key (kbd "C-c C-p") #'projectile-find-file)
+(global-set-key (kbd "C-c C-j") #'save-buffer)
 (helm-mode 1)
 
+(delete-selection-mode 1)
 
 
 (require 'golden-ratio-scroll-screen)
@@ -132,14 +134,17 @@
 (global-set-key "\M-n" 'gcm-scroll-down)
 (global-set-key "\M-p" 'gcm-scroll-up)
 
+;;M-k kills to the left
+(global-set-key "\M-k" '(lambda () (interactive) (kill-line 0)) )
+
+
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
 ;; (global-set-key (kbd "M-v") 'yank)
 ;; (global-set-key (kbd "s-<backspace>") 'backward-kill-word)
 ;; (global-set-key (kbd "M-k") 'kill-region)
 ;; (global-set-key (kbd "C-j") 'save-buffer)
-
-(global-set-key (kbd "C-z") 'undo)
+;; (global-set-key (kbd "C-z") 'undo)
 
 (defun only-current-buffer ()
   (interactive)
@@ -178,17 +183,6 @@
 
 
 
-(require 'multiple-cursors)
-(global-set-key (kbd "C-c m n") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c m s") 'mc/skip-to-next-like-this)
-(global-set-key (kbd "C-c m d") 'mc/mark-all-like-this)
-
-
-(with-eval-after-load "persp-mode-autoloads"
-      (setq wg-morph-on nil) ;; switch off animation
-      (setq persp-autokill-buffer-on-remove 'kill-weak)
-      (add-hook 'window-setup-hook #'(lambda () (persp-mode 1))))
 
 
 
@@ -260,10 +254,15 @@
         ("C-c t C-t" . treemacs-find-file)
         ("C-c t M-t" . treemacs-find-tag)))
 
-(use-package treemacs-persp
-  :after treemacs persp-mode
-  :ensure t
-  :config (treemacs-set-scope-type 'Perspectives))
+;; (use-package treemacs-persp
+;;   :after treemacs persp-mode
+;;   :ensure t
+;;   :config (treemacs-set-scope-type 'Perspectives))
+;; (with-eval-after-load "persp-mode-autoloads"
+;;       (setq wg-morph-on nil) ;; switch off animation
+;;       (setq persp-autokill-buffer-on-remove 'kill-weak)
+;;       (add-hook 'window-setup-hook #'(lambda () (persp-mode 1))))
+
 
 
 ;; (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -279,3 +278,63 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
+
+
+(require 'origami)
+(global-set-key
+ (kbd "C-c C-c")
+ (defhydra hydra-folding (:color red)
+
+   "
+  _o_pen node    _n_ext fold       toggle _f_orward  _s_how current only
+  _c_lose node   _p_revious fold   toggle _a_ll      _r_ecursively toggle node
+  "
+   ("r" origami-recursively-toggle-node)
+   ("o" origami-open-node)
+   ("c" origami-close-node)
+   ("n" origami-next-fold)
+   ("p" origami-previous-fold)
+   ("f" origami-forward-toggle-node)
+   ("a" origami-toggle-all-nodes)
+   ("s" origami-show-only-node)))
+
+(add-hook 'prog-mode-hook 'origami-mode)
+
+
+(require 'multiple-cursors)
+(global-set-key
+ (kbd "C-c m")
+    (defhydra hydra-multiple-cursors (:hint nil)
+      "
+     Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
+    ------------------------------------------------------------------
+     [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
+     [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
+     [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search      [_q_] Quit
+     [_|_] Align with input CHAR       [Click] Cursor at point"
+      ("l" mc/edit-lines :exit t)
+      ("a" mc/mark-all-like-this :exit t)
+      ("n" mc/mark-next-like-this)
+      ("N" mc/skip-to-next-like-this)
+      ("M-n" mc/unmark-next-like-this)
+      ("p" mc/mark-previous-like-this)
+      ("P" mc/skip-to-previous-like-this)
+      ("M-p" mc/unmark-previous-like-this)
+      ("|" mc/vertical-align)
+      ("s" mc/mark-all-in-region-regexp :exit t)
+      ("0" mc/insert-numbers :exit t)
+      ("A" mc/insert-letters :exit t)
+      ("<mouse-1>" mc/add-cursor-on-click)
+      ;; Help with click recognition in this hydra
+      ("<down-mouse-1>" ignore)
+      ("<drag-mouse-1>" ignore)
+      ("q" nil))
+    )
+
+
+;; (global-set-key [(meta shift n)] 'mc/mark-next-like-this)
+;; (global-set-key [(meta shift p)] 'mc/mark-previous-like-this)
+;; (global-set-key [(meta shift d)] 'mc/skip-to-next-like-this)
+;; (global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
+;; (global-set-key (kbd "C-c m s") 'mc/skip-to-next-like-this)
+;; (global-set-key (kbd "C-c m d") 'mc/mark-all-like-this)
