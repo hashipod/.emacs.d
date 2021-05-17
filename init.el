@@ -22,7 +22,7 @@
 ;;    (setq mac-option-modifier 'super
 ;;          mac-command-modifier 'meta))
 
-(setq visible-bell nil)
+(setq visible-bell t)
 (setq ring-bell-function #'ignore)
 
 (require 'expand-region)
@@ -46,7 +46,14 @@
     lsp-keymap-prefix "C-c l"
     lsp-ui-doc-enable nil
     ))
-(use-package lsp-ui)
+(use-package lsp-ui
+  :custom
+          lsp-ui-flycheck-enable t
+          lsp-ui-sideline-enable t
+          lsp-ui-sideline-show-flycheck-enable t
+          lsp-ui-sideline-show-diagnostic-enable t
+          lsp-ui-sideline-show-code-actions-enable t
+  )
 
 
 
@@ -59,7 +66,7 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 
@@ -87,15 +94,45 @@
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-c C-n") #'helm-find-files)
 (global-set-key (kbd "C-c C-p") #'projectile-find-file)
-(global-set-key (kbd "C-c C-j") #'save-buffer)
+(global-set-key (kbd "C-c C-o") #'other-window)
+(global-set-key (kbd "C-c k") #'kill-buffer)
+(global-set-key (kbd "C-c j") #'save-buffer)
+(global-set-key (kbd "C-c 0") #'delete-windows)
+(global-set-key (kbd "C-c 1") #'delete-other-windows)
+(global-set-key (kbd "C-c b") #'switch-to-buffer)
+
+;; delete all other buffers, only keep current one.
+(defun only-current-buffer ()
+  (interactive)
+    (mapc 'kill-buffer (cdr (buffer-list (current-buffer))))
+    (message "killed other buffers")
+    )
+
+
+(defun nuke_traling ()
+  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+(add-hook 'prog-mode-hook #'nuke_traling)
+
+(defun my-go-mode-hook ()
+  ; Use goimports instead of go-fmt
+  (setq gofmt-command "goimports")
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+)
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+
+
+(electric-pair-mode 1)
+
 (helm-mode 1)
 
 (delete-selection-mode 1)
 
 
-(require 'golden-ratio-scroll-screen)
-(global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
-(global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
+;; (require 'golden-ratio-scroll-screen)
+;; (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+;; (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 
 
 
@@ -145,13 +182,6 @@
 ;; (global-set-key (kbd "M-k") 'kill-region)
 ;; (global-set-key (kbd "C-j") 'save-buffer)
 ;; (global-set-key (kbd "C-z") 'undo)
-
-(defun only-current-buffer ()
-  (interactive)
-    (mapc 'kill-buffer (cdr (buffer-list (current-buffer))))
-    (message "killed other buffers")
-    )
-(global-set-key (kbd "C-c b l") 'only-current-buffer)
 
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
@@ -338,3 +368,9 @@
 ;; (global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
 ;; (global-set-key (kbd "C-c m s") 'mc/skip-to-next-like-this)
 ;; (global-set-key (kbd "C-c m d") 'mc/mark-all-like-this)
+
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+
+(which-key-mode 1)
