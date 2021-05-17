@@ -121,8 +121,12 @@
 (global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
 
 
-(global-set-key (kbd "M-o") 'ace-window)
-
+(use-package ace-window
+  :ensure t
+  :bind ("M-o" . ace-window)
+  :delight
+  :config (ace-window-display-mode 1)
+  )
 
 
 ;; delete all other buffers, only keep current one.
