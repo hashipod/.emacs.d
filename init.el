@@ -92,14 +92,10 @@
 
 
 (global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-c C-n") #'helm-find-files)
-(global-set-key (kbd "C-c C-p") #'projectile-find-file)
-(global-set-key (kbd "C-c C-o") #'other-window)
-(global-set-key (kbd "C-c k") #'kill-buffer)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-x C-p") #'projectile-find-file)
+(global-set-key (kbd "C-c o") #'other-window)
 (global-set-key (kbd "C-c j") #'save-buffer)
-(global-set-key (kbd "C-c 0") #'delete-windows)
-(global-set-key (kbd "C-c 1") #'delete-other-windows)
-(global-set-key (kbd "C-c b") #'switch-to-buffer)
 
 ;; delete all other buffers, only keep current one.
 (defun only-current-buffer ()
@@ -295,7 +291,7 @@
 
 
 
-;; (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 
 
@@ -328,7 +324,11 @@
    ("a" origami-toggle-all-nodes)
    ("s" origami-show-only-node)))
 
-(add-hook 'prog-mode-hook 'origami-mode)
+(add-hook 'prog-mode-hook (lambda () (interactive)
+                                  (origami-mode 1)
+                                  (call-interactively 'origami-close-all-nodes)) t)
+
+
 
 
 (require 'multiple-cursors)
