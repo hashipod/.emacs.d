@@ -66,7 +66,7 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 
@@ -94,8 +94,17 @@
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
 (global-set-key (kbd "C-x C-p") #'projectile-find-file)
-(global-set-key (kbd "C-c o") #'other-window)
+(global-set-key (kbd "C-c o")   #'other-window)
+(global-set-key (kbd "C-c C-o") #'other-window)
 (global-set-key (kbd "C-c j") #'save-buffer)
+
+
+(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
+(global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
+(global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
+
+
 
 ;; delete all other buffers, only keep current one.
 (defun only-current-buffer ()
@@ -159,10 +168,10 @@
 
 (defun gcm-scroll-down ()
       (interactive)
-      (scroll-up 1))
+      (scroll-up 4))
 (defun gcm-scroll-up ()
       (interactive)
-      (scroll-down 1))
+      (scroll-down 4))
 ;; scroll with cursor not move
 (global-set-key "\M-n" 'gcm-scroll-down)
 (global-set-key "\M-p" 'gcm-scroll-up)
@@ -308,7 +317,7 @@
 
 (require 'origami)
 (global-set-key
- (kbd "C-c C-c")
+ (kbd "C-o")
  (defhydra hydra-folding (:color red)
 
    "
@@ -316,8 +325,8 @@
   _c_lose node   _p_revious fold   toggle _a_ll      _r_ecursively toggle node
   "
    ("r" origami-recursively-toggle-node)
-   ("o" origami-open-node)
-   ("c" origami-close-node)
+   ("o" origami-open-node-recursively)
+   ("c" origami-close-node-recursively)
    ("n" origami-next-fold)
    ("p" origami-previous-fold)
    ("f" origami-forward-toggle-node)
