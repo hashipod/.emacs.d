@@ -205,6 +205,18 @@
 (global-set-key "\M-k" '(lambda () (interactive) (kill-line 0)) )
 
 
+(defun json-to-single-line (beg end)
+  "Collapse prettified json in region between BEG and END to a single line"
+  (interactive "r")
+  (if (use-region-p)
+      (save-excursion
+        (save-restriction
+          (narrow-to-region beg end)
+          (goto-char (point-min))
+          (while (re-search-forward "[[:space:]\n]+" nil t)
+            (replace-match " "))))
+    (print "This function operates on a region")))
+
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
 ;; (global-set-key (kbd "M-v") 'yank)
