@@ -204,6 +204,16 @@
 (global-set-key "\M-k" '(lambda () (interactive) (kill-line 0)) )
 
 
+(defun flip-buffer-to-window ()
+  "Flips to the last-visited buffer in this window."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer))))
+(global-set-key "\M-l" 'flip-buffer-to-window)
+
+
+
+
+
 (defun json-to-single-line (beg end)
   "Collapse prettified json in region between BEG and END to a single line"
   (interactive "r")
