@@ -419,11 +419,12 @@
 (which-key-mode 1)
 
 
-(require 'god-mode)
-(god-mode)
-(global-set-key (kbd "<escape>") #'god-mode-all)
-(setq god-exempt-major-modes nil)
-(setq god-exempt-predicates nil)
+
+;; (require 'god-mode)
+;; (god-mode)
+;; (global-set-key (kbd "<escape>") #'god-mode-all)
+;; (setq god-exempt-major-modes nil)
+;; (setq god-exempt-predicates nil)
 
 
 
