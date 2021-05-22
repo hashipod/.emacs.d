@@ -460,7 +460,7 @@
 
 
 (require 'god-mode)
-(god-mode)
+;; (god-mode)
 (global-set-key (kbd "<escape>") #'god-mode-all)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
@@ -470,6 +470,7 @@
 (define-key god-local-mode-map (kbd "b") #'backward-word)
 (define-key god-local-mode-map (kbd "m") #'golden-ratio-scroll-screen-up)
 (define-key god-local-mode-map (kbd ",") #'golden-ratio-scroll-screen-down)
+(define-key god-local-mode-map (kbd ";") #'recenter)
 
 
 
