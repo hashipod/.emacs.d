@@ -162,15 +162,13 @@
 
 
 (require 'smartparens-config)
-
 (add-hook 'prog-mode-hook #'smartparens-mode)
 (global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
-(global-set-key (kbd "C-c d d") 'sp-unwrap-sexp)
+(global-set-key (kbd "C-c d d") 'sp-splice-sexp)
+
+;; (electric-pair-mode 1)
 
 
-
-
-(electric-pair-mode 1)
 
 (helm-mode 1)
 
