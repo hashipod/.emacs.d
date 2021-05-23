@@ -270,13 +270,15 @@
 
 
 
-
 ;; scroll with C-m  C-,
 ;; (global-set-key (kbd "<C-m>") 'golden-ratio-scroll-screen-up)
 ;; (global-set-key (kbd "C-,") 'golden-ratio-scroll-screen-down)
 
 ;; (global-set-key (kbd "C-:") 'avy-goto-char)
 (global-set-key (kbd "M-;") 'avy-goto-word-0)
+
+(global-set-key (kbd "C-c SPC") 'deadgrep)
+
 
 
 
