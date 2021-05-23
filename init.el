@@ -165,6 +165,9 @@
 (add-hook 'prog-mode-hook #'smartparens-mode)
 (global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c d d") 'sp-splice-sexp)
+(global-set-key (kbd "C-M-b") 'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-f") 'sp-end-of-sexp)
+
 
 ;; (electric-pair-mode 1)
 
