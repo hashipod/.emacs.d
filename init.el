@@ -165,8 +165,12 @@
 (add-hook 'prog-mode-hook #'smartparens-mode)
 (global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c d d") 'sp-splice-sexp)
-(global-set-key (kbd "C-M-b") 'sp-beginning-of-sexp)
-(global-set-key (kbd "C-M-f") 'sp-end-of-sexp)
+
+(global-set-key (kbd "C-M-u") 'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-d") 'sp-end-of-sexp)
+
+(global-set-key (kbd "C-M-b") 'backward-sexp)
+(global-set-key (kbd "C-M-f") 'forward-sexp)
 
 
 ;; (electric-pair-mode 1)
@@ -484,6 +488,24 @@
 (global-set-key (kbd "<escape>") #'god-mode-all)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
+(defun my-god-mode-update-mode-line ()
+  (cond
+   (god-local-mode
+    (set-face-attribute 'mode-line nil
+                        :foreground "#604000"
+                        :background "#fff29a")
+    (set-face-attribute 'mode-line-inactive nil
+                        :foreground "#3f3000"
+                        :background "#fff3da"))
+   (t
+    (set-face-attribute 'mode-line nil
+			:foreground "#0a0a0a"
+			:background "#d7d7d7")
+    (set-face-attribute 'mode-line-inactive nil
+			:foreground "#404148"
+			:background "#efefef"))))
+(add-hook 'post-command-hook 'my-god-mode-update-mode-line)
+
 (define-key god-local-mode-map (kbd "z") #'repeat)
 (define-key god-local-mode-map (kbd "i") #'god-local-mode)
 (define-key god-local-mode-map (kbd "f") #'forward-word)
@@ -491,6 +513,8 @@
 (define-key god-local-mode-map (kbd "m") #'golden-ratio-scroll-screen-up)
 (define-key god-local-mode-map (kbd ",") #'golden-ratio-scroll-screen-down)
 (define-key god-local-mode-map (kbd ";") #'recenter)
+
+
 
 
 
