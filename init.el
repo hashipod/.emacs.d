@@ -113,9 +113,12 @@
 
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
-(global-set-key (kbd "C-x C-p") #'projectile-find-file)
 (global-set-key (kbd "M-j") #'save-buffer)
 (global-set-key (kbd "C-j") #'join-lines)
+
+(global-set-key (kbd "C-M-n") 'deadgrep)
+(global-set-key (kbd "C-M-p") 'projectile-find-file)
+
 
 
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
@@ -281,8 +284,6 @@
 ;; (global-set-key (kbd "C-:") 'avy-goto-char)
 (global-set-key (kbd "M-;") 'avy-goto-word-0)
 
-(global-set-key (kbd "C-c SPC") 'deadgrep)
-
 
 
 
@@ -415,15 +416,15 @@
       "
      Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
     ------------------------------------------------------------------
-     [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
-     [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
-     [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search      [_q_] Quit
+     [_p_]   Next     [_m_]   Next     [_l_] Edit lines  [_0_] Insert numbers
+     [_P_]   Skip     [_M_]   Skip     [_a_] Mark all    [_A_] Insert letters
+     [_M-p_] Unmark   [_M-m_] Unmark   [_s_] Search      [_q_] Quit
      [_|_] Align with input CHAR       [Click] Cursor at point"
       ("l" mc/edit-lines :exit t)
       ("a" mc/mark-all-like-this :exit t)
-      ("n" mc/mark-next-like-this)
-      ("N" mc/skip-to-next-like-this)
-      ("M-n" mc/unmark-next-like-this)
+      ("m" mc/mark-next-like-this)
+      ("M" mc/skip-to-next-like-this)
+      ("M-m" mc/unmark-next-like-this)
       ("p" mc/mark-previous-like-this)
       ("P" mc/skip-to-previous-like-this)
       ("M-p" mc/unmark-previous-like-this)
