@@ -180,6 +180,18 @@
 
 
 
+(defun pp/deadgrep-view-file ()
+  "View result under cursor in other window."
+  (interactive)
+  (deadgrep-visit-result-other-window)
+  (other-window 1))
+
+(use-package deadgrep :ensure t
+  :bind (:map deadgrep-mode-map
+              ("v" . pp/deadgrep-view-file)))
+
+
+
 (helm-mode 1)
 
 (delete-selection-mode 1)
