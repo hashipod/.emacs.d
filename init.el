@@ -10,6 +10,31 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
+
+
+
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-x C-k") #'kill-buffer)
+
+(global-set-key (kbd "C-x C-b") #'switch-to-buffer)
+
+(global-set-key (kbd "M-j") #'save-buffer)
+(global-set-key (kbd "C-j") #'join-lines)
+;; (global-set-key (kbd "M-q") #'save-buffer)
+
+(global-set-key (kbd "C-M-n") 'deadgrep)
+(global-set-key (kbd "C-M-p") 'projectile-find-file)
+
+
+
+(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
+(global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
+(global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
+
+
+
 ;; (setq url-proxy-services
 ;;    '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
 ;;      ("http" . "192.168.31.60")
@@ -109,22 +134,6 @@
 
 
 (add-hook 'prog-mode-hook 'linum-mode)
-
-
-(global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
-(global-set-key (kbd "M-j") #'save-buffer)
-(global-set-key (kbd "C-j") #'join-lines)
-
-(global-set-key (kbd "C-M-n") 'deadgrep)
-(global-set-key (kbd "C-M-p") 'projectile-find-file)
-
-
-
-(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
-(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
-(global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
-(global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
 
 
 (use-package ace-window
@@ -248,6 +257,20 @@
 (global-set-key "\M-l" 'flip-buffer-to-window)
 
 
+
+(defun new-line-dwim ()
+  (interactive)
+  (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
+                             (and (looking-back ">") (looking-at "<"))
+                             (and (looking-back "(") (looking-at ")"))
+                             (and (looking-back "\\[") (looking-at "\\]")))))
+    (newline)
+    (when break-open-pair
+      (save-excursion
+        (newline)
+        (indent-for-tab-command)))
+    (indent-for-tab-command)))
+(global-set-key (kbd "M-RET") 'new-line-dwim)
 
 
 
@@ -375,10 +398,6 @@
 ;;       (setq wg-morph-on nil) ;; switch off animation
 ;;       (setq persp-autokill-buffer-on-remove 'kill-weak)
 ;;       (add-hook 'window-setup-hook #'(lambda () (persp-mode 1))))
-
-
-
-(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
 
 
