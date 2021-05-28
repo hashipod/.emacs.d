@@ -15,6 +15,7 @@
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-M-f") #'helm-find-files)
 (global-set-key (kbd "C-M-p") #'projectile-find-file)
+(global-set-key (kbd "C-M-b") #'switch-to-buffer)
 
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
 (global-set-key (kbd "C-x C-p") #'projectile-find-file)
@@ -30,11 +31,13 @@
 (global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
 
 
-(global-set-key (kbd "C-M-u") 'sp-beginning-of-sexp)
-(global-set-key (kbd "C-M-n") 'sp-end-of-sexp)
+(global-set-key (kbd "C-M-j") 'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-k") 'sp-end-of-sexp)
 
-(global-set-key (kbd "C-M-b") 'backward-sexp)
+(global-set-key (kbd "C-M-u") 'backward-sexp)
 (global-set-key (kbd "C-M-d") 'forward-sexp)
+
+(global-set-key (kbd "C-M-m") 'deadgrep)
 
 
 
@@ -93,7 +96,18 @@
           lsp-ui-sideline-show-flycheck-enable t
           lsp-ui-sideline-show-diagnostic-enable t
           lsp-ui-sideline-show-code-actions-enable t
-  )
+	  )
+
+
+;; go-mode.el with lsp
+(add-hook 'go-mode-hook 'lsp-deferred)
+(add-hook 'rust-mode-hook 'lsp-deferred)
+(add-hook 'c-mode-hook 'lsp-deferred)
+(add-hook 'c++-mode-hook 'lsp-deferred)
+
+
+(global-set-key (kbd "C-c C-j") 'lsp-find-definition)
+
 
 
 ;; (use-package flycheck
@@ -180,6 +194,7 @@
 (add-hook 'prog-mode-hook #'smartparens-mode)
 (global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c d d") 'sp-splice-sexp)
+
 
 
 ;; (electric-pair-mode 1)
@@ -386,21 +401,6 @@
           ("C-c t B"   . treemacs-bookmark)
           ("C-c t C-t" . treemacs-find-file)
           ("C-c t M-t" . treemacs-find-tag)))
-;;
-;; (use-package treemacs-persp
-;;   :after treemacs persp-mode
-;;   :ensure t
-;;   :config (treemacs-set-scope-type 'Perspectives))
-;; (with-eval-after-load "persp-mode-autoloads"
-;;       (setq wg-morph-on nil) ;; switch off animation
-;;       (setq persp-autokill-buffer-on-remove 'kill-weak)
-;;       (add-hook 'window-setup-hook #'(lambda () (persp-mode 1))))
-
-
-
-;; (require 'neotree)
-;; (global-set-key [f8] 'neotree-toggle)
-;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 
 (custom-set-faces
@@ -411,29 +411,66 @@
  '(default ((t (:background nil)))))
 
 
-(require 'origami)
-(global-set-key
- (kbd "C-c C-o")
- (defhydra hydra-folding (:color red)
+;; (require 'origami)
+;; (global-set-key
+;;  (kbd "C-c C-o")
+;;  (defhydra hydra-folding (:color red)
+;;    "
+;;   _o_pen node    _n_ext fold       toggle _f_orward  _s_how current only
+;;   _c_lose node   _p_revious fold   toggle _a_ll      _r_ecursively toggle node
+;;   "
+;;    ("r" origami-recursively-toggle-node)
+;;    ("o" origami-open-node-recursively)
+;;    ("c" origami-close-node-recursively)
+;;    ("n" origami-next-fold)
+;;    ("p" origami-previous-fold)
+;;    ("f" origami-forward-toggle-node)
+;;    ("a" origami-toggle-all-nodes)
+;;    ("s" origami-show-only-node)))
+;; (add-hook 'prog-mode-hook (lambda () (interactive)
+;;                                   (origami-mode 0)
+;;                                   (call-interactively 'origami-close-all-nodes)) t)
+;; (global-set-key (kbd "C-o") 'origami-recursively-toggle-node)
 
-   "
-  _o_pen node    _n_ext fold       toggle _f_orward  _s_how current only
-  _c_lose node   _p_revious fold   toggle _a_ll      _r_ecursively toggle node
-  "
-   ("r" origami-recursively-toggle-node)
-   ("o" origami-open-node-recursively)
-   ("c" origami-close-node-recursively)
-   ("n" origami-next-fold)
-   ("p" origami-previous-fold)
-   ("f" origami-forward-toggle-node)
-   ("a" origami-toggle-all-nodes)
-   ("s" origami-show-only-node)))
 
-(add-hook 'prog-mode-hook (lambda () (interactive)
-                                  (origami-mode 1)
-                                  (call-interactively 'origami-close-all-nodes)) t)
 
-(global-set-key (kbd "C-o") 'origami-recursively-toggle-node)
+
+
+(defun my-hide-all()
+  (interactive)
+  (hs-minor-mode)
+  (hs-hide-all))
+(add-hook 'prog-mode-hook 'my-hide-all)
+
+
+(defun my-hs-toggle-all ()
+  "If anything isn't hidden, run `hs-hide-all', else run `hs-show-all'."
+  (interactive)
+  (let ((starting-ov-count (length (overlays-in (point-min) (point-max)))))
+    (hs-hide-all)
+    (when (equal (length (overlays-in (point-min) (point-max))) starting-ov-count)
+      (hs-show-all))))
+
+
+(defun my-toggle-fold ()
+  (interactive)
+  (save-excursion
+    (sp-backward-sexp)
+    (hs-toggle-hiding)))
+
+;;  (global-set-key
+;;   (kbd "C-c C-l")
+;;   (defhydra hydra-folding (:color red)
+;;     "
+;;     hs-t_o_ggle-hiding hs-show-_a_ll hs-_h_ide-all
+;;    "
+;;     ("o" my-toggle-fold)
+;;     ("a" hs-show-all)
+;;     ("h" hs-hide-all)))
+
+(global-set-key (kbd "C-o") 'my-toggle-fold)
+(global-set-key (kbd "C-c C-l") 'my-hs-toggle-all)
+
 
 
 
@@ -513,9 +550,8 @@
 
 
 
-
 (require 'god-mode)
-;; (god-mode)
+(god-mode)
 (global-set-key (kbd "<escape>") #'god-mode-all)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
@@ -552,8 +588,3 @@
 
 
 (require 'rust-mode)
-
-
-;; go-mode.el with lsp
-(add-hook 'go-mode-hook 'lsp-deferred)
-(add-hook 'rust-mode-hook 'lsp-deferred)
