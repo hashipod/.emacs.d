@@ -12,26 +12,24 @@
 
 
 
-
 (global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
-(global-set-key (kbd "C-x C-k") #'kill-buffer)
-
-(global-set-key (kbd "C-x C-b") #'switch-to-buffer)
-
-(global-set-key (kbd "M-j") #'save-buffer)
-(global-set-key (kbd "C-j") #'join-lines)
-;; (global-set-key (kbd "M-q") #'save-buffer)
-
-(global-set-key (kbd "C-M-n") 'deadgrep)
-(global-set-key (kbd "C-M-p") 'projectile-find-file)
-
+(global-set-key (kbd "C-M-f") #'helm-find-files)
+(global-set-key (kbd "C-M-p") #'projectile-find-file)
+(global-set-key (kbd "C-j") #'save-buffer)
+(global-set-key (kbd "M-j") #'join-lines)
 
 
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
 (global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
 (global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
 (global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
+
+
+(global-set-key (kbd "C-M-u") 'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-n") 'sp-end-of-sexp)
+
+(global-set-key (kbd "C-M-b") 'backward-sexp)
+(global-set-key (kbd "C-M-d") 'forward-sexp)
 
 
 
@@ -177,12 +175,6 @@
 (add-hook 'prog-mode-hook #'smartparens-mode)
 (global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c d d") 'sp-splice-sexp)
-
-(global-set-key (kbd "C-M-u") 'sp-beginning-of-sexp)
-(global-set-key (kbd "C-M-d") 'sp-end-of-sexp)
-
-(global-set-key (kbd "C-M-b") 'backward-sexp)
-(global-set-key (kbd "C-M-f") 'forward-sexp)
 
 
 ;; (electric-pair-mode 1)
