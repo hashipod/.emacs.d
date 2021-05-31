@@ -469,7 +469,7 @@
 ;;     ("h" hs-hide-all)))
 
 (global-set-key (kbd "C-o") 'my-toggle-fold)
-(global-set-key (kbd "C-c C-l") 'my-hs-toggle-all)
+(global-set-key (kbd "C-M-o") 'my-hs-toggle-all)
 
 
 
