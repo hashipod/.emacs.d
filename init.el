@@ -12,33 +12,6 @@
 
 
 
-(global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-M-f") #'helm-find-files)
-(global-set-key (kbd "C-M-p") #'projectile-find-file)
-(global-set-key (kbd "C-M-b") #'switch-to-buffer)
-
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
-(global-set-key (kbd "C-x C-p") #'projectile-find-file)
-
-(global-set-key (kbd "C-x C-b") #'switch-to-buffer)
-
-(global-set-key (kbd "C-j") #'save-buffer)
-(global-set-key (kbd "M-j") #'join-lines)
-
-(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
-(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
-(global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
-(global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
-
-
-(global-set-key (kbd "C-M-j") 'sp-beginning-of-sexp)
-(global-set-key (kbd "C-M-k") 'sp-end-of-sexp)
-
-(global-set-key (kbd "C-M-u") 'backward-sexp)
-(global-set-key (kbd "C-M-d") 'forward-sexp)
-
-(global-set-key (kbd "C-M-m") 'deadgrep)
-
 
 
 ;; (setq url-proxy-services
@@ -585,6 +558,36 @@
 
 
 
-
-
 (require 'rust-mode)
+
+
+
+
+
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-M-f") #'helm-find-files)
+(global-set-key (kbd "C-M-p") #'projectile-find-file)
+(global-set-key (kbd "C-M-b") #'switch-to-buffer)
+
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-x C-p") #'projectile-find-file)
+
+(global-set-key (kbd "C-x C-b") #'switch-to-buffer)
+
+(global-set-key (kbd "C-j") #'save-buffer)
+(global-set-key (kbd "M-j") #'join-lines)
+
+(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
+(global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
+(global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
+
+
+(global-set-key (kbd "C-M-k") 'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-j") 'sp-end-of-sexp)
+
+(global-set-key (kbd "C-M-u") 'backward-sexp)
+(global-set-key (kbd "C-M-d") 'forward-sexp)
+
+(global-set-key (kbd "C-M-m") 'deadgrep)
+(global-set-key (kbd "C-c j") 'json-pretty-print-buffer)
