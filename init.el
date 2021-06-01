@@ -143,8 +143,13 @@
   :config
   (centaur-tabs-mode t)
   :bind
-  ("M-[" . centaur-tabs-backward)
-  ("M-]" . centaur-tabs-forward))
+  ("M-h" . centaur-tabs-backward)
+  ("M-l" . centaur-tabs-forward))
+
+
+
+(setq linum-format "%4d\u2502")
+
 
 
 
@@ -253,7 +258,7 @@
   "Flips to the last-visited buffer in this window."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer))))
-(global-set-key "\M-l" 'flip-buffer-to-window)
+(global-set-key "\M-t" 'flip-buffer-to-window)
 
 
 
@@ -513,7 +518,7 @@
 
 ;;;;;; catch ESC in terminal(-nw) ;;;;;;;;;;;;
 
-(defvar personal/fast-keyseq-timeout 200)
+(defvar personal/fast-keyseq-timeout 50)
 
 (defun personal/-tty-ESC-filter (map)
   (if (and (equal (this-single-command-keys) [?\e])
@@ -605,3 +610,5 @@
 
 (global-set-key (kbd "C-M-m") 'deadgrep)
 (global-set-key (kbd "C-c j") 'json-pretty-print-buffer)
+
+(global-set-key (kbd "M-9") 'mark-paragraph)
