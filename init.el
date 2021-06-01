@@ -135,7 +135,7 @@
 
 
 (setq centaur-tabs-style "bar")
-(setq centaur-tabs-height 52)
+(setq centaur-tabs-height 24)
 (setq centaur-tabs-set-icons t)
 (setq centaur-tabs-set-bar 'over)
 (use-package centaur-tabs
@@ -143,8 +143,8 @@
   :config
   (centaur-tabs-mode t)
   :bind
-  ("C-M-h" . centaur-tabs-backward)
-  ("C-M-l" . centaur-tabs-forward))
+  ("M-[" . centaur-tabs-backward)
+  ("M-]" . centaur-tabs-forward))
 
 
 
