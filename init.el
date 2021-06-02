@@ -544,7 +544,13 @@
 
 (require 'god-mode)
 (god-mode)
-(global-set-key (kbd "<escape>") #'god-mode-all)
+;; (global-set-key (kbd "<escape>") #'god-mode-all)
+(defun my-god-mode ()
+  (interactive)
+  (if god-global-mode
+      (god-local-mode 1)
+    (god-mode-all)))
+(global-set-key (kbd "<escape>") #'my-god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
 (defun my-god-mode-update-mode-line ()
@@ -609,6 +615,5 @@
 (global-set-key (kbd "C-M-d") 'forward-sexp)
 
 (global-set-key (kbd "C-M-m") 'deadgrep)
-(global-set-key (kbd "C-c j") 'json-pretty-print-buffer)
 
 (global-set-key (kbd "M-9") 'mark-paragraph)
