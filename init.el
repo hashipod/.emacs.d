@@ -594,31 +594,47 @@
 
 
 
-(global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-M-f") #'helm-find-files)
-(global-set-key (kbd "C-M-p") #'projectile-find-file)
-(global-set-key (kbd "C-M-b") #'switch-to-buffer)
+(defvar my-keys-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "M-x") #'helm-M-x)
+    (define-key map (kbd "C-M-f") #'helm-find-files)
+    (define-key map (kbd "C-M-p") #'projectile-find-file)
+    (define-key map (kbd "C-M-b") #'switch-to-buffer)
 
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
-(global-set-key (kbd "C-x C-p") #'projectile-find-file)
+    (define-key map (kbd "C-x C-f") #'helm-find-files)
+    (define-key map (kbd "C-x C-p") #'projectile-find-file)
 
-(global-set-key (kbd "C-x C-b") #'switch-to-buffer)
+    (define-key map (kbd "C-x C-b") #'switch-to-buffer)
 
-(global-set-key (kbd "C-j") #'save-buffer)
-(global-set-key (kbd "M-j") #'join-lines)
+    (define-key map (kbd "C-j") #'save-buffer)
+    (define-key map (kbd "M-j") #'join-lines)
 
-(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
-(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
-(global-set-key (kbd "<home>") 'mwim-beginning-of-line-or-code)
-(global-set-key (kbd "<end>") 'mwim-end-of-line-or-code)
+    (define-key map (kbd "C-a") 'mwim-beginning-of-code-or-line)
+    (define-key map (kbd "C-e") 'mwim-end-of-code-or-line)
+    (define-key map (kbd "<home>") 'mwim-beginning-of-line-or-code)
+    (define-key map (kbd "<end>") 'mwim-end-of-line-or-code)
 
 
-(global-set-key (kbd "C-M-k") 'sp-beginning-of-sexp)
-(global-set-key (kbd "C-M-j") 'sp-end-of-sexp)
+    (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
+    (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
 
-(global-set-key (kbd "C-M-u") 'backward-sexp)
-(global-set-key (kbd "C-M-d") 'forward-sexp)
+    (define-key map (kbd "C-M-u") 'backward-sexp)
+    (define-key map (kbd "C-M-d") 'forward-sexp)
 
-(global-set-key (kbd "C-M-m") 'deadgrep)
+    (define-key map (kbd "C-M-m") 'deadgrep)
 
-(global-set-key (kbd "M-9") 'mark-paragraph)
+    (define-key map (kbd "M-9") 'mark-paragraph)
+    map)
+  "my-keys-minor-mode keymap.")
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  :init-value t
+  :lighter " my-keys")
+
+(my-keys-minor-mode 1)
+
+(defun my-minibuffer-setup-hook ()
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
