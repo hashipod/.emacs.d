@@ -540,6 +540,11 @@
 
 
 
+(unless (display-graphic-p)
+   (menu-bar-mode -1))
+
+
+
 
 
 (require 'god-mode)
