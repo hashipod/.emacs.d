@@ -97,7 +97,7 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 
@@ -148,8 +148,9 @@
   (centaur-tabs-buffer-groups-function #'centaur-tabs-projectile-buffer-groups)
 
   :bind
-  ("M-h" . centaur-tabs-backward)
-  ("M-l" . centaur-tabs-forward))
+  ("M-j" . centaur-tabs-backward)
+  ("M-k" . centaur-tabs-forward)
+)
 
 
 
@@ -187,12 +188,26 @@
 
 
 
-(require 'smartparens-config)
-(add-hook 'prog-mode-hook #'smartparens-mode)
+
+
+(defun indent-between-pair (&rest _ignored)
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(use-package smartparens
+:ensure t
+:pin melpa-stable
+:init (smartparens-global-mode t)
+:config
+(sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
+(sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+(sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+)
+
 (global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c d d") 'sp-splice-sexp)
-
-
 
 ;; (electric-pair-mode 1)
 
@@ -254,9 +269,6 @@
 ;; scroll with cursor not move
 (global-set-key "\M-n" 'gcm-scroll-down)
 (global-set-key "\M-p" 'gcm-scroll-up)
-
-;;M-k kills to the left
-(global-set-key "\M-k" '(lambda () (interactive) (kill-line 0)) )
 
 
 (defun flip-buffer-to-window ()
@@ -433,11 +445,11 @@
 
 
 
-(defun my-hide-all()
-  (interactive)
-  (hs-minor-mode)
-  (hs-hide-all))
-(add-hook 'prog-mode-hook 'my-hide-all)
+;; (defun my-hide-all()
+;;   (interactive)
+;;   (hs-minor-mode)
+;;   (hs-hide-all))
+;; (add-hook 'prog-mode-hook 'my-hide-all)
 
 
 (defun my-hs-toggle-all ()
@@ -598,6 +610,23 @@
 
 
 
+(defun un-indent-by-removing-4-spaces ()
+  "remove 4 spaces from beginning of of line"
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (beginning-of-line)
+      ;; get rid of tabs at beginning of line
+      (when (looking-at "^\\s-+")
+        (untabify (match-beginning 0) (match-end 0)))
+      (when (looking-at "^    ")
+        (replace-match "")))))
+
+
+
+;; must be set as global
+(global-set-key (kbd "C-M-k") '(lambda () (interactive) (kill-line 0)) )
+
 
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
@@ -611,8 +640,7 @@
 
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
 
-    (define-key map (kbd "C-j") #'save-buffer)
-    (define-key map (kbd "M-j") #'join-lines)
+    (define-key map (kbd "C-M-j") #'join-lines)
 
     (define-key map (kbd "C-a") 'mwim-beginning-of-code-or-line)
     (define-key map (kbd "C-e") 'mwim-end-of-code-or-line)
@@ -620,15 +648,19 @@
     (define-key map (kbd "<end>") 'mwim-end-of-line-or-code)
 
 
-    (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
-    (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
+    ;; (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
+    ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
+
+    (define-key map (kbd "C-j") 'save-buffer)
 
     (define-key map (kbd "C-M-u") 'backward-sexp)
     (define-key map (kbd "C-M-d") 'forward-sexp)
 
     (define-key map (kbd "C-M-m") 'deadgrep)
 
-    (define-key map (kbd "M-9") 'mark-paragraph)
+    (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
+    (define-key map (kbd "M-}") 'indent-region)
+
     map)
   "my-keys-minor-mode keymap.")
 
