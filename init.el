@@ -41,10 +41,12 @@
 
 
 
-(use-package spacemacs-theme
-  :defer t
-  :init
-  (load-theme 'spacemacs-dark t))
+;; (use-package spacemacs-theme
+;;   :defer t
+;;   :init
+;;   (load-theme 'spacemacs-dark t))
+
+(load-theme 'wombat t)
 
 
 
@@ -107,7 +109,10 @@
 
 (set-face-attribute 'region nil :background "white" :foreground "black")
 
-(set-face-attribute 'lsp-face-highlight-textual nil :background "#666" :foreground "#ffffff")
+(set-face-attribute 'isearch nil :foreground "black" :background "yellow")
+(set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
+
+(set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "green")
 ;; (set-face-attribute 'lsp-face-highlight-read nil :background "limegreen" :foreground "black")
 ;; (set-face-attribute 'lsp-face-highlight-write nil :background "limegreen" :foreground "black")
 
@@ -332,6 +337,22 @@
   (hs-minor-mode)
   (hs-hide-all))
 (add-hook 'prog-mode-hook 'my-hide-all)
+
+
+
+(defun my-forward-sexp ()
+  (interactive)
+    (sp-backward-up-sexp)
+    (forward-sexp)
+)
+
+
+(defun my-backward-sexp ()
+  (interactive)
+  (backward-sexp)
+  (forward-char 1)
+)
+
 
 
 
@@ -634,8 +655,11 @@
 
     (define-key map (kbd "C-j") 'save-buffer)
 
-    (define-key map (kbd "C-M-u") 'backward-sexp)
-    (define-key map (kbd "C-M-d") 'forward-sexp)
+    ;; (define-key map (kbd "C-M-u") 'backward-sexp)
+    ;; (define-key map (kbd "C-M-d") 'forward-sexp)
+
+    (define-key map (kbd "C-M-u") 'my-backward-sexp)
+    (define-key map (kbd "C-M-d") 'my-forward-sexp)
 
     (define-key map (kbd "C-M-m") 'deadgrep)
 
