@@ -11,9 +11,6 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 
-
-
-
 ;; (setq url-proxy-services
 ;;    '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
 ;;      ("http" . "192.168.31.60")
@@ -30,7 +27,7 @@
 (setq ring-bell-function #'ignore)
 
 (require 'expand-region)
-(global-set-key (kbd "C-c .") 'er/expand-region)
+
 
 (defun jrh-isearch-with-region ()
   "Use region as the isearch text."
@@ -48,11 +45,6 @@
   :defer t
   :init
   (load-theme 'spacemacs-dark t))
-
-
-;; (setq evil-want-C-u-scroll t)
-;; (require 'evil)
-;; (evil-mode 1)
 
 
 
@@ -79,9 +71,6 @@
 (add-hook 'c++-mode-hook 'lsp-deferred)
 
 
-(global-set-key (kbd "C-c C-j") 'lsp-find-definition)
-
-
 
 ;; (use-package flycheck
 ;;   :ensure t
@@ -97,7 +86,7 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
  '(spacemacs-theme-custom-colors '((bg1 . "#171421"))))
 
@@ -123,12 +112,15 @@
 ;; (set-face-attribute 'lsp-face-highlight-write nil :background "limegreen" :foreground "black")
 
 
+
+
 (add-hook 'prog-mode-hook 'linum-mode)
 
 
 (use-package ace-window
   :ensure t
-  :bind ("M-o" . ace-window)
+  :bind
+  ("M-o" . ace-window)
   :delight
   :config (ace-window-display-mode 1)
   )
@@ -157,14 +149,13 @@
 (setq linum-format "%4d\u2502")
 
 
-
-
 ;; delete all other buffers, only keep current one.
 (defun only-current-buffer ()
   (interactive)
     (mapc 'kill-buffer (cdr (buffer-list (current-buffer))))
     (message "killed other buffers")
     )
+
 
 (defun join-lines (arg)
   (interactive "p")
@@ -174,9 +165,12 @@
   (insert " "))
 
 
+
 (defun nuke_traling ()
   (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
 (add-hook 'prog-mode-hook #'nuke_traling)
+
+
 
 (defun my-go-mode-hook ()
   ; Use goimports instead of go-fmt
@@ -185,8 +179,6 @@
   (add-hook 'before-save-hook 'gofmt-before-save)
 )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
-
-
 
 
 
@@ -206,8 +198,6 @@
 (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
 )
 
-(global-set-key (kbd "C-c d s") 'sp-rewrap-sexp)
-(global-set-key (kbd "C-c d d") 'sp-splice-sexp)
 
 ;; (electric-pair-mode 1)
 
@@ -217,15 +207,21 @@
   "View result under cursor in other window."
   (interactive)
   (deadgrep-visit-result-other-window)
-  (other-window 1))
+  (other-window 1)
+  (hs-show-all)
+  )
 
-(use-package deadgrep :ensure t
-  :bind (:map deadgrep-mode-map
-              ("v" . pp/deadgrep-view-file)))
+(use-package deadgrep
+  :ensure t
+  :bind
+  (:map deadgrep-mode-map ("v" . pp/deadgrep-view-file))
+)
 
 
 
 (helm-mode 1)
+
+
 
 (delete-selection-mode 1)
 
@@ -244,8 +240,6 @@
 
 
 
-
-
 (require 'powerline)
 (powerline-default-theme)
 
@@ -256,43 +250,35 @@
 
 
 
-(add-to-list 'default-frame-alist
-             '(font . "Ubuntu Mono derivative Powerline-13.2"))
-
-
+;; scroll with cursor not move
 (defun gcm-scroll-down ()
       (interactive)
       (scroll-up 1))
 (defun gcm-scroll-up ()
       (interactive)
       (scroll-down 1))
-;; scroll with cursor not move
-(global-set-key "\M-n" 'gcm-scroll-down)
-(global-set-key "\M-p" 'gcm-scroll-up)
+
 
 
 (defun flip-buffer-to-window ()
   "Flips to the last-visited buffer in this window."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer))))
-(global-set-key "\M-t" 'flip-buffer-to-window)
 
 
 
-(defun new-line-dwim ()
-  (interactive)
-  (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
-                             (and (looking-back ">") (looking-at "<"))
-                             (and (looking-back "(") (looking-at ")"))
-                             (and (looking-back "\\[") (looking-at "\\]")))))
-    (newline)
-    (when break-open-pair
-      (save-excursion
-        (newline)
-        (indent-for-tab-command)))
-    (indent-for-tab-command)))
-(global-set-key (kbd "M-RET") 'new-line-dwim)
-
+;; (defun new-line-dwim ()
+;;   (interactive)
+;;   (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
+;;                              (and (looking-back ">") (looking-at "<"))
+;;                              (and (looking-back "(") (looking-at ")"))
+;;                              (and (looking-back "\\[") (looking-at "\\]")))))
+;;     (newline)
+;;     (when break-open-pair
+;;       (save-excursion
+;;         (newline)
+;;         (indent-for-tab-command)))
+;;     (indent-for-tab-command)))
 
 
 (defun json-to-single-line (beg end)
@@ -308,12 +294,45 @@
     (print "This function operates on a region")))
 
 
-;; (global-set-key (kbd "M-c") 'kill-ring-save)
-;; (global-set-key (kbd "M-v") 'yank)
-;; (global-set-key (kbd "s-<backspace>") 'backward-kill-word)
-;; (global-set-key (kbd "M-k") 'kill-region)
-;; (global-set-key (kbd "C-j") 'save-buffer)
-;; (global-set-key (kbd "C-z") 'undo)
+(defun un-indent-by-removing-4-spaces ()
+  "remove 4 spaces from beginning of of line"
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (beginning-of-line)
+      ;; get rid of tabs at beginning of line
+      (when (looking-at "^\\s-+")
+        (untabify (match-beginning 0) (match-end 0)))
+      (when (looking-at "^    ")
+        (replace-match "")))))
+
+
+
+(defun my-hs-toggle-all ()
+  "If anything isn't hidden, run `hs-hide-all', else run `hs-show-all'."
+  (interactive)
+  (let ((starting-ov-count (length (overlays-in (point-min) (point-max)))))
+    (hs-hide-all)
+    (when (equal (length (overlays-in (point-min) (point-max))) starting-ov-count)
+      (hs-show-all))))
+
+
+
+(defun my-toggle-fold ()
+  (interactive)
+  (save-excursion
+    (sp-backward-sexp)
+    (hs-toggle-hiding)))
+
+
+
+(defun my-hide-all()
+  (interactive)
+  (hs-minor-mode)
+  (hs-hide-all))
+(add-hook 'prog-mode-hook 'my-hide-all)
+
+
 
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
@@ -331,85 +350,79 @@
 
 
 
+;; (use-package treemacs
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (with-eval-after-load 'winum
+;;     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+;;     :config
+;;     (progn
+;;       (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+;;             treemacs-deferred-git-apply-delay      0.5
+;;             treemacs-directory-name-transformer    #'identity
+;;             treemacs-display-in-side-window        t
+;;             treemacs-eldoc-display                 t
+;;             treemacs-file-event-delay              5000
+;;             treemacs-file-extension-regex          treemacs-last-period-regex-value
+;;             treemacs-file-follow-delay             0.2
+;;             treemacs-file-name-transformer         #'identity
+;;             treemacs-follow-after-init             t
+;;             treemacs-git-command-pipe              ""
+;;             treemacs-goto-tag-strategy             'refetch-index
+;;             treemacs-indentation                   2
+;;             treemacs-indentation-string            " "
+;;             treemacs-is-never-other-window         nil
+;;             treemacs-max-git-entries               5000
+;;             treemacs-missing-project-action        'ask
+;;             treemacs-no-png-images                 nil
+;;             treemacs-no-delete-other-windows       t
+;;             treemacs-project-follow-cleanup        nil
+;;             treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+;;             treemacs-position                      'left
+;;             treemacs-recenter-distance             0.1
+;;             treemacs-recenter-after-file-follow    nil
+;;             treemacs-recenter-after-tag-follow     nil
+;;             treemacs-recenter-after-project-jump   'always
+;;             treemacs-recenter-after-project-expand 'on-distance
+;;             treemacs-show-cursor                   nil
+;;             treemacs-show-hidden-files             t
+;;             treemacs-silent-filewatch              nil
+;;             treemacs-silent-refresh                nil
+;;             treemacs-sorting                       'alphabetic-asc
+;;             treemacs-space-between-root-nodes      t
+;;             treemacs-tag-follow-cleanup            t
+;;             treemacs-tag-follow-delay              1.5
+;;             treemacs-user-mode-line-format         nil
+;;             treemacs-width                         35)
+;;       ;; The default width and height of the icons is 22 pixels. If you are
+;;       ;; using a Hi-DPI display, uncomment this to double the icon size.
+;;       ;;(treemacs-resize-icons 44)
+;;       (treemacs-follow-mode t)
+;;       (treemacs-filewatch-mode t)
+;;       (treemacs-fringe-indicator-mode t)
+;;       (pcase (cons (not (null (executable-find "git")))
+;;                    (not (null treemacs-python-executable)))
+;;         (`(t . t)
+;;          (treemacs-git-mode 'deferred))
+;;         (`(t . _)
+;;          (treemacs-git-mode 'simple))))
+;;     :bind
+;;     (:map global-map
+;;           ("M-0"       . treemacs-select-window)
+;;           ("C-c t 1"   . treemacs-delete-other-windows)
+;;           ("C-c t t"   . treemacs)
+;;           ("C-c t B"   . treemacs-bookmark)
+;;           ("C-c t C-t" . treemacs-find-file)
+;;           ("C-c t M-t" . treemacs-find-tag)))
 
 
-;; scroll with C-m  C-,
-;; (global-set-key (kbd "<C-m>") 'golden-ratio-scroll-screen-up)
-;; (global-set-key (kbd "C-,") 'golden-ratio-scroll-screen-down)
-
-;; (global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "M-;") 'avy-goto-word-0)
 
 
 
+(add-to-list 'default-frame-alist
+             '(font . "Ubuntu Mono derivative Powerline-13.2"))
 
-(use-package treemacs
-  :ensure t
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-    :config
-    (progn
-      (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-            treemacs-deferred-git-apply-delay      0.5
-            treemacs-directory-name-transformer    #'identity
-            treemacs-display-in-side-window        t
-            treemacs-eldoc-display                 t
-            treemacs-file-event-delay              5000
-            treemacs-file-extension-regex          treemacs-last-period-regex-value
-            treemacs-file-follow-delay             0.2
-            treemacs-file-name-transformer         #'identity
-            treemacs-follow-after-init             t
-            treemacs-git-command-pipe              ""
-            treemacs-goto-tag-strategy             'refetch-index
-            treemacs-indentation                   2
-            treemacs-indentation-string            " "
-            treemacs-is-never-other-window         nil
-            treemacs-max-git-entries               5000
-            treemacs-missing-project-action        'ask
-            treemacs-no-png-images                 nil
-            treemacs-no-delete-other-windows       t
-            treemacs-project-follow-cleanup        nil
-            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-position                      'left
-            treemacs-recenter-distance             0.1
-            treemacs-recenter-after-file-follow    nil
-            treemacs-recenter-after-tag-follow     nil
-            treemacs-recenter-after-project-jump   'always
-            treemacs-recenter-after-project-expand 'on-distance
-            treemacs-show-cursor                   nil
-            treemacs-show-hidden-files             t
-            treemacs-silent-filewatch              nil
-            treemacs-silent-refresh                nil
-            treemacs-sorting                       'alphabetic-asc
-            treemacs-space-between-root-nodes      t
-            treemacs-tag-follow-cleanup            t
-            treemacs-tag-follow-delay              1.5
-            treemacs-user-mode-line-format         nil
-            treemacs-width                         35)
-
-      ;; The default width and height of the icons is 22 pixels. If you are
-      ;; using a Hi-DPI display, uncomment this to double the icon size.
-      ;;(treemacs-resize-icons 44)
-
-      (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-fringe-indicator-mode t)
-      (pcase (cons (not (null (executable-find "git")))
-                   (not (null treemacs-python-executable)))
-        (`(t . t)
-         (treemacs-git-mode 'deferred))
-        (`(t . _)
-         (treemacs-git-mode 'simple))))
-    :bind
-    (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-c t 1"   . treemacs-delete-other-windows)
-          ("C-c t t"   . treemacs)
-          ("C-c t B"   . treemacs-bookmark)
-          ("C-c t C-t" . treemacs-find-file)
-          ("C-c t M-t" . treemacs-find-tag)))
 
 
 (custom-set-faces
@@ -418,6 +431,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
+
 
 
 ;; (require 'origami)
@@ -441,32 +455,6 @@
 ;;                                   (call-interactively 'origami-close-all-nodes)) t)
 ;; (global-set-key (kbd "C-o") 'origami-recursively-toggle-node)
 
-
-
-
-
-;; (defun my-hide-all()
-;;   (interactive)
-;;   (hs-minor-mode)
-;;   (hs-hide-all))
-;; (add-hook 'prog-mode-hook 'my-hide-all)
-
-
-(defun my-hs-toggle-all ()
-  "If anything isn't hidden, run `hs-hide-all', else run `hs-show-all'."
-  (interactive)
-  (let ((starting-ov-count (length (overlays-in (point-min) (point-max)))))
-    (hs-hide-all)
-    (when (equal (length (overlays-in (point-min) (point-max))) starting-ov-count)
-      (hs-show-all))))
-
-
-(defun my-toggle-fold ()
-  (interactive)
-  (save-excursion
-    (sp-backward-sexp)
-    (hs-toggle-hiding)))
-
 ;;  (global-set-key
 ;;   (kbd "C-c C-l")
 ;;   (defhydra hydra-folding (:color red)
@@ -477,8 +465,6 @@
 ;;     ("a" hs-show-all)
 ;;     ("h" hs-hide-all)))
 
-(global-set-key (kbd "C-o") 'my-toggle-fold)
-(global-set-key (kbd "C-M-o") 'my-hs-toggle-all)
 
 
 
@@ -525,6 +511,7 @@
 (setq create-lockfiles nil)
 (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 
+
 (which-key-mode 1)
 
 
@@ -557,9 +544,9 @@
 
 
 
+
 (unless (display-graphic-p)
    (menu-bar-mode -1))
-
 
 
 
@@ -586,11 +573,11 @@
                         :background "#fff3da"))
    (t
     (set-face-attribute 'mode-line nil
-			:foreground "#0a0a0a"
-			:background "#d7d7d7")
+                        :foreground "#0a0a0a"
+                        :background "#d7d7d7")
     (set-face-attribute 'mode-line-inactive nil
-			:foreground "#404148"
-			:background "#efefef"))))
+                        :foreground "#404148"
+                        :background "#efefef"))))
 (add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
 (define-key god-local-mode-map (kbd "z") #'repeat)
@@ -604,29 +591,21 @@
 
 
 
-
 (require 'rust-mode)
 
 
 
-
-(defun un-indent-by-removing-4-spaces ()
-  "remove 4 spaces from beginning of of line"
-  (interactive)
-  (save-excursion
-    (save-match-data
-      (beginning-of-line)
-      ;; get rid of tabs at beginning of line
-      (when (looking-at "^\\s-+")
-        (untabify (match-beginning 0) (match-end 0)))
-      (when (looking-at "^    ")
-        (replace-match "")))))
+;; (global-set-key (kbd "M-c") 'kill-ring-save)
+;; (global-set-key (kbd "M-v") 'yank)
+;; (global-set-key (kbd "s-<backspace>") 'backward-kill-word)
+;; (global-set-key (kbd "M-k") 'kill-region)
+;; (global-set-key (kbd "C-j") 'save-buffer)
+;; (global-set-key (kbd "C-z") 'undo)
 
 
 
 ;; must be set as global
 (global-set-key (kbd "C-M-k") '(lambda () (interactive) (kill-line 0)) )
-
 
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
@@ -647,6 +626,7 @@
     (define-key map (kbd "<home>") 'mwim-beginning-of-line-or-code)
     (define-key map (kbd "<end>") 'mwim-end-of-line-or-code)
 
+    (define-key map (kbd "C-c .") 'er/expand-region)
 
     ;; (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
     ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
@@ -660,6 +640,22 @@
 
     (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
     (define-key map (kbd "M-}") 'indent-region)
+
+    (define-key map (kbd "C-o") 'my-toggle-fold)
+    (define-key map (kbd "C-M-o") 'my-hs-toggle-all)
+
+    ;; (define-key map (kbd "C-:") 'avy-goto-char)
+    (define-key map (kbd "M-;") 'avy-goto-word-0)
+
+    (define-key map (kbd "C-c C-j") 'lsp-find-definition)
+
+    (define-key map (kbd "C-c d s") 'sp-rewrap-sexp)
+    (define-key map (kbd "C-c d d") 'sp-splice-sexp)
+
+    (define-key map (kbd "M-t") 'flip-buffer-to-window)
+
+    (define-key map (kbd "M-n") 'gcm-scroll-down)
+    (define-key map (kbd "M-p") 'gcm-scroll-up)
 
     map)
   "my-keys-minor-mode keymap.")
