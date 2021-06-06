@@ -247,6 +247,7 @@
 
 (projectile-mode 1)
 (define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
+(setq projectile-enable-caching t)
 
 
 
