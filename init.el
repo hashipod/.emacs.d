@@ -145,8 +145,8 @@
   (centaur-tabs-buffer-groups-function #'centaur-tabs-projectile-buffer-groups)
 
   :bind
-  ("M-j" . centaur-tabs-backward)
-  ("M-k" . centaur-tabs-forward)
+  ("M-h" . centaur-tabs-backward)
+  ("M-l" . centaur-tabs-forward)
 )
 
 
@@ -443,7 +443,7 @@
 
 
 (add-to-list 'default-frame-alist
-             '(font . "Ubuntu Mono derivative Powerline-13.2"))
+             '(font . "Droid Sans Mono-13.2"))
 
 
 
@@ -627,7 +627,7 @@
 
 
 ;; must be set as global
-(global-set-key (kbd "C-M-k") '(lambda () (interactive) (kill-line 0)) )
+(global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
 
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
@@ -654,6 +654,7 @@
     ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
 
     (define-key map (kbd "C-j") 'save-buffer)
+    (define-key map (kbd "M-j") 'mark-paragraph)
 
     ;; (define-key map (kbd "C-M-u") 'backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'forward-sexp)
