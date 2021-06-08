@@ -664,8 +664,8 @@
 
     (define-key map (kbd "C-M-m") 'deadgrep)
 
-    (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
-    (define-key map (kbd "M-}") 'indent-region)
+    (define-key map (kbd "M-[") 'un-indent-by-removing-4-spaces)
+    ;; (define-key map (kbd "M-]") 'indent-region)
 
     (define-key map (kbd "C-o") 'my-toggle-fold)
     (define-key map (kbd "C-M-o") 'my-hs-toggle-all)
