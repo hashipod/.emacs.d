@@ -121,11 +121,9 @@
 
 
 (set-face-attribute 'region nil :background "white" :foreground "black")
-
 (set-face-attribute 'isearch nil :foreground "black" :background "yellow")
 (set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
-
-(set-face-attribute 'lsp-face-highlight-textual nil :foreground "green" :background "black")
+(set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "greenyellow")
 ;; (set-face-attribute 'lsp-face-highlight-read nil :background "limegreen" :foreground "black")
 ;; (set-face-attribute 'lsp-face-highlight-write nil :background "limegreen" :foreground "black")
 
