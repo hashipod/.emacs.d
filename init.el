@@ -589,8 +589,7 @@
 
 
 (require 'god-mode)
-(god-mode)
-;; (global-set-key (kbd "<escape>") #'god-mode-all)
+;; (god-mode)
 (defun my-god-mode ()
   (interactive)
   (if god-global-mode
