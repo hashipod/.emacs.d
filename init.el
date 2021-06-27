@@ -166,14 +166,14 @@
 
 
 ;; delete all other buffers, only keep current one.
-(defun only-current-buffer ()
+(defun my-only-current-buffer ()
   (interactive)
     (mapc 'kill-buffer (cdr (buffer-list (current-buffer))))
     (message "killed other buffers")
     )
 
 
-(defun join-lines (arg)
+(defun my-join-lines (arg)
   (interactive "p")
   (end-of-line)
   (delete-char 1)
@@ -182,9 +182,9 @@
 
 
 
-(defun nuke_traling ()
+(defun my-nuke-traling ()
   (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-(add-hook 'prog-mode-hook #'nuke_traling)
+(add-hook 'prog-mode-hook #'my-nuke-traling)
 
 
 
@@ -331,7 +331,9 @@
   (let ((starting-ov-count (length (overlays-in (point-min) (point-max)))))
     (hs-hide-all)
     (when (equal (length (overlays-in (point-min) (point-max))) starting-ov-count)
-      (hs-show-all))))
+        (hs-show-all)
+        (recenter)
+      )))
 
 
 
@@ -655,7 +657,7 @@
 
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
 
-    (define-key map (kbd "C-M-j") #'join-lines)
+    (define-key map (kbd "C-M-j") #'my-join-lines)
 
     (define-key map (kbd "C-a") 'mwim-beginning-of-code-or-line)
     (define-key map (kbd "C-e") 'mwim-end-of-code-or-line)
