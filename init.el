@@ -71,6 +71,14 @@
 (add-hook 'rust-mode-hook 'lsp-deferred)
 (add-hook 'c-mode-hook 'lsp-deferred)
 (add-hook 'c++-mode-hook 'lsp-deferred)
+(add-hook 'vue-mode-hook 'lsp-deferred)
+
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp-deferred))))
 
 
 
@@ -88,10 +96,8 @@
    '("96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(monokai-theme protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
- '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
- ;; '(spacemacs-theme-custom-colors '((bg1 . "#171421")))
- )
+   '(lsp-python-ms monokai-theme protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
+ '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer)))))
 
 
 (global-whitespace-mode t)
@@ -106,17 +112,12 @@
 ;; indentation-space indentation indentation-tab tabs spaces
 (setq whitespace-line-column 85)
 (custom-set-faces
-  ;; '(whitespace-space ((t (:bold t :foreground "gray75"))))
-  ;; '(whitespace-empty ((t (:foreground "firebrick" :background "SlateGray1"))))
-  ;; '(whitespace-hspace ((t (:foreground "lightgray" :background "LemonChiffon3"))))
-  ;; '(whitespace-indentation ((t (:foreground "firebrick" :background "beige"))))
-  ;; '(whitespace-line ((t (:foreground "black" :background "red"))))
-  ;; '(whitespace-newline ((t (:foreground "orange" :background "blue"))))
-  ;; '(whitespace-space-after-tab ((t (:foreground "black" :background "green"))))
-  ;; '(whitespace-space-before-tab ((t (:foreground "black" :background "DarkOrange"))))
- '(whitespace-tab ((t (:foreground "#797979"))))
-  ;; '(whitespace-trailing ((t (:foreground "red" :background "yellow"))))
-  )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil))))
+ '(whitespace-tab ((t (:foreground "#797979")))))
 
 
 
@@ -182,10 +183,11 @@
 
 
 
-(defun my-nuke-traling ()
-  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-(add-hook 'prog-mode-hook #'my-nuke-traling)
+;; (defun my-nuke-traling ()
+;;   (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+;; (add-hook 'prog-mode-hook #'my-nuke-traling)
 
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 
 (defun my-go-mode-hook ()
@@ -464,12 +466,7 @@
 
 
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:background nil)))))
+
 
 
 
