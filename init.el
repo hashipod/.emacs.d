@@ -238,6 +238,7 @@
 
 
 (helm-mode 1)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 
 
 
@@ -502,7 +503,31 @@
 ;;     ("h" hs-hide-all)))
 
 
+(defun mc-mark-next-like-this-then-cycle-forward (arg)
+  "Mark next like this then cycle forward, take interactive ARG."
+  (interactive "p")
+  (call-interactively 'mc/mark-next-like-this)
+  (call-interactively 'mc/cycle-forward))
 
+(defun mc-skip-to-next-like-this-then-cycle-forward (arg)
+  "Skip to next like this then cycle forward, take interactive ARG."
+  (interactive "p")
+  (call-interactively 'mc/cycle-backward)
+  (call-interactively 'mc/skip-to-next-like-this)
+  (call-interactively 'mc/cycle-forward))
+
+(defun mc-mark-previous-like-this-then-cycle-backward (arg)
+  "Mark previous like this then cycle backward take interactive ARG."
+  (interactive "p")
+  (call-interactively 'mc/mark-previous-like-this)
+  (call-interactively 'mc/cycle-backward))
+
+(defun mc-skip-to-previous-like-this-then-cycle-backward (arg)
+  "Skip to previous like this then cycle backward take interactive ARG."
+  (interactive "p")
+  (call-interactively 'mc/cycle-forward)
+  (call-interactively 'mc/skip-to-previous-like-this)
+  (call-interactively 'mc/cycle-backward))
 
 
 (require 'multiple-cursors)
@@ -518,11 +543,11 @@
      [_|_] Align with input CHAR       [Click] Cursor at point"
       ("l" mc/edit-lines :exit t)
       ("a" mc/mark-all-like-this :exit t)
-      ("m" mc/mark-next-like-this)
-      ("M" mc/skip-to-next-like-this)
+      ("m" mc-mark-next-like-this-then-cycle-forward)
+      ("M" mc-skip-to-next-like-this-then-cycle-forward)
+      ("p" mc-mark-previous-like-this-then-cycle-backward)
+      ("P" mc-skip-to-previous-like-this-then-cycle-backward)
       ("M-m" mc/unmark-next-like-this)
-      ("p" mc/mark-previous-like-this)
-      ("P" mc/skip-to-previous-like-this)
       ("M-p" mc/unmark-previous-like-this)
       ("|" mc/vertical-align)
       ("s" mc/mark-all-in-region-regexp :exit t)
