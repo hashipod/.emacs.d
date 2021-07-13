@@ -613,35 +613,38 @@
 
 
 (require 'god-mode)
-;; (god-mode)
-(defun my-god-mode ()
-  (interactive)
-  (if god-global-mode
-      (god-local-mode 1)
-    (god-mode-all)))
-(global-set-key (kbd "<escape>") #'my-god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
+
+(defun my-god-mode ()
+  (interactive)
+  (if (not god-global-mode)
+      (god-mode-all))
+  )
+(global-set-key (kbd "<escape>") #'my-god-mode) ; force use god-mode globally
+
 (defun my-god-mode-update-mode-line ()
   (cond
-   (god-local-mode
+   (god-global-mode
     (set-face-attribute 'mode-line nil
                         :foreground "#604000"
                         :background "#fff29a")
     (set-face-attribute 'mode-line-inactive nil
                         :foreground "#3f3000"
                         :background "#fff3da"))
+   ;; below, the default color is borrowed from monokai theme
    (t
     (set-face-attribute 'mode-line nil
-                        :foreground "#0a0a0a"
-                        :background "#d7d7d7")
+                        :foreground "#F5F5F5"
+                        :background "#1B1E1C")
     (set-face-attribute 'mode-line-inactive nil
-                        :foreground "#404148"
-                        :background "#efefef"))))
+                        :foreground "#8B8878"
+                        :background "#1B1E1C"))
+   ))
 (add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
 (define-key god-local-mode-map (kbd "z") #'repeat)
-(define-key god-local-mode-map (kbd "i") #'god-local-mode)
+(define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
 (define-key god-local-mode-map (kbd "f") #'forward-word)
 (define-key god-local-mode-map (kbd "b") #'backward-word)
 (define-key god-local-mode-map (kbd "m") #'golden-ratio-scroll-screen-up)
