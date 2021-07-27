@@ -51,19 +51,36 @@
 
 
 (use-package lsp-mode
-   :init
-   (setq
-    lsp-keymap-prefix "C-c l"
-    lsp-ui-doc-enable nil
-    ))
+  :init (setq
+         lsp-keymap-prefix "C-c l"
+  ))
+
 (use-package lsp-ui
-  :custom
-          lsp-ui-flycheck-enable t
-          lsp-ui-sideline-enable t
-          lsp-ui-sideline-show-flycheck-enable t
-          lsp-ui-sideline-show-diagnostic-enable t
-          lsp-ui-sideline-show-code-actions-enable t
-         )
+  :ensure t
+  :init (setq lsp-ui-doc-enable t
+              lsp-ui-doc-include-signature t
+
+              lsp-enable-snippet nil
+              lsp-ui-sideline-enable nil
+              lsp-ui-peek-enable nil
+
+              lsp-ui-doc-position              'at-point
+              lsp-ui-doc-header                nil
+              lsp-ui-doc-border                "white"
+              lsp-ui-doc-include-signature     t
+              lsp-ui-sideline-update-mode      'point
+              lsp-ui-sideline-delay            1
+              lsp-ui-sideline-ignore-duplicate t
+              lsp-ui-peek-always-show          t
+              lsp-ui-flycheck-enable           nil
+              )
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references)
+              ("C-c u" . lsp-ui-imenu))
+  :config
+  (setq lsp-ui-sideline-ignore-duplicate t)
+)
 
 
 ;; go-mode.el with lsp
