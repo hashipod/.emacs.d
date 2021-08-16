@@ -735,7 +735,7 @@
     (define-key map (kbd "C-o") 'my-toggle-fold)
     (define-key map (kbd "C-M-o") 'my-hs-toggle-all)
 
-    (define-key map (kbd "C-c C-p") 'my-show-file-name)
+    ;(define-key map (kbd "C-c C-p") 'my-show-file-name)
 
     ;; (define-key map (kbd "C-:") 'avy-goto-char)
     (define-key map (kbd "M-;") 'avy-goto-word-0)
