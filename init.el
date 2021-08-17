@@ -217,6 +217,13 @@
 
 
 
+
+;; put this to .clang-format
+;; --
+;;   BasedOnStyle: LLVM
+;;   UseTab: Never
+;;   IndentWidth: 8
+;;   TabWidth: 8
 (defun my-c-mode-common-hook ()
  ;; my customizations for all of c-mode, c++-mode, objc-mode, java-mode
  (c-set-offset 'substatement-open 0)
