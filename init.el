@@ -4,6 +4,10 @@
 ;; unset C-m, seperate it with the RET key
 ;; (define-key input-decode-map [?\C-m] [C-m])
 
+;; Set garbage collection threshold to 1GB.
+(setq gc-cons-threshold #x40000000)
+
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -41,11 +45,10 @@
 
 
 
-;; (use-package spacemacs-theme
-;;   :defer t
-;;   :init
-;;   (load-theme 'spacemacs-dark t))
-
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (load-theme 'spacemacs-dark t))
 (load-theme 'monokai t)
 
 
@@ -57,27 +60,25 @@
 
 (use-package lsp-ui
   :ensure t
-  :init (setq lsp-ui-doc-enable t
-              lsp-ui-doc-include-signature t
-
-              lsp-enable-snippet nil
-              lsp-ui-sideline-enable nil
-              lsp-ui-peek-enable nil
-
-              lsp-ui-doc-position              'at-point
-              lsp-ui-doc-header                nil
-              lsp-ui-doc-border                "white"
-              lsp-ui-doc-include-signature     t
-              lsp-ui-sideline-update-mode      'point
-              lsp-ui-sideline-delay            1
-              lsp-ui-sideline-ignore-duplicate t
-              lsp-ui-peek-always-show          t
-              lsp-ui-flycheck-enable           nil
+  :init (setq lsp-ui-doc-enable                 nil
+              lsp-ui-doc-include-signature      t
+              lsp-ui-doc-position               'top
+              lsp-ui-doc-header                 nil
+              lsp-ui-doc-border                 "white"
+              lsp-ui-sideline-enable            nil
+              lsp-ui-peek-enable                nil
+              lsp-ui-sideline-delay             1
+              lsp-ui-sideline-ignore-duplicate  t
+              lsp-ui-peek-always-show           nil
+              lsp-ui-flycheck-enable            nil
+              lsp-enable-snippet                nil
               )
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references)
-              ("C-c u" . lsp-ui-imenu))
+              ("C-c u" . lsp-ui-imenu)
+              ("C-c k" . lsp-ui-doc-show)
+        )
   :config
   (setq lsp-ui-sideline-ignore-duplicate t)
 )
@@ -148,7 +149,9 @@
 
 
 
-(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;  (add-hook 'prog-mode-hook 'linum-mode)
+;  (setq linum-format "%4d\u2502")
 
 
 (use-package ace-window
@@ -180,7 +183,6 @@
 
 
 
-(setq linum-format "%4d\u2502")
 
 
 ;; delete all other buffers, only keep current one.
@@ -369,7 +371,7 @@
   (interactive)
   (hs-minor-mode)
   (hs-hide-all))
-(add-hook 'prog-mode-hook 'my-hide-all)
+;; (add-hook 'prog-mode-hook 'my-hide-all)
 
 
 
