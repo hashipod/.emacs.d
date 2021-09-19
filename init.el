@@ -399,18 +399,18 @@
 
 
 
-(defun my-forward-sexp ()
-  (interactive)
-    (sp-backward-up-sexp)
-    (forward-sexp)
-)
-
-
-(defun my-backward-sexp ()
-  (interactive)
-  (backward-sexp)
-  (forward-char 1)
-)
+;; (defun my-forward-sexp ()
+;;   (interactive)
+;;     (sp-backward-up-sexp)
+;;     (forward-sexp)
+;; )
+;;
+;;
+;; (defun my-backward-sexp ()
+;;   (interactive)
+;;   (backward-sexp)
+;;   (forward-char 1)
+;; )
 
 
 (defun my-show-file-name ()
@@ -723,8 +723,7 @@
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-x") #'helm-M-x)
-    (define-key map (kbd "C-M-f") #'helm-find-files)
-    (define-key map (kbd "C-M-p") #'projectile-find-file)
+    (define-key map (kbd "C-M-f") #'projectile-find-file)
     (define-key map (kbd "C-M-b") #'switch-to-buffer)
 
     (define-key map (kbd "C-x C-f") #'helm-find-files)
@@ -750,8 +749,8 @@
     ;; (define-key map (kbd "C-M-u") 'backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'forward-sexp)
 
-    (define-key map (kbd "C-M-u") 'my-backward-sexp)
-    (define-key map (kbd "C-M-d") 'my-forward-sexp)
+    ;; (define-key map (kbd "C-M-u") 'my-backward-sexp)
+    ;; (define-key map (kbd "C-M-d") 'my-forward-sexp)
 
     (define-key map (kbd "C-M-m") 'deadgrep)
 
