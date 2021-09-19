@@ -46,7 +46,7 @@
   :defer t
   :init
   (load-theme 'spacemacs-dark t))
-(load-theme 'cyberpunk t)
+(load-theme 'manoj-dark t)
 
 
 
