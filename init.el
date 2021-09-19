@@ -121,12 +121,12 @@
 (global-whitespace-mode t)
 ;; (setq whitespace-style '(face space-mark tab-mark newline-mark) )
 (setq whitespace-style '(face trailing tabs tab-mark))
-(setq whitespace-display-mappings
-        '(
-          (space-mark 32 [183] [46]) ; SPACE 32 ? ?, 183 MIDDLE DOT ???, 46 FULL STOP ?.?
-          (newline-mark 10 [182 10]) ; LINE FEED,
-          (tab-mark 9 [707 9] [92 9]) ; tab
-          ))
+;; (setq whitespace-display-mappings
+;;         '(
+;;           (space-mark 32 [183] [46]) ; SPACE 32 ? ?, 183 MIDDLE DOT ???, 46 FULL STOP ?.?
+;;           (newline-mark 10 [182 10]) ; LINE FEED,
+;;           (tab-mark 9 [707 9] [92 9]) ; tab
+;;           ))
 ;; indentation-space indentation indentation-tab tabs spaces
 (setq whitespace-line-column 85)
 (custom-set-faces
