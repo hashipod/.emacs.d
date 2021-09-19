@@ -10,15 +10,10 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
 (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
 
-
-;; (setq url-proxy-services
-;;    '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-;;      ("http" . "192.168.31.60")
-;;      ("https" . "192.168.31.60")))
 
 ;; (setq  x-meta-keysym 'super
 ;;         x-super-keysym 'meta)
@@ -29,6 +24,8 @@
 
 (setq visible-bell t)
 (setq ring-bell-function #'ignore)
+
+
 
 (require 'expand-region)
 
@@ -54,37 +51,37 @@
 
 
 (use-package lsp-mode
-  :init (setq
-         lsp-keymap-prefix "C-c l"
-  ))
+  :init
+  (setq lsp-keymap-prefix "C-c l" )
+)
 
 (use-package lsp-ui
   :ensure t
-  :init (setq lsp-ui-doc-enable                 nil
-              lsp-ui-doc-include-signature      t
-              lsp-ui-doc-position               'top
-              lsp-ui-doc-header                 nil
-              lsp-ui-doc-border                 "white"
-              lsp-ui-sideline-enable            nil
-              lsp-ui-peek-enable                nil
-              lsp-ui-sideline-delay             1
-              lsp-ui-sideline-ignore-duplicate  t
-              lsp-ui-peek-always-show           nil
-              lsp-ui-flycheck-enable            nil
-              lsp-enable-snippet                nil
-              )
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references)
-              ("C-c u" . lsp-ui-imenu)
-              ("C-c k" . lsp-ui-doc-show)
-        )
+  :init
+  (setq lsp-ui-doc-enable                 nil
+        lsp-ui-doc-include-signature      t
+        lsp-ui-doc-position               'top
+        lsp-ui-doc-header                 nil
+        lsp-ui-doc-border                 "white"
+        lsp-ui-sideline-enable            nil
+        lsp-ui-peek-enable                nil
+        lsp-ui-sideline-delay             1
+        lsp-ui-sideline-ignore-duplicate  t
+        lsp-ui-peek-always-show           nil
+        lsp-ui-flycheck-enable            nil
+        lsp-enable-snippet                nil
+   )
+  :bind
+  (:map lsp-ui-mode-map
+        ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+        ([remap xref-find-references] . lsp-ui-peek-find-references)
+        ("C-c u" . lsp-ui-imenu)
+        ("C-c k" . lsp-ui-doc-show)
+   )
   :config
   (setq lsp-ui-sideline-ignore-duplicate t)
 )
 
-
-;; go-mode.el with lsp
 (add-hook 'go-mode-hook 'lsp-deferred)
 (add-hook 'rust-mode-hook 'lsp-deferred)
 (add-hook 'c-mode-hook 'lsp-deferred)
@@ -93,16 +90,14 @@
 
 (use-package lsp-python-ms
   :ensure t
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
+  :init
+  (setq lsp-python-ms-auto-install-server t)
+  :hook
+  (python-mode . (lambda ()
                           (require 'lsp-python-ms)
                           (lsp-deferred))))
 
 
-
-;; (use-package flycheck
-;;   :ensure t
-;;   :init (global-flycheck-mode))
 
 
 (custom-set-variables
@@ -116,19 +111,6 @@
  '(package-selected-packages
    '(cyberpunk-theme cmake-mode magit lsp-python-ms monokai-theme protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key treemacs-projectile deadgrep ripgrep lsp-ui treemacs neotree expand-region easy-kill multiple-cursors powerline projectile evil-easymotion evil-collection evil helm-rg helm-ag use-package helm fzf spacemacs-theme sublime-themes company lsp-mode golden-ratio-scroll-screen go-mode))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer)))))
-
-
-(global-whitespace-mode t)
-;; (setq whitespace-style '(face space-mark tab-mark newline-mark) )
-(setq whitespace-style '(face trailing tabs tab-mark))
-;; (setq whitespace-display-mappings
-;;         '(
-;;           (space-mark 32 [183] [46]) ; SPACE 32 ? ?, 183 MIDDLE DOT ???, 46 FULL STOP ?.?
-;;           (newline-mark 10 [182 10]) ; LINE FEED,
-;;           (tab-mark 9 [707 9] [92 9]) ; tab
-;;           ))
-;; indentation-space indentation indentation-tab tabs spaces
-(setq whitespace-line-column 85)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -139,19 +121,24 @@
 
 
 
+
+(global-whitespace-mode t)
+(setq whitespace-style '(face trailing tabs tab-mark))
+(setq whitespace-line-column 85)
+
+
+
+
 (set-face-attribute 'region nil :background "white" :foreground "black")
 (set-face-attribute 'isearch nil :foreground "black" :background "yellow")
 (set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
 (set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "greenyellow")
-;; (set-face-attribute 'lsp-face-highlight-read nil :background "limegreen" :foreground "black")
-;; (set-face-attribute 'lsp-face-highlight-write nil :background "limegreen" :foreground "black")
 
 
 
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-;  (add-hook 'prog-mode-hook 'linum-mode)
-;  (setq linum-format "%4d\u2502")
+
 
 
 (use-package ace-window
@@ -159,7 +146,8 @@
   :bind
   ("M-o" . ace-window)
   :delight
-  :config (ace-window-display-mode 1)
+  :config
+  (ace-window-display-mode 1)
   )
 
 
@@ -175,7 +163,6 @@
   (centaur-tabs-set-modified-marker t)
   (centaur-tabs-modified-marker "?")
   (centaur-tabs-buffer-groups-function #'centaur-tabs-projectile-buffer-groups)
-
   :bind
   ("M-h" . centaur-tabs-backward)
   ("M-l" . centaur-tabs-forward)
@@ -202,17 +189,11 @@
 
 
 
-;; (defun my-nuke-traling ()
-;;   (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-;; (add-hook 'prog-mode-hook #'my-nuke-traling)
-
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 
 (defun my-go-mode-hook ()
-  ; Use goimports instead of go-fmt
   (setq gofmt-command "goimports")
-  ; Call Gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
 )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
@@ -227,14 +208,10 @@
 ;;   IndentWidth: 8
 ;;   TabWidth: 8
 (defun my-c-mode-common-hook ()
- ;; my customizations for all of c-mode, c++-mode, objc-mode, java-mode
  (c-set-offset 'substatement-open 0)
- ;; other customizations can go here
-
  (setq c++-tab-always-indent t)
  (setq c-basic-offset 8)                  ;; Default is 2
  (setq c-indent-level 8)                  ;; Default is 2
-
  (setq tab-stop-list '(8 12 16 20 24 28 32 36 40 44 48 52 56 60))
  (setq tab-width 8)
  (setq indent-tabs-mode nil)  ; use spaces only if nil
@@ -258,9 +235,6 @@
 (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
 (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
 )
-
-
-;; (electric-pair-mode 1)
 
 
 
@@ -371,6 +345,9 @@
 
 
 
+
+
+
 (defun my-hs-toggle-all ()
   "If anything isn't hidden, run `hs-hide-all', else run `hs-show-all'."
   (interactive)
@@ -395,7 +372,7 @@
   (interactive)
   (hs-minor-mode)
   (hs-hide-all))
-;; (add-hook 'prog-mode-hook 'my-hide-all)
+(add-hook 'prog-mode-hook 'my-hide-all)
 
 
 
@@ -435,75 +412,6 @@
 
 
 
-;; (use-package treemacs
-;;   :ensure t
-;;   :defer t
-;;   :init
-;;   (with-eval-after-load 'winum
-;;     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-;;     :config
-;;     (progn
-;;       (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-;;             treemacs-deferred-git-apply-delay      0.5
-;;             treemacs-directory-name-transformer    #'identity
-;;             treemacs-display-in-side-window        t
-;;             treemacs-eldoc-display                 t
-;;             treemacs-file-event-delay              5000
-;;             treemacs-file-extension-regex          treemacs-last-period-regex-value
-;;             treemacs-file-follow-delay             0.2
-;;             treemacs-file-name-transformer         #'identity
-;;             treemacs-follow-after-init             t
-;;             treemacs-git-command-pipe              ""
-;;             treemacs-goto-tag-strategy             'refetch-index
-;;             treemacs-indentation                   2
-;;             treemacs-indentation-string            " "
-;;             treemacs-is-never-other-window         nil
-;;             treemacs-max-git-entries               5000
-;;             treemacs-missing-project-action        'ask
-;;             treemacs-no-png-images                 nil
-;;             treemacs-no-delete-other-windows       t
-;;             treemacs-project-follow-cleanup        nil
-;;             treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-;;             treemacs-position                      'left
-;;             treemacs-recenter-distance             0.1
-;;             treemacs-recenter-after-file-follow    nil
-;;             treemacs-recenter-after-tag-follow     nil
-;;             treemacs-recenter-after-project-jump   'always
-;;             treemacs-recenter-after-project-expand 'on-distance
-;;             treemacs-show-cursor                   nil
-;;             treemacs-show-hidden-files             t
-;;             treemacs-silent-filewatch              nil
-;;             treemacs-silent-refresh                nil
-;;             treemacs-sorting                       'alphabetic-asc
-;;             treemacs-space-between-root-nodes      t
-;;             treemacs-tag-follow-cleanup            t
-;;             treemacs-tag-follow-delay              1.5
-;;             treemacs-user-mode-line-format         nil
-;;             treemacs-width                         35)
-;;       ;; The default width and height of the icons is 22 pixels. If you are
-;;       ;; using a Hi-DPI display, uncomment this to double the icon size.
-;;       ;;(treemacs-resize-icons 44)
-;;       (treemacs-follow-mode t)
-;;       (treemacs-filewatch-mode t)
-;;       (treemacs-fringe-indicator-mode t)
-;;       (pcase (cons (not (null (executable-find "git")))
-;;                    (not (null treemacs-python-executable)))
-;;         (`(t . t)
-;;          (treemacs-git-mode 'deferred))
-;;         (`(t . _)
-;;          (treemacs-git-mode 'simple))))
-;;     :bind
-;;     (:map global-map
-;;           ("M-0"       . treemacs-select-window)
-;;           ("C-c t 1"   . treemacs-delete-other-windows)
-;;           ("C-c t t"   . treemacs)
-;;           ("C-c t B"   . treemacs-bookmark)
-;;           ("C-c t C-t" . treemacs-find-file)
-;;           ("C-c t M-t" . treemacs-find-tag)))
-
-
-
-
 
 (add-to-list 'default-frame-alist
              '(font . "Droid Sans Mono-13.2"))
@@ -511,39 +419,6 @@
 
 
 
-
-
-
-;; (require 'origami)
-;; (global-set-key
-;;  (kbd "C-c C-o")
-;;  (defhydra hydra-folding (:color red)
-;;    "
-;;   _o_pen node    _n_ext fold       toggle _f_orward  _s_how current only
-;;   _c_lose node   _p_revious fold   toggle _a_ll      _r_ecursively toggle node
-;;   "
-;;    ("r" origami-recursively-toggle-node)
-;;    ("o" origami-open-node-recursively)
-;;    ("c" origami-close-node-recursively)
-;;    ("n" origami-next-fold)
-;;    ("p" origami-previous-fold)
-;;    ("f" origami-forward-toggle-node)
-;;    ("a" origami-toggle-all-nodes)
-;;    ("s" origami-show-only-node)))
-;; (add-hook 'prog-mode-hook (lambda () (interactive)
-;;                                   (origami-mode 0)
-;;                                   (call-interactively 'origami-close-all-nodes)) t)
-;; (global-set-key (kbd "C-o") 'origami-recursively-toggle-node)
-
-;;  (global-set-key
-;;   (kbd "C-c C-l")
-;;   (defhydra hydra-folding (:color red)
-;;     "
-;;     hs-t_o_ggle-hiding hs-show-_a_ll hs-_h_ide-all
-;;    "
-;;     ("o" my-toggle-fold)
-;;     ("a" hs-show-all)
-;;     ("h" hs-hide-all)))
 
 
 (defun mc-mark-next-like-this-then-cycle-forward (arg)
