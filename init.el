@@ -48,12 +48,15 @@
 
 
 (use-package lsp-mode
+  :defer t
   :init
   (setq lsp-keymap-prefix "C-c l" )
+  :config
+  (set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "greenyellow")
 )
 
 (use-package lsp-ui
-  :ensure t
+  :defer t
   :init
   (setq lsp-ui-doc-enable                 nil
         lsp-ui-doc-include-signature      t
@@ -86,7 +89,7 @@
 (add-hook 'vue-mode-hook 'lsp-deferred)
 
 (use-package lsp-python-ms
-  :ensure t
+  :defer t
   :init
   (setq lsp-python-ms-auto-install-server t)
   :hook
@@ -106,7 +109,7 @@
    '("e6f3a4a582ffb5de0471c9b640a5f0212ccf258a987ba421ae2659f1eaa39b09" "47db50ff66e35d3a440485357fb6acb767c100e135ccdf459060407f8baea7b2" "1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "23c806e34594a583ea5bbf5adf9a964afe4f28b4467d28777bcba0d35aa0872e" "97db542a8a1731ef44b60bc97406c1eb7ed4528b0d7296997cbb53969df852d6" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" "b89a4f5916c29a235d0600ad5a0849b1c50fab16c2c518e1d98f0412367e7f97" "96998f6f11ef9f551b427b8853d947a7857ea5a578c75aa9c4e7c73fe04d10b4" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill multiple-cursors projectile helm-rg helm-ag use-package helm fzf company lsp-mode golden-ratio-scroll-screen go-mode))
+   '(projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill multiple-cursors projectile helm-rg helm-ag use-package helm fzf company lsp-mode golden-ratio-scroll-screen go-mode))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer)))))
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
@@ -129,7 +132,6 @@
 (set-face-attribute 'region nil :background "white" :foreground "black")
 (set-face-attribute 'isearch nil :foreground "black" :background "yellow")
 (set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
-(set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "greenyellow")
 
 
 
@@ -140,6 +142,7 @@
 
 (use-package ace-window
   :ensure t
+  :defer t
   :bind
   ("M-o" . ace-window)
   :delight
@@ -149,6 +152,7 @@
 
 
 (use-package centaur-tabs
+  :defer t
   :demand
   :config
   (centaur-tabs-mode t)
@@ -163,6 +167,13 @@
   :bind
   ("M-h" . centaur-tabs-backward)
   ("M-l" . centaur-tabs-forward)
+)
+
+
+
+(use-package rust-mode
+  :defer t
+  :init
 )
 
 
@@ -224,13 +235,14 @@
   (indent-according-to-mode))
 
 (use-package smartparens
-:ensure t
-:pin melpa-stable
-:init (smartparens-global-mode t)
-:config
-(sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
-(sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
-(sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+  :ensure t
+  :defer t
+  :pin melpa-stable
+  :init (smartparens-global-mode t)
+  :config
+  (sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
+  (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+  (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
 )
 
 
@@ -450,7 +462,12 @@
   (call-interactively 'mc/cycle-backward))
 
 
-(require 'multiple-cursors)
+;; (require 'multiple-cursors)
+(use-package multiple-cursors
+  :defer t
+  :init
+)
+
 (global-set-key
  (kbd "C-c m")
     (defhydra hydra-multiple-cursors (:hint nil)
@@ -581,8 +598,6 @@
 
 
 
-(require 'rust-mode)
-
 
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
@@ -666,3 +681,9 @@
   (my-keys-minor-mode 0))
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
