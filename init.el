@@ -153,6 +153,7 @@
 
 (use-package centaur-tabs
   :ensure t
+  :defer t
   :demand
   :config
   (centaur-tabs-mode t)
