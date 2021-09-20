@@ -142,7 +142,6 @@
 
 (use-package ace-window
   :ensure t
-  :defer t
   :bind
   ("M-o" . ace-window)
   :delight
@@ -433,6 +432,10 @@
 
 
 
+;; Have to use require, not use-package
+(require 'hydra)
+(require 'avy)
+(require 'multiple-cursors)
 
 
 (defun mc-mark-next-like-this-then-cycle-forward (arg)
@@ -462,11 +465,7 @@
   (call-interactively 'mc/cycle-backward))
 
 
-;; (require 'multiple-cursors)
-(use-package multiple-cursors
-  :defer t
-  :init
-)
+
 
 (global-set-key
  (kbd "C-c m")
