@@ -53,7 +53,7 @@
   :init
   (setq lsp-keymap-prefix "C-c l" )
   :config
-  (set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "greenyellow")
+  (set-face-attribute 'lsp-face-highlight-textual nil :foreground "purple" :background "white")
 )
 
 (use-package lsp-ui
@@ -131,8 +131,8 @@
 
 
 (set-face-attribute 'region nil :background "white" :foreground "black")
-(set-face-attribute 'isearch nil :foreground "black" :background "yellow")
-(set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
+(set-face-attribute 'isearch nil :foreground "red" :background "white")
+(set-face-attribute 'lazy-highlight nil :foreground "red" :background "white")
 
 
 
