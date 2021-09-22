@@ -596,6 +596,10 @@
 (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
 (define-key god-local-mode-map (kbd "f") #'forward-word)
 (define-key god-local-mode-map (kbd "b") #'backward-word)
+(define-key god-local-mode-map (kbd "k") #'previous-line)
+(define-key god-local-mode-map (kbd "j") #'next-line)
+(define-key god-local-mode-map (kbd "l") #'forward-char)
+(define-key god-local-mode-map (kbd "h") #'backward-char)
 (define-key god-local-mode-map (kbd ";") #'golden-ratio-scroll-screen-up)
 (define-key god-local-mode-map (kbd "'") #'golden-ratio-scroll-screen-down)
 (define-key god-local-mode-map (kbd "\\") #'recenter)
