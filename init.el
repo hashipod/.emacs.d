@@ -576,11 +576,23 @@
   (cond
    (god-global-mode
     (set-face-attribute 'mode-line nil
-                        :foreground "#604000"
-                        :background "#fff29a")
+                        :background "#353644"
+                        :foreground "white"
+                        :box '(:line-width 8 :color "#353644")
+                        :overline nil
+                        :underline nil)
     (set-face-attribute 'mode-line-inactive nil
-                        :foreground "#3f3000"
-                        :background "#fff3da"))
+                        :background "#565063"
+                        :foreground "white"
+                        :box '(:line-width 8 :color "#565063")
+                        :overline nil
+                        :underline nil))
+    ;; (set-face-attribute 'mode-line  nil
+    ;;                     :foreground "black"
+    ;;                     :background "green")
+    ;; (set-face-attribute 'mode-line-inactive nil
+    ;;                     :foreground "black"
+    ;;                     :background "green"))
    ;; below, the default color is borrowed from monokai theme
    (t
     (set-face-attribute 'mode-line nil
