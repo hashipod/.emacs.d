@@ -574,7 +574,7 @@
 )
 
 (global-set-key (kbd "<escape>") #'my-god-mode) ; force use god-mode globally
-
+(god-mode-all) ; god-mode by default
 
 
 
@@ -712,6 +712,7 @@
     (define-key map (kbd "M-p") 'gcm-scroll-up)
 
 
+    ;; God mode key mappings
     (define-key god-local-mode-map (kbd "z") #'repeat)
     (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
     (define-key god-local-mode-map (kbd "f") #'forward-word)
@@ -731,7 +732,6 @@
     (define-key god-local-mode-map (kbd "a") #'my-god-char-forward-and-insert-mode)
     (define-key god-local-mode-map (kbd "A") #'my-god-mwin-end-and-insert-mode)
     (define-key god-local-mode-map (kbd "I") #'my-god-mwin-beginning-and-insert-mode)
-
 
     (define-key god-local-mode-map (kbd "C-m") #'next-line)
     (define-key god-local-mode-map (kbd ";") #'golden-ratio-scroll-screen-up)
