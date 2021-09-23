@@ -52,6 +52,7 @@
   :defer t
   :init
   (setq lsp-keymap-prefix "C-c l" )
+  (setq lsp-signature-auto-activate nil)
   :config
   (set-face-attribute 'lsp-face-highlight-textual nil :foreground "purple" :background "white")
 )
@@ -569,8 +570,46 @@
   (interactive)
   (if (not god-global-mode)
       (god-mode-all))
-  )
+  (keyboard-quit)
+)
+
 (global-set-key (kbd "<escape>") #'my-god-mode) ; force use god-mode globally
+
+
+
+
+(defun my-god-above-newline-and-insert-mode()
+  (interactive)
+  (previous-line)
+  (end-of-line)
+  (newline-and-indent)
+  (god-mode-all)
+  )
+
+(defun my-god-below-newline-and-insert-mode()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent)
+  (god-mode-all)
+  )
+
+(defun my-god-mwin-end-and-insert-mode()
+  (interactive)
+  (mwim-end-of-code-or-line)
+  (god-mode-all)
+  )
+
+(defun my-god-mwin-beginning-and-insert-mode()
+  (interactive)
+  (mwim-beginning-of-code-or-line)
+  (god-mode-all)
+  )
+
+(defun my-god-char-forward-and-insert-mode()
+  (interactive)
+  (forward-char)
+  (god-mode-all)
+  )
 
 (defun my-god-mode-update-mode-line ()
   (cond
@@ -604,22 +643,6 @@
    ))
 (add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
-(define-key god-local-mode-map (kbd "z") #'repeat)
-(define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
-(define-key god-local-mode-map (kbd "f") #'forward-word)
-(define-key god-local-mode-map (kbd "w") #'forward-word)
-(define-key god-local-mode-map (kbd "b") #'backward-word)
-(define-key god-local-mode-map (kbd "k") #'previous-line)
-(define-key god-local-mode-map (kbd "j") #'next-line)
-(define-key god-local-mode-map (kbd "l") #'forward-char)
-(define-key god-local-mode-map (kbd "h") #'backward-char)
-(define-key god-local-mode-map (kbd "L") #'mwim-end-of-code-or-line)
-(define-key god-local-mode-map (kbd "H") #'mwim-beginning-of-code-or-line)
-(define-key god-local-mode-map (kbd ";") #'golden-ratio-scroll-screen-up)
-(define-key god-local-mode-map (kbd "'") #'golden-ratio-scroll-screen-down)
-(define-key god-local-mode-map (kbd "\\") #'recenter)
-
-
 
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
@@ -628,7 +651,6 @@
 ;; (global-set-key (kbd "M-k") 'kill-region)
 ;; (global-set-key (kbd "C-j") 'save-buffer)
 ;; (global-set-key (kbd "C-z") 'undo)
-
 
 
 ;; must be set as global
@@ -688,6 +710,34 @@
 
     (define-key map (kbd "M-n") 'gcm-scroll-down)
     (define-key map (kbd "M-p") 'gcm-scroll-up)
+
+
+    (define-key god-local-mode-map (kbd "z") #'repeat)
+    (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
+    (define-key god-local-mode-map (kbd "f") #'forward-word)
+    (define-key god-local-mode-map (kbd "w") #'forward-word)
+    (define-key god-local-mode-map (kbd "b") #'backward-word)
+    (define-key god-local-mode-map (kbd "k") #'previous-line)
+    (define-key god-local-mode-map (kbd "j") #'next-line)
+    (define-key god-local-mode-map (kbd "l") #'forward-char)
+    (define-key god-local-mode-map (kbd "h") #'backward-char)
+    (define-key god-local-mode-map (kbd "L") #'mwim-end-of-code-or-line)
+    (define-key god-local-mode-map (kbd "H") #'mwim-beginning-of-code-or-line)
+    (define-key god-local-mode-map (kbd "v") #'set-mark-command)
+    (define-key god-local-mode-map (kbd "y") #'kill-ring-save)
+    (define-key god-local-mode-map (kbd "u") #'undo)
+    (define-key god-local-mode-map (kbd "o") #'my-god-below-newline-and-insert-mode)
+    (define-key god-local-mode-map (kbd "O") #'my-god-above-newline-and-insert-mode)
+    (define-key god-local-mode-map (kbd "a") #'my-god-char-forward-and-insert-mode)
+    (define-key god-local-mode-map (kbd "A") #'my-god-mwin-end-and-insert-mode)
+    (define-key god-local-mode-map (kbd "I") #'my-god-mwin-beginning-and-insert-mode)
+
+
+    (define-key god-local-mode-map (kbd "C-m") #'next-line)
+    (define-key god-local-mode-map (kbd ";") #'golden-ratio-scroll-screen-up)
+    (define-key god-local-mode-map (kbd "'") #'golden-ratio-scroll-screen-down)
+    (define-key god-local-mode-map (kbd "\\") #'recenter)
+
 
     map)
   "my-keys-minor-mode keymap.")
