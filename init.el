@@ -449,6 +449,7 @@
 (require 'hydra)
 (require 'avy)
 (require 'multiple-cursors)
+(set-face-attribute 'avy-lead-face nil :foreground "red" :background "white")
 
 
 (defun mc-mark-next-like-this-then-cycle-forward (arg)
