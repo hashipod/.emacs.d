@@ -622,7 +622,7 @@
   (cond
    (god-global-mode
     (set-face-attribute 'mode-line nil
-                        :background "#353644"
+                        :background "#9900cc"
                         :foreground "white"
                         :box '(:line-width 8 :color "#353644")
                         :overline nil
@@ -763,9 +763,11 @@
   (my-keys-minor-mode 0))
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(sml/filename ((t (:inherit sml/global :foreground "yellow" :weight bold))))
  )
