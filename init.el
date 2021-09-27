@@ -152,24 +152,24 @@
   )
 
 
-(use-package centaur-tabs
-  :ensure t
-  :defer t
-  :demand
-  :config
-  (centaur-tabs-mode t)
-  :custom
-  (centaur-tabs-gray-out-icons 'buffer)
-  (centaur-tabs-style "rounded")
-  (centaur-tabs-height 36)
-  (centaur-tabs-set-icons t)
-  (centaur-tabs-set-modified-marker t)
-  (centaur-tabs-modified-marker "?")
-  (centaur-tabs-buffer-groups-function #'centaur-tabs-projectile-buffer-groups)
-  :bind
-  ("M-h" . centaur-tabs-backward)
-  ("M-l" . centaur-tabs-forward)
-)
+;; (use-package centaur-tabs
+;;   :ensure t
+;;   :defer t
+;;   :demand
+;;   :config
+;;   (centaur-tabs-mode t)
+;;   :custom
+;;   (centaur-tabs-gray-out-icons 'buffer)
+;;   (centaur-tabs-style "rounded")
+;;   (centaur-tabs-height 36)
+;;   (centaur-tabs-set-icons t)
+;;   (centaur-tabs-set-modified-marker t)
+;;   (centaur-tabs-modified-marker "?")
+;;   (centaur-tabs-buffer-groups-function #'centaur-tabs-projectile-buffer-groups)
+;;   :bind
+;;   ("M-h" . centaur-tabs-backward)
+;;   ("M-l" . centaur-tabs-forward)
+;; )
 
 
 
@@ -272,14 +272,13 @@
 
 
 
-;; (helm-mode 1)
-;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(helm-mode 1)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 
-
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :hook (after-init . ivy-mode))
+;; (use-package ivy
+;;   :ensure t
+;;   :diminish ivy-mode
+;;   :hook (after-init . ivy-mode))
 
 
 
@@ -291,9 +290,9 @@
 (smooth-scrolling-mode 1)
 
 
-;; (require 'golden-ratio-scroll-screen)
-;; (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
-;; (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
+(require 'golden-ratio-scroll-screen)
+(global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+(global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 
 
 
@@ -306,8 +305,8 @@
 
 
 
-(setq sml/theme 'dark)
-(sml/setup)
+;; (setq sml/theme 'dark)
+;; (sml/setup)
 
 
 
@@ -671,11 +670,11 @@
 
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
-    ;; (define-key map (kbd "M-x") #'helm-M-x)
+    (define-key map (kbd "M-x") #'helm-M-x)
     (define-key map (kbd "C-M-f") #'projectile-find-file)
     (define-key map (kbd "C-M-b") #'switch-to-buffer)
 
-    ;; (define-key map (kbd "C-x C-f") #'helm-find-files)
+    (define-key map (kbd "C-x C-f") #'helm-find-files)
     (define-key map (kbd "C-x C-p") #'projectile-find-file)
 
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
@@ -746,7 +745,7 @@
     (define-key god-local-mode-map (kbd "A") #'my-god-mwin-end-and-insert-mode)
     (define-key god-local-mode-map (kbd "I") #'my-god-mwin-beginning-and-insert-mode)
 
-    (define-key god-local-mode-map (kbd "C-m") #'next-line)
+    ; (define-key god-local-mode-map (kbd "C-m") #'next-line)
     (define-key god-local-mode-map (kbd ";") #'scroll-up-command)
     (define-key god-local-mode-map (kbd "'") #'scroll-down-command)
     (define-key god-local-mode-map (kbd "\\") #'recenter)
