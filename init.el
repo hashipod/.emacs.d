@@ -132,9 +132,9 @@
 
 
 
-(set-face-attribute 'region nil :background "white" :foreground "black")
-(set-face-attribute 'isearch nil :foreground "red" :background "white")
-(set-face-attribute 'lazy-highlight nil :foreground "red" :background "white")
+;; (set-face-attribute 'region nil :background "white" :foreground "black")
+(set-face-attribute 'isearch nil :foreground "black" :background "yellow")
+(set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
 
 
 
@@ -770,4 +770,3 @@
   (my-keys-minor-mode 0))
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-
