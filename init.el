@@ -43,9 +43,9 @@
 
 
 ;; (load-theme 'doom-molokai t)
-;; (load-theme 'doom-palenight t)
+(load-theme 'doom-palenight t)
 ;; (load-theme 'doom-material t)
-(load-theme 'doom-dracula t)
+;; (load-theme 'doom-dracula t)
 
 
 
