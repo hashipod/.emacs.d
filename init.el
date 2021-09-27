@@ -656,6 +656,7 @@
    ))
 (add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
+(set-face-attribute 'mode-line-buffer-id nil :foreground "white")
 
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
@@ -770,9 +771,3 @@
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(sml/filename ((t (:inherit sml/global :foreground "yellow" :weight bold)))))
