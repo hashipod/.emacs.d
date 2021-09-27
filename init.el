@@ -628,7 +628,7 @@
   (cond
    (god-global-mode
     (set-face-attribute 'mode-line nil
-                        :background "#4d0099"
+                        :background "#006400"
                         :foreground "white"
                         :box '(:line-width 8 :color "#353644")
                         :overline nil
