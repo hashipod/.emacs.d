@@ -46,9 +46,10 @@
 ;; (load-theme 'doom-palenight t)
 ;; (load-theme 'doom-material t)
 ;; (load-theme 'doom-dracula t)
-(load-theme 'kaolin-aurora t)
+;; (load-theme 'kaolin-aurora t)
 ;; (load-theme 'challenger-deep t)
 ;; (load-theme 'kaolin-temple t)
+(load-theme 'kaolin-ocean t)
 
 
 
