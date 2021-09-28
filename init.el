@@ -629,15 +629,18 @@
   (god-mode-all)
   )
 
+
+
 (defun my-god-mode-update-mode-line ()
   (cond
    (god-global-mode
     (set-face-attribute 'mode-line nil
-                        :background "#123456"
-                        :foreground "white"
+                        :background "#e6e600"
+                        :foreground "black"
                         :box '(:line-width 8 :color "#353644")
                         :overline nil
                         :underline nil)
+    (set-face-attribute 'mode-line-buffer-id nil :foreground "black")
     (set-face-attribute 'mode-line-inactive nil
                         :background "#565063"
                         :foreground "white"
@@ -655,13 +658,20 @@
     (set-face-attribute 'mode-line nil
                         :foreground "#F5F5F5"
                         :background "#1B1E1C")
+    (set-face-attribute 'mode-line-buffer-id nil :foreground "white")
     (set-face-attribute 'mode-line-inactive nil
                         :foreground "#8B8878"
                         :background "#1B1E1C"))
    ))
 (add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
-(set-face-attribute 'mode-line-buffer-id nil :foreground "white")
+(with-eval-after-load 'subr-x
+        (setq-default mode-line-buffer-identification
+                '(:eval (format-mode-line (propertized-buffer-identification (or (when-let* ((buffer-file-truename buffer-file-truename)
+                (prj (cdr-safe (project-current)))
+                (prj-parent (file-name-directory (directory-file-name (expand-file-name prj)))))
+                        (concat (file-relative-name (file-name-directory buffer-file-truename) prj-parent) (file-name-nondirectory buffer-file-truename)))
+"%b"))))))
 
 
 ;; (global-set-key (kbd "M-c") 'kill-ring-save)
