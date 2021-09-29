@@ -540,6 +540,9 @@
 (xclip-mode 1)
 
 
+(smerge-mode -1)
+
+
 
 
 ;;;;;; catch ESC in terminal(-nw) ;;;;;;;;;;;;
@@ -685,6 +688,16 @@
 ;; must be set as global
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
 
+
+
+(defun my-last-in-word ()
+  "Move to the next 'last character' of a word."
+  (interactive)
+  (forward-char)
+  (re-search-forward "\\w\\b" nil t)
+  (goto-char (match-beginning 0)))
+
+
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-x") #'helm-M-x)
@@ -695,6 +708,7 @@
     (define-key map (kbd "C-x C-p") #'projectile-find-file)
 
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
+    (define-key map (kbd "C-x C-k") #'kill-buffer)
 
     (define-key map (kbd "C-M-j") #'my-join-lines)
 
@@ -746,9 +760,11 @@
     (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
     (define-key god-local-mode-map (kbd "f") #'forward-word)
     (define-key god-local-mode-map (kbd "w") #'forward-word)
+    (define-key god-local-mode-map (kbd "e") #'my-last-in-word)
     (define-key god-local-mode-map (kbd "b") #'backward-word)
     (define-key god-local-mode-map (kbd "k") #'previous-line)
     (define-key god-local-mode-map (kbd "j") #'next-line)
+    (define-key god-local-mode-map (kbd "d") #'delete-forward-char)
     (define-key god-local-mode-map (kbd "l") #'forward-char)
     (define-key god-local-mode-map (kbd "h") #'backward-char)
     (define-key god-local-mode-map (kbd "L") #'mwim-end-of-code-or-line)
@@ -766,6 +782,7 @@
     (define-key god-local-mode-map (kbd ";") #'scroll-up-command)
     (define-key god-local-mode-map (kbd "'") #'scroll-down-command)
     (define-key god-local-mode-map (kbd "\\") #'recenter)
+    (define-key god-local-mode-map (kbd "/") #'isearch-forward)
 
     (define-key god-local-mode-map (kbd "[") #'backward-paragraph)
     (define-key god-local-mode-map (kbd "]") #'forward-paragraph)
