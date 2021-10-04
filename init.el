@@ -51,6 +51,10 @@
 ;; (load-theme 'kaolin-temple t)
 (load-theme 'kaolin-ocean t)
 
+(custom-set-faces (if (not window-system) '(default ((t (:background "nil"))))))
+(custom-set-faces (if (not window-system) '(line-number ((t (:background "nil"))))))
+(custom-set-faces (if (not window-system) '(line-number-current-line ((t (:background "nil"))))))
+
 
 
 
