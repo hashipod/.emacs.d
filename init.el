@@ -29,7 +29,6 @@
 
 (require 'expand-region)
 
-
 (defun jrh-isearch-with-region ()
   "Use region as the isearch text."
   (when mark-active
@@ -40,6 +39,9 @@
 
 (add-hook 'isearch-mode-hook #'jrh-isearch-with-region)
 
+
+
+(toggle-truncate-lines t)
 
 
 ;; (load-theme 'doom-molokai t)
@@ -308,8 +310,26 @@
 ;; (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
 ;; (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 
-(global-set-key [remap scroll-down-command] 'View-scroll-half-page-backward)
-(global-set-key [remap scroll-up-command] 'View-scroll-half-page-forward)
+ (setq scroll-margin 3
+       scroll-conservatively 101
+       scroll-up-aggressively 0.01
+       scroll-down-aggressively 0.01
+       scroll-preserve-screen-position nil
+       auto-window-vscroll nil)
+
+(defun scroll-half-page-down ()
+  "scroll down half the page"
+  (interactive)
+  (scroll-down (/ (window-body-height) 2)))
+
+(defun scroll-half-page-up ()
+  "scroll up half the page"
+  (interactive)
+  (scroll-up (/ (window-body-height) 2)))
+
+(global-set-key [remap scroll-down-command] 'scroll-half-page-down)
+(global-set-key [remap scroll-up-command] 'scroll-half-page-up)
+
 
 (add-to-list 'default-frame-alist
              '(vertical-scroll-bars . nil))
