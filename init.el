@@ -486,7 +486,7 @@
 
 
 (add-to-list 'default-frame-alist
-             '(font . "Droid Sans Mono-11"))
+             '(font . "Droid Sans Mono-14"))
 
 
 
