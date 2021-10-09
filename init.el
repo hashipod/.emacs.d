@@ -589,8 +589,6 @@
     (evil-define-key 'normal evil-mc-key-map (kbd "<escape>") 'evil-mc-undo-all-cursors))
   :bind (:map evil-mc-key-map
 	 ("C-g" . evil-mc-undo-all-cursors)
-	 ("C-n" . evil-mc-mark-and-goto-next-match)
-	 ("C-x" . evil-mc-skip-and-goto-next-match)
 ))
 
 
@@ -775,6 +773,9 @@
     (define-key evil-normal-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
     (define-key evil-visual-state-map (kbd "L") #'mwim-end-of-code-or-line)
     (define-key evil-visual-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
+
+    (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
+    (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
 
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
