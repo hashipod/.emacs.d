@@ -791,6 +791,8 @@
     (define-key evil-normal-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
     (define-key evil-visual-state-map (kbd "L") #'mwim-end-of-code-or-line)
     (define-key evil-visual-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
+    (define-key evil-operator-state-map (kbd "L") #'mwim-end-of-code-or-line)
+    (define-key evil-operator-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
 
     (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
     (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
