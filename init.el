@@ -797,7 +797,7 @@
 
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
-    (define-key evil-normal-state-map (kbd "\\") #'recenter)
+    (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
     (define-key evil-normal-state-map (kbd "C-n") #'er/expand-region)
 
 
