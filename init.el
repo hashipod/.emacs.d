@@ -562,6 +562,8 @@
 (require 'evil)
 (evil-mode 1)
 
+(setq visible-cursor nil)
+(blink-cursor-mode -1)
 
 (setq evil-normal-state-tag   (propertize "  NORMAL " 'face '((:background "dark khaki" :foreground "black")))
       evil-emacs-state-tag    (propertize "  EMACS  " 'face '((:background "turquoise" :foreground "black")))
