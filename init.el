@@ -620,7 +620,7 @@
      '(hydra-face-red ((t (:foreground "chocolate" :weight bold)))))
     (evil-define-key 'normal evil-mc-key-map (kbd "<escape>") 'evil-mc-undo-all-cursors))
   :bind (:map evil-mc-key-map
-	 ("C-g" . evil-mc-undo-all-cursors)
+           ("C-g" . evil-mc-undo-all-cursors)
 ))
 
 
@@ -749,6 +749,10 @@
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
 
 
+;; disable default key bindins in insert mode, but ESC still go to normal
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map [escape] 'evil-normal-state)
+
 
 ;; use esc to quit, like C-g, esc quits
 (defun minibuffer-keyboard-quit ()
@@ -780,6 +784,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (goto-char (match-beginning 0)))
 
 
+(defun my-save-buffer-and-goto-normal-state()
+  (interactive)
+  (save-buffer)
+  (evil-normal-state))
+
+
+(evil-define-operator my-wrap-with-parens (beg end) (goto-char beg) (insert "(") (goto-char (1+ end)) (insert ")"))
+(evil-define-operator my-wrap-with-brackets (beg end) (goto-char beg) (insert "[") (goto-char (1+ end)) (insert "]"))
+(evil-define-operator my-wrap-with-parentheses (beg end) (goto-char beg) (insert "{") (goto-char (1+ end)) (insert "}"))
+
 
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
@@ -803,7 +817,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
     ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
 
-    (define-key map (kbd "C-j") 'save-buffer)
+    (define-key map (kbd "C-j") 'my-save-buffer-and-goto-normal-state)
 
     ;; (define-key map (kbd "C-M-u") 'backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'forward-sexp)
@@ -849,6 +863,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
     (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
     (define-key evil-normal-state-map (kbd "C-n") #'er/expand-region)
+
+    (define-key evil-normal-state-map (kbd "/") #'isearch-forward)
+    (define-key evil-normal-state-map (kbd "n") #'isearch-repeat-forward)
+    (define-key evil-normal-state-map (kbd "N") #'isearch-repeat-backward)
+
+    (define-key evil-visual-state-map (kbd ")") #'my-wrap-with-parens)
+    (define-key evil-visual-state-map (kbd "(") #'my-wrap-with-parens)
+    (define-key evil-visual-state-map (kbd "[") #'my-wrap-with-brackets)
+    (define-key evil-visual-state-map (kbd "]") #'my-wrap-with-brackets)
+    (define-key evil-visual-state-map (kbd "{") #'my-wrap-with-parentheses)
+    (define-key evil-visual-state-map (kbd "}") #'my-wrap-with-parentheses)
+
 
     map)
   "my-keys-minor-mode keymap.")
