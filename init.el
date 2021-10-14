@@ -238,6 +238,9 @@
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 
+(global-auto-revert-mode t)
+
+
 (defun my-go-mode-hook ()
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
