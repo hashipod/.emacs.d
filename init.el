@@ -573,6 +573,13 @@
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-confirm-create-file 'off-p)
 (setq neo-confirm-create-directory 'off-p)
+(setq neo-smart-open 't)
+
+(defun my-neotree-find()
+  (interactive)
+  (unless (neo-global--window-exists-p) (neotree-show))
+  (neotree-find)
+  )
 
 
 
@@ -876,6 +883,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "n") #'isearch-repeat-forward)
     (define-key evil-normal-state-map (kbd "N") #'isearch-repeat-backward)
 
+    (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
+
+    (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
+    (define-key evil-normal-state-map (kbd "C-w h") #'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-w l") #'evil-window-right)
+
     (define-key evil-visual-state-map (kbd ")") #'my-wrap-with-parens)
     (define-key evil-visual-state-map (kbd "(") #'my-wrap-with-parens)
     (define-key evil-visual-state-map (kbd "[") #'my-wrap-with-brackets)
@@ -883,6 +897,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-visual-state-map (kbd "{") #'my-wrap-with-parentheses)
     (define-key evil-visual-state-map (kbd "}") #'my-wrap-with-parentheses)
 
+    ;; neotree bindings
+    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd "o") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+    (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+    (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+    (evil-define-key 'normal neotree-mode-map (kbd "j") 'neotree-next-line)
+    (evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
+    (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+    (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
 
     map)
   "my-keys-minor-mode keymap.")
