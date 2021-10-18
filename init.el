@@ -593,6 +593,7 @@
 (evil-leader/set-key
   "f" 'projectile-find-file
   "b" 'switch-to-buffer
+  "o" 'deadgrep
   "t" 'flip-buffer-to-window
   "k" 'kill-this-buffer)
 
@@ -639,6 +640,14 @@
 ))
 
 
+
+;; disable evil in deadgrep buffer, we define our own keys
+(evil-set-initial-state 'deadgrep-mode 'emacs)
+(defun my-deadgrep-normal-mode-hook ()
+    (local-set-key (kbd "j") #'deadgrep-forward)
+    (local-set-key (kbd "k") #'deadgrep-backward)
+    )
+(add-hook 'deadgrep-mode-hook #'my-deadgrep-normal-mode-hook)
 
 
 
