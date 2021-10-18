@@ -586,7 +586,8 @@
 (evil-leader/set-key
   "f" 'projectile-find-file
   "b" 'switch-to-buffer
-  "k" 'kill-buffer)
+  "t" 'flip-buffer-to-window
+  "k" 'kill-this-buffer)
 
 
 
