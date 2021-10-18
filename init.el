@@ -164,7 +164,7 @@
 ;; (set-face-attribute 'region nil :background "white" :foreground "black")
 (set-face-attribute 'isearch nil :foreground "#080808" :background "#ffaf00")
 (set-face-attribute 'lazy-highlight nil :foreground "#080808" :background "#ffaf00")
-
+(set-face-attribute 'highlight nil :background "red" :foreground "black")
 
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -288,18 +288,23 @@
 
 
 
-(defun pp/deadgrep-view-file ()
+(defun my-deadgrep-view-file ()
   "View result under cursor in other window."
   (interactive)
   (deadgrep-visit-result-other-window)
-  (other-window 1)
   (hs-show-all)
+  (recenter)
+  (other-window 1)
   )
 
 (use-package deadgrep
   :ensure t
   :bind
-  (:map deadgrep-mode-map ("v" . pp/deadgrep-view-file))
+  (:map deadgrep-mode-map
+        ("v" . my-deadgrep-view-file)
+        ("j" . deadgrep-forward)
+        ("k" . deadgrep-backward)
+        )
 )
 
 
@@ -643,11 +648,6 @@
 
 ;; disable evil in deadgrep buffer, we define our own keys
 (evil-set-initial-state 'deadgrep-mode 'emacs)
-(defun my-deadgrep-normal-mode-hook ()
-    (local-set-key (kbd "j") #'deadgrep-forward)
-    (local-set-key (kbd "k") #'deadgrep-backward)
-    )
-(add-hook 'deadgrep-mode-hook #'my-deadgrep-normal-mode-hook)
 
 
 
