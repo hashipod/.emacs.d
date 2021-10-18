@@ -605,7 +605,6 @@
 
 
 
-(setq evil-want-C-u-scroll t)
 (require 'evil)
 (require 'evil-leader)
 
@@ -921,6 +920,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-visual-state-map (kbd "]") #'my-wrap-with-brackets)
     (define-key evil-visual-state-map (kbd "{") #'my-wrap-with-parentheses)
     (define-key evil-visual-state-map (kbd "}") #'my-wrap-with-parentheses)
+
+    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+    (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
     ;; neotree bindings
     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
