@@ -288,6 +288,20 @@
 
 
 
+(defun my-deadgrep-visit-result ()
+  (interactive)
+  (deadgrep-visit-result)
+  (hs-show-all)
+  (recenter)
+  )
+
+(defun my-deadgrep-visit-file-other-window ()
+  (interactive)
+  (deadgrep-visit-result-other-window)
+  (hs-show-all)
+  (recenter)
+  )
+
 (defun my-deadgrep-view-file ()
   "View result under cursor in other window."
   (interactive)
@@ -301,9 +315,11 @@
   :ensure t
   :bind
   (:map deadgrep-mode-map
-        ("v" . my-deadgrep-view-file)
-        ("j" . deadgrep-forward)
-        ("k" . deadgrep-backward)
+        ("RET" . my-deadgrep-visit-result)
+        ("o"   . my-deadgrep-visit-file-other-window)
+        ("v"   . my-deadgrep-view-file)
+        ("j"   . deadgrep-forward)
+        ("k"   . deadgrep-backward)
         )
 )
 
