@@ -667,12 +667,18 @@
   :ensure t
   :bind
   (:map deadgrep-mode-map
-        ("RET" . my-deadgrep-visit-result)
-        ("o"   . my-deadgrep-visit-file-other-window)
-        ("v"   . my-deadgrep-view-file)
-        ("j"   . deadgrep-forward)
-        ("k"   . deadgrep-backward)
+        ("RET"  . my-deadgrep-visit-result)
+        ("o"    . my-deadgrep-visit-file-other-window)
+        ("v"    . my-deadgrep-view-file)
+        ("j"    . deadgrep-forward)
+        ("k"    . deadgrep-backward)
+        ("C-d"  . evil-scroll-down)
+        ("C-u"  . evil-scroll-up)
+        (";"    . evil-scroll-down)
+        ("'"    . evil-scroll-up)
         )
+  :config
+   (setq-default deadgrep--context (cons 3 3))
 )
 
 
