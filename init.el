@@ -239,6 +239,7 @@
 
 
 (global-auto-revert-mode t)
+(global-hl-line-mode t)
 
 
 (defun my-go-mode-hook ()
