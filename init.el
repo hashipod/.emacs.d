@@ -605,11 +605,9 @@
   :config
   (progn
     (defhydra maple/evil-mc ()
-      ("n" evil-mc-make-and-goto-next-match "next")
-      ("t" evil-mc-skip-and-goto-next-match "skip")
-      ("p" evil-mc-make-and-goto-prev-match "prev")
-      ("N" evil-mc-make-and-goto-prev-match "prev"))
-    (define-key evil-visual-state-map (kbd "n") 'maple/evil-mc/body)
+      ("C-n" evil-mc-make-and-goto-next-match "next")
+      ("C-x" evil-mc-skip-and-goto-next-match "skip")
+      ("C-p" evil-mc-make-and-goto-prev-match "prev"))
     (setq evil-mc-enable-bar-cursor nil)
     (custom-set-faces
      '(evil-mc-cursor-default-face ((t (:inherit cursor :background "firebrick1" :inverse-video nil))))
@@ -810,7 +808,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
     (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
-    (define-key evil-normal-state-map (kbd "C-n") #'er/expand-region)
+    (define-key evil-normal-state-map (kbd "C-n") #'er/expand-region)  ;; will goto visual mode
 
     (define-key evil-normal-state-map (kbd "/") #'isearch-forward)
     (define-key evil-normal-state-map (kbd "n") #'isearch-repeat-forward)
@@ -832,6 +830,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+
+
+    (define-key evil-visual-state-map (kbd "n")   'maple/evil-mc/body)
+    (define-key evil-visual-state-map (kbd "C-n") 'maple/evil-mc/body)
 
     ;; neotree bindings
     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
