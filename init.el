@@ -343,15 +343,6 @@
 
 
 
-(defun move-and-recenter ()
-  (interactive)
-  (next-line)
-  (recenter-top-bottom 0)
-  )
-
-
-
-
 ;; (setq sml/theme 'dark)
 ;; (sml/setup)
 
@@ -362,7 +353,6 @@
 
 
 (projectile-mode 1)
-(define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
 (setq projectile-enable-caching t)
 
 
@@ -413,8 +403,6 @@
 
 
 
-
-
 (defun my-hs-toggle-all ()
   "If anything isn't hidden, run `hs-hide-all', else run `hs-show-all'."
   (interactive)
@@ -442,20 +430,6 @@
 )
 (add-hook 'prog-mode-hook 'my-hide-all)
 
-
-
-;; (defun my-forward-sexp ()
-;;   (interactive)
-;;     (sp-backward-up-sexp)
-;;     (forward-sexp)
-;; )
-;;
-;;
-;; (defun my-backward-sexp ()
-;;   (interactive)
-;;   (backward-sexp)
-;;   (forward-char 1)
-;; )
 
 
 (defun my-show-file-name ()
@@ -543,21 +517,25 @@
 (tool-bar-mode -1)
 (tab-bar-mode -1)
 
+
 (toggle-truncate-lines t)
 
 
-(require 'neotree)
+(use-package neotree
+  :ensure t
+  :init
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-confirm-create-file 'off-p)
+  (setq neo-confirm-create-directory 'off-p)
+  (setq neo-smart-open 't)
+)
 (global-set-key [f8] 'neotree-toggle)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-(setq neo-confirm-create-file 'off-p)
-(setq neo-confirm-create-directory 'off-p)
-(setq neo-smart-open 't)
 
 (defun my-neotree-find()
   (interactive)
   (unless (neo-global--window-exists-p) (neotree-show))
   (neotree-find)
-  )
+)
 
 
 
@@ -568,6 +546,10 @@
   (setq evil-want-keybinding nil)
   :config
   (evil-mode 1))
+
+(evil-define-state deadgrep "Evil deadgrep state" :cursor 'bar :enable (motion)) ;; add a deadgrep state
+(add-hook 'deadgrep-mode-hook #'evil-deadgrep-state)
+
 
 (use-package evil-collection
   :after evil
@@ -595,8 +577,6 @@
   :ensure t
   :config
   (global-evil-surround-mode 1))
-
-
 
 
 
@@ -665,110 +645,18 @@
 
 (use-package deadgrep
   :ensure t
-  :bind
-  (:map deadgrep-mode-map
-        ("RET"  . my-deadgrep-visit-result)
-        ("o"    . my-deadgrep-visit-file-other-window)
-        ("v"    . my-deadgrep-view-file)
-        ("j"    . deadgrep-forward)
-        ("k"    . deadgrep-backward)
-        ("C-d"  . evil-scroll-down)
-        ("C-u"  . evil-scroll-up)
-        (";"    . evil-scroll-down)
-        ("'"    . evil-scroll-up)
-        )
+  ;; :bind
+  ;; (:map deadgrep-mode-map
+  ;;       ("RET"  . my-deadgrep-visit-result))
   :config
-   (setq-default deadgrep--context (cons 3 3))
+  (setq-default deadgrep--context (cons 3 3))
 )
 
 
 ;; disable evil in deadgrep buffer, we define our own keys
-(evil-set-initial-state 'deadgrep-mode 'emacs)
+;; (evil-set-initial-state 'deadgrep-mode 'emacs)
 
 
-
-;; (require 'god-mode)
-;; (setq god-exempt-major-modes nil)
-;; (setq god-exempt-predicates nil)
-;;
-;; (defun my-god-mode ()
-;;   (interactive)
-;;   (if (not god-global-mode)
-;;       (god-mode-all))
-;;   (keyboard-quit)
-;; )
-
-;; (global-set-key (kbd "<escape>") #'my-god-mode) ; force use god-mode globally
-;; (god-mode-all) ; god-mode by default
-
-
-
-;; (defun my-god-above-newline-and-insert-mode()
-;;   (interactive)
-;;   (previous-line)
-;;   (end-of-line)
-;;   (newline-and-indent)
-;;   (god-mode-all)
-;;   )
-;;
-;; (defun my-god-below-newline-and-insert-mode()
-;;   (interactive)
-;;   (end-of-line)
-;;   (newline-and-indent)
-;;   (god-mode-all)
-;;   )
-;;
-;; (defun my-god-mwin-end-and-insert-mode()
-;;   (interactive)
-;;   (mwim-end-of-code-or-line)
-;;   (god-mode-all)
-;;   )
-;;
-;; (defun my-god-mwin-beginning-and-insert-mode()
-;;   (interactive)
-;;   (mwim-beginning-of-code-or-line)
-;;   (god-mode-all)
-;;   )
-;;
-;; (defun my-god-char-forward-and-insert-mode()
-;;   (interactive)
-;;   (forward-char)
-;;   (god-mode-all)
-;;   )
-
-
-
-;; (defun my-god-mode-update-mode-line ()
-;;   (cond
-;;    (god-global-mode
-;;     (set-face-attribute 'mode-line-buffer-id nil :foreground "black")
-;;     (set-face-attribute 'mode-line nil
-;;                         :background "#e6e600"
-;;                         :foreground "black"
-;;                         :box '(:line-width 0)
-;;                         :overline nil
-;;                         :underline nil)
-;;     (set-face-attribute 'mode-line-inactive nil
-;;                         :background "#565063"
-;;                         :foreground "white"
-;;                         :box '(:line-width 0)
-;;                         :overline nil
-;;                         :underline nil))
-;;    (t
-;;     (set-face-attribute 'mode-line-buffer-id nil :foreground "white")
-;;     (set-face-attribute 'mode-line nil
-;;                         :foreground "#F5F5F5" ;;                         :background "#1B1E1C"
-;;                         :box '(:line-width 0)
-;;                         :overline nil
-;;                         :underline nil)
-;;                         )
-;;     (set-face-attribute 'mode-line-inactive nil
-;;                         :foreground "#8B8878" :background "#1B1E1C"
-;;                         :box '(:line-width 0)
-;;                         :overline nil
-;;                         :underline nil)
-;;                         )
-;; )
 
 (setq original-background (face-attribute 'mode-line :background))
 (add-hook 'evil-normal-state-entry-hook
@@ -958,6 +846,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
     (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
     (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+
+    ;; deadgrep bindings
+    (define-key evil-deadgrep-state-map (kbd "RET") 'my-deadgrep-visit-result)
+    (define-key evil-deadgrep-state-map (kbd "o") 'my-deadgrep-visit-file-other-window)
+    (define-key evil-deadgrep-state-map (kbd "v") 'my-deadgrep-view-file)
+    (define-key evil-deadgrep-state-map (kbd ";") 'scroll-up-command)
+    (define-key evil-deadgrep-state-map (kbd "'") 'scroll-down-command)
+
+    ;; projectile
+    (define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
 
     map)
   "my-keys-minor-mode keymap.")
