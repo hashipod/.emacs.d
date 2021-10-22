@@ -556,6 +556,7 @@
     "p" 'helm-find-files
     "b" 'switch-to-buffer
     "o" 'deadgrep
+    "n" 'neotree-toggle
     "t" 'flip-buffer-to-window
     "l" 'evil-search-highlight-persist-remove-all
     "k" 'kill-this-buffer)
