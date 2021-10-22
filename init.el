@@ -49,8 +49,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-mc-cursor-default-face ((t (:inherit cursor :background "firebrick1" :inverse-video nil))))
- '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
- )
+ '(hydra-face-red ((t (:foreground "chocolate" :weight bold)))))
 
 
 
@@ -59,6 +58,13 @@
   (set-face-attribute 'line-number nil :background "nil")
   (set-face-attribute 'line-number-current-line nil :background "nil")
 )
+
+
+(when (display-graphic-p)
+  (add-to-list 'default-frame-alist '(font . "Dejavu Sans Mono-13"))
+  (set-cursor-color "red")
+)
+
 
 
 
@@ -129,7 +135,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(evil-search-highlight-persist evil-visualstar evil-collection evil-surround evil-leader undo-tree evil-mc evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(all-the-icons evil-search-highlight-persist evil-visualstar evil-collection evil-surround evil-leader undo-tree evil-mc evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer)))))
@@ -440,11 +446,6 @@
 
 
 
-(add-to-list 'default-frame-alist
-             '(font . "Droid Sans Mono-14"))
-
-
-
 
 ;; Have to use require, not use-package
 (require 'hydra)
@@ -552,6 +553,7 @@
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
     "f" 'projectile-find-file
+    "p" 'helm-find-files
     "b" 'switch-to-buffer
     "o" 'deadgrep
     "t" 'flip-buffer-to-window
@@ -748,7 +750,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "C-M-b") #'switch-to-buffer)
 
     (define-key map (kbd "C-x C-f") #'helm-find-files)
-    (define-key map (kbd "C-x C-p") #'projectile-find-file)
+    ;; (define-key map (kbd "C-x C-p") #'projectile-find-file)
 
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
     (define-key map (kbd "C-x C-k") #'kill-buffer)
