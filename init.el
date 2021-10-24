@@ -60,6 +60,7 @@
 )
 
 
+(setq-default line-spacing 0)
 (when (display-graphic-p)
   (set-face-attribute 'default nil :font "Dejavu Sans Mono for Powerline-14")
   (set-cursor-color "red")
@@ -140,13 +141,6 @@
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer)))))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(default ((t (:background nil))))
-;;  '(whitespace-tab ((t (:foreground "#797979")))))
 
 
 
@@ -601,9 +595,6 @@
       ("C-x" evil-mc-skip-and-goto-next-match "skip")
       ("C-p" evil-mc-make-and-goto-prev-match "prev"))
     (setq evil-mc-enable-bar-cursor nil)
-    (custom-set-faces
-     '(evil-mc-cursor-default-face ((t (:inherit cursor :background "firebrick1" :inverse-video nil))))
-     '(hydra-face-red ((t (:foreground "chocolate" :weight bold)))))
     (evil-define-key 'normal evil-mc-key-map (kbd "<escape>") 'evil-mc-undo-all-cursors))
   :bind (:map evil-mc-key-map
            ("C-g" . evil-mc-undo-all-cursors)
@@ -816,6 +807,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "C-n") #'er/expand-region)  ;; will goto visual mode
 
     (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
+    (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
 
     (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
     (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
