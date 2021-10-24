@@ -503,6 +503,9 @@
 (toggle-truncate-lines t)
 
 
+
+(setq all-the-icons-scale-factor 1)
+(setq all-the-icons-default-adjust 0.0)
 (use-package neotree
   :ensure t
   :init
