@@ -61,7 +61,7 @@
 
 
 (when (display-graphic-p)
-  (add-to-list 'default-frame-alist '(font . "Dejavu Sans Mono-13"))
+  (set-face-attribute 'default nil :font "Dejavu Sans Mono for Powerline-14")
   (set-cursor-color "red")
 )
 
@@ -74,6 +74,7 @@
   :init
   (setq lsp-keymap-prefix "C-c l" )
   (setq lsp-signature-auto-activate nil)
+  (setq lsp-diagnostics-provider :none)
   :config
   (set-face-attribute 'lsp-face-highlight-textual nil :foreground "purple" :background "white")
 )
@@ -502,6 +503,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (tab-bar-mode -1)
+(scroll-bar-mode -1)
 
 
 (toggle-truncate-lines t)
@@ -655,7 +657,7 @@
 (set-face-attribute 'evil-search-highlight-persist-highlight-face nil :background "yellow" :foreground "black")
 (set-face-attribute 'isearch                                      nil :background "yellow" :foreground "black")
 (set-face-attribute 'lazy-highlight                               nil :background "yellow" :foreground "black")
-(set-face-attribute 'highlight                                    nil :background "red"    :foreground "black")
+(set-face-attribute 'highlight                                    nil :background "yellow" :foreground "black" :underline nil)
 
 
 
