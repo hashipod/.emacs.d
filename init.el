@@ -497,7 +497,10 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (tab-bar-mode -1)
+
+(when (display-graphic-p)
 (scroll-bar-mode -1)
+)
 
 
 (toggle-truncate-lines t)
