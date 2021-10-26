@@ -15,6 +15,8 @@
 (package-initialize)
 
 
+(add-to-list 'exec-path "/usr/local/bin/")
+
 ;; (setq  x-meta-keysym 'super
 ;;         x-super-keysym 'meta)
 ;;
@@ -589,8 +591,8 @@
   :ensure t
   :defer t
   :diminish evil-mc-mode "ⓒ"
-  ;; :init (global-evil-mc-mode t)
-  :init (add-hook 'after-init-hook #'global-evil-mc-mode)
+  :init (global-evil-mc-mode t)
+  ;; :init (add-hook 'after-init-hook #'global-evil-mc-mode)
   :config
   (progn
     (defhydra maple/evil-mc ()
@@ -598,10 +600,11 @@
       ("C-x" evil-mc-skip-and-goto-next-match "skip")
       ("C-p" evil-mc-make-and-goto-prev-match "prev"))
     (setq evil-mc-enable-bar-cursor nil)
-    (evil-define-key 'normal evil-mc-key-map (kbd "<escape>") 'evil-mc-undo-all-cursors))
-  :bind (:map evil-mc-key-map
-           ("C-g" . evil-mc-undo-all-cursors)
-))
+    )
+;;    :bind (:map evil-mc-key-map
+;;              ([escape] . evil-mc-undo-all-cursors)
+;;    )
+)
 
 
 (defun my-deadgrep-visit-result ()
@@ -692,6 +695,7 @@
 
 ;; must be set as global
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
+(global-set-key (kbd "C-q") '(lambda () (interactive) (evil-mc-undo-all-cursors)) )
 
 
 ;; disable default key bindins in insert mode, but ESC still go to normal
@@ -827,8 +831,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
-
-    (define-key evil-visual-state-map (kbd "n")   'maple/evil-mc/body)
     (define-key evil-visual-state-map (kbd "C-n") 'maple/evil-mc/body)
 
     ;; neotree bindings
@@ -853,6 +855,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-deadgrep-state-map (kbd "'") 'scroll-down-command)
     (define-key evil-deadgrep-state-map (kbd "C-w C-h") 'evil-window-left)
     (define-key evil-deadgrep-state-map (kbd "C-w C-l") 'evil-window-right)
+    (define-key evil-deadgrep-state-map (kbd "L") #'mwim-end-of-code-or-line)
+    (define-key evil-deadgrep-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
+
+    (define-key evil-deadgrep-state-map (kbd "S") #'deadgrep-search-term)
+    (define-key evil-deadgrep-state-map (kbd "D") #'deadgrep-directory)
+    (define-key evil-deadgrep-state-map (kbd "g") #'deadgrep-restart)
+    (define-key evil-deadgrep-state-map (kbd "n") #'deadgrep-forward)
+    (define-key evil-deadgrep-state-map (kbd "p") #'deadgrep-backward)
+    (define-key evil-deadgrep-state-map (kbd "N") #'deadgrep-forward-match)
+    (define-key evil-deadgrep-state-map (kbd "P") #'deadgrep-backward-match)
+    (define-key evil-deadgrep-state-map (kbd "M-n") #'deadgrep-forward-filename)
+    (define-key evil-deadgrep-state-map (kbd "M-p") #'deadgrep-backward-filename)
 
     ;; projectile
     (define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
