@@ -78,6 +78,7 @@
   (setq lsp-keymap-prefix "C-c l" )
   (setq lsp-signature-auto-activate nil)
   (setq lsp-diagnostics-provider :none)
+  (setq lsp-imenu-sort-methods '(position))
   :config
   (set-face-attribute 'lsp-face-highlight-textual nil :foreground "purple" :background "white")
 )
@@ -227,6 +228,7 @@
 
 (global-auto-revert-mode t)
 (global-hl-line-mode t)
+(set-face-background hl-line-face "gray13")
 
 
 (defun my-go-mode-hook ()
@@ -575,6 +577,21 @@
 
 
 
+(defun my-evil-jump-backward()
+  (interactive)
+  (evil-jump-backward)
+  (recenter)
+)
+
+(defun my-evil-jump-forward()
+  (interactive)
+  (evil-jump-forward)
+  (recenter)
+)
+
+
+
+
 (setq visible-cursor nil)
 (blink-cursor-mode -1)
 
@@ -840,6 +857,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+
+    (define-key evil-normal-state-map (kbd "C-o") 'my-evil-jump-backward)
+    (define-key evil-normal-state-map (kbd "C-i") 'my-evil-jump-forward)
 
     (define-key evil-visual-state-map (kbd "C-n") 'maple/evil-mc/body)
 
