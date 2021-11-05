@@ -595,13 +595,15 @@
 (setq visible-cursor nil)
 (blink-cursor-mode -1)
 
-(setq evil-normal-state-tag   (propertize "  NORMAL " 'face '((:background "dark khaki" :foreground "black")))
+(setq evil-normal-state-tag   (propertize "  NORMAL " 'face '((:background "#e6e600" :foreground "black")))
       evil-emacs-state-tag    (propertize "  EMACS  " 'face '((:background "turquoise" :foreground "black")))
       evil-insert-state-tag   (propertize "  INSERT " 'face '((:background "dark sea green" :foreground "black")))
       evil-replace-state-tag  (propertize " REPLACE " 'face '((:background "dark orange" :foreground "black")))
       evil-motion-state-tag   (propertize "  MOTION " 'face '((:background "khaki" :foreground "black")))
       evil-visual-state-tag   (propertize "  VISUAL " 'face '((:background "light salmon" :foreground "black")))
-      evil-operator-state-tag (propertize " OPERATE " 'face '((:background "sandy brown" :foreground "black"))))
+      evil-operator-state-tag (propertize " OPERATE " 'face '((:background "sandy brown" :foreground "black")))
+      evil-mode-line-format   '(before . mode-line-front-space)
+      )
 
 (global-undo-tree-mode)
 (evil-set-undo-system 'undo-tree)
@@ -678,19 +680,19 @@
 
 
 
-(setq original-background (face-attribute 'mode-line :background))
-(add-hook 'evil-normal-state-entry-hook
-          (lambda ()
-	    (set-face-attribute 'mode-line-buffer-id nil :foreground "black")
-	    (set-face-attribute 'mode-line nil :background "#e6e600" :foreground "black")
-	    (set-face-attribute 'mode-line-inactive nil :background "#565063" :foreground "black")
-	    ))
-(add-hook 'evil-normal-state-exit-hook
-          (lambda ()
-	    (set-face-attribute 'mode-line-buffer-id nil :foreground "white")
-	    (set-face-attribute 'mode-line nil :foreground "#F5F5F5" :background "#1B1E1C")
-	    (set-face-attribute 'mode-line-inactive nil :foreground "#8B8878" :background "#1B1E1C")
-	    ))
+;;  (setq original-background (face-attribute 'mode-line :background))
+;;  (add-hook 'evil-normal-state-entry-hook
+;;            (lambda ()
+;;  	    (set-face-attribute 'mode-line-buffer-id nil :foreground "black")
+;;  	    (set-face-attribute 'mode-line nil :background "#e6e600" :foreground "black")
+;;  	    (set-face-attribute 'mode-line-inactive nil :background "#565063" :foreground "black")
+;;  	    ))
+;;  (add-hook 'evil-normal-state-exit-hook
+;;            (lambda ()
+;;  	    (set-face-attribute 'mode-line-buffer-id nil :foreground "white")
+;;  	    (set-face-attribute 'mode-line nil :foreground "#F5F5F5" :background "#1B1E1C")
+;;  	    (set-face-attribute 'mode-line-inactive nil :foreground "#8B8878" :background "#1B1E1C")
+;;  	    ))
 
 
 
@@ -793,7 +795,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
     ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
 
-    (define-key map (kbd "C-j") 'my-save-buffer-and-goto-normal-state)
+    (define-key map (kbd "C-j") 'save-buffer)
 
     ;; (define-key map (kbd "C-M-u") 'backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'forward-sexp)
@@ -835,6 +837,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
     (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
 
+    (define-key evil-emacs-state-map   (kbd "C-m") 'evil-execute-in-normal-state)
+    (define-key evil-insert-state-map  (kbd "C-m") 'evil-execute-in-normal-state)
+
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
     (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
@@ -842,6 +847,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
     (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
+    (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions)
+    (define-key evil-normal-state-map (kbd "M-,") #'xref-pop-marker-stack)
 
     (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
     (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
