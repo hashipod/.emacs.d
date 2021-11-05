@@ -590,6 +590,17 @@
 )
 
 
+(defun my-xref-find-definitions()
+  (interactive)
+  (lsp-ui-peek-find-definitions)
+  (recenter)
+)
+
+(defun my-xref-pop-marker-stack()
+  (interactive)
+  (xref-pop-marker-stack)
+  (recenter)
+)
 
 
 (setq visible-cursor nil)
@@ -847,8 +858,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
     (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
-    (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions)
-    (define-key evil-normal-state-map (kbd "M-,") #'xref-pop-marker-stack)
+
+    (define-key evil-normal-state-map (kbd "M-.") #'my-xref-find-definitions)
+    (define-key evil-normal-state-map (kbd "M-,") #'my-xref-pop-marker-stack)
 
     (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
     (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
