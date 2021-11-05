@@ -51,6 +51,19 @@
     (load-theme 'kaolin-ocean t)
 )
 
+(unless (display-graphic-p)
+  (set-face-attribute 'default nil :background "nil")
+  (set-face-attribute 'line-number nil :background "nil")
+  (set-face-attribute 'line-number-current-line nil :background "nil")
+)
+
+(setq-default line-spacing 0)
+(when (display-graphic-p)
+  (set-face-attribute 'default nil :font "Dejavu Sans Mono for Powerline-14")
+  (set-cursor-color "red")
+)
+
+
 
 
 ;; (load-theme 'doom-molokai t)
@@ -90,20 +103,6 @@
 (set-display-table-slot standard-display-table
                         'vertical-border
                         (make-glyph-code ?│))
-
-
-;; (unless (display-graphic-p)
-;;   (set-face-attribute 'default nil :background "nil")
-;;   (set-face-attribute 'line-number nil :background "nil")
-;;   (set-face-attribute 'line-number-current-line nil :background "nil")
-;; )
-
-
-(setq-default line-spacing 0)
-(when (display-graphic-p)
-  (set-face-attribute 'default nil :font "Dejavu Sans Mono for Powerline-14")
-  (set-cursor-color "red")
-)
 
 
 
