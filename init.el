@@ -36,6 +36,17 @@
 (toggle-truncate-lines t)
 
 
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+        doom-themes-enable-italic nil) ; if nil, italics is universally disabled
+  (load-theme 'doom-material t)
+  (doom-themes-neotree-config)
+  )
+
+
+
 ;; (load-theme 'doom-molokai t)
 ;; (load-theme 'doom-palenight t)
 ;; (load-theme 'doom-material t)
@@ -43,7 +54,8 @@
 ;; (load-theme 'kaolin-aurora t)
 ;; (load-theme 'challenger-deep t)
 ;; (load-theme 'kaolin-temple t)
-(load-theme 'kaolin-ocean t)
+;; (load-theme 'kaolin-ocean t)
+;; (load-theme 'doom-material t)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -51,15 +63,30 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-mc-cursor-default-face ((t (:inherit cursor :background "firebrick1" :inverse-video nil))))
- '(hydra-face-red ((t (:foreground "chocolate" :weight bold)))))
+ '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
+
+ '(evil-search-highlight-persist-highlight-face ((t (:background "green" :foreground "black"))))
+ '(isearch                                      ((t (:background "green" :foreground "black"))))
+ '(lazy-highlight                               ((t (:background "green" :foreground "black"))))
+ '(highlight                                    ((t (:background "green" :foreground "black" :underline nil))))
+ '(lsp-face-highlight-textual                   ((t (:foreground "yellow" :background "blue"))))
+ '(lsp-face-highlight-read                      ((t (:foreground "yellow" :background "blue"))))
+ '(lsp-face-highlight-write                     ((t (:foreground "yellow" :background "blue"))))
+ '(vertical-border                              ((t (:foreground "green" :background "black"))))
+ )
 
 
+;; Set symbol for the border
+(set-display-table-slot standard-display-table
+                        'vertical-border
+                        (make-glyph-code ?│))
 
-(unless (display-graphic-p)
-  (set-face-attribute 'default nil :background "nil")
-  (set-face-attribute 'line-number nil :background "nil")
-  (set-face-attribute 'line-number-current-line nil :background "nil")
-)
+
+;; (unless (display-graphic-p)
+;;   (set-face-attribute 'default nil :background "nil")
+;;   (set-face-attribute 'line-number nil :background "nil")
+;;   (set-face-attribute 'line-number-current-line nil :background "nil")
+;; )
 
 
 (setq-default line-spacing 0)
@@ -79,8 +106,6 @@
   (setq lsp-signature-auto-activate nil)
   (setq lsp-diagnostics-provider :none)
   (setq lsp-imenu-sort-methods '(position))
-  :config
-  (set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "green")
 )
 
 (use-package lsp-ui
@@ -683,11 +708,6 @@
 (require 'highlight)
 (require 'evil-search-highlight-persist)
 (global-evil-search-highlight-persist t)
-
-(set-face-attribute 'evil-search-highlight-persist-highlight-face nil :background "yellow" :foreground "black")
-(set-face-attribute 'isearch                                      nil :background "yellow" :foreground "black")
-(set-face-attribute 'lazy-highlight                               nil :background "yellow" :foreground "black")
-(set-face-attribute 'highlight                                    nil :background "yellow" :foreground "black" :underline nil)
 
 
 
