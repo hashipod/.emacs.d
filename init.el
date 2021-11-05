@@ -75,10 +75,14 @@
  '(isearch                                      ((t (:background "green" :foreground "black"))))
  '(lazy-highlight                               ((t (:background "green" :foreground "black"))))
  '(highlight                                    ((t (:background "green" :foreground "black" :underline nil))))
- '(lsp-face-highlight-textual                   ((t (:foreground "yellow" :background "blue"))))
- '(lsp-face-highlight-read                      ((t (:foreground "yellow" :background "blue"))))
- '(lsp-face-highlight-write                     ((t (:foreground "yellow" :background "blue"))))
+ '(lsp-face-highlight-textual                   ((t (:foreground "black" :background "brightgreen" :weight normal))))
+ '(lsp-face-highlight-read                      ((t (:foreground "black" :background "brightgreen" :weight normal))))
+ '(lsp-face-highlight-write                     ((t (:foreground "black" :background "brightgreen" :weight normal))))
  '(vertical-border                              ((t (:foreground "green" :background "black"))))
+ '(next-error                                   ((t (:foreground "black" :background "brightgreen"))))
+
+
+
  )
 
 
