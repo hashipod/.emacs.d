@@ -80,7 +80,7 @@
   (setq lsp-diagnostics-provider :none)
   (setq lsp-imenu-sort-methods '(position))
   :config
-  (set-face-attribute 'lsp-face-highlight-textual nil :foreground "purple" :background "white")
+  (set-face-attribute 'lsp-face-highlight-textual nil :foreground "black" :background "green")
 )
 
 (use-package lsp-ui
