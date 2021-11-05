@@ -837,8 +837,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
     (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
 
-    (define-key evil-emacs-state-map   (kbd "C-m") 'evil-execute-in-normal-state)
-    (define-key evil-insert-state-map  (kbd "C-m") 'evil-execute-in-normal-state)
+    (define-key evil-emacs-state-map   (kbd "C-o") 'evil-execute-in-normal-state)
+    (define-key evil-insert-state-map  (kbd "C-o") 'evil-execute-in-normal-state)
 
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
