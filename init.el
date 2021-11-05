@@ -41,9 +41,15 @@
   :config
   (setq doom-themes-enable-bold nil    ; if nil, bold is universally disabled
         doom-themes-enable-italic nil) ; if nil, italics is universally disabled
-  (load-theme 'doom-material t)
   (doom-themes-neotree-config)
   )
+
+(unless (display-graphic-p)
+    (load-theme 'doom-material t)
+)
+(when (display-graphic-p)
+    (load-theme 'kaolin-ocean t)
+)
 
 
 
