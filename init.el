@@ -45,10 +45,11 @@
   )
 
 (unless (display-graphic-p)
-    (load-theme 'doom-material t)
+    (load-theme 'kaolin-aurora t)
 )
 (when (display-graphic-p)
-    (load-theme 'kaolin-ocean t)
+    (load-theme 'kaolin-aurora t)
+    ;; (load-theme 'kaolin-ocean t)
 )
 
 (unless (display-graphic-p)
@@ -82,21 +83,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-mc-cursor-default-face ((t (:inherit cursor :background "firebrick1" :inverse-video nil))))
+ '(evil-search-highlight-persist-highlight-face ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
+ '(highlight ((t (:background "maroon" :foreground "#e6e6e8"))))
  '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
-
- '(evil-search-highlight-persist-highlight-face ((t (:background "green" :foreground "black"))))
- '(isearch                                      ((t (:background "green" :foreground "black"))))
- '(lazy-highlight                               ((t (:background "green" :foreground "black"))))
- '(highlight                                    ((t (:background "green" :foreground "black" :underline nil))))
- '(lsp-face-highlight-textual                   ((t (:foreground "black" :background "brightgreen" :weight normal))))
- '(lsp-face-highlight-read                      ((t (:foreground "black" :background "brightgreen" :weight normal))))
- '(lsp-face-highlight-write                     ((t (:foreground "black" :background "brightgreen" :weight normal))))
- '(vertical-border                              ((t (:foreground "green" :background "black"))))
- '(next-error                                   ((t (:foreground "black" :background "brightgreen"))))
-
-
-
- )
+ '(isearch ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
+ '(lazy-highlight ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
+ '(lsp-face-highlight-read ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
+ '(lsp-face-highlight-textual ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
+ '(lsp-face-highlight-write ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
+ '(next-error ((t (:foreground "#000000" :background "#00ff00"))))
+ '(vertical-border ((t (:foreground "#00ff00" :background "#000000")))))
 
 
 ;; Set symbol for the border
@@ -262,7 +258,6 @@
 
 (global-auto-revert-mode t)
 (global-hl-line-mode t)
-(set-face-background hl-line-face "gray13")
 
 
 (defun my-go-mode-hook ()
@@ -483,8 +478,8 @@
 ;; Have to use require, not use-package
 (require 'hydra)
 (require 'avy)
-(set-face-attribute 'avy-lead-face nil :foreground "white" :background "red")
-(set-face-attribute 'avy-lead-face-0 nil :foreground "white" :background "red")
+(set-face-attribute 'avy-lead-face nil :foreground "#ffffff" :background "#ff0000")
+(set-face-attribute 'avy-lead-face-0 nil :foreground "#ffffff" :background "#ff0000")
 (setq avy-keys (list ?a ?c ?d ?e ?f ?h ?i ?j ?k ?l ?m ?n ?o ?s ?v ?w ?\;))
 
 
