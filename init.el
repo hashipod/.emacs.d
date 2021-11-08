@@ -811,8 +811,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-x") #'helm-M-x)
-    (define-key map (kbd "C-M-f") #'projectile-find-file)
-    (define-key map (kbd "C-M-b") #'switch-to-buffer)
+    ;; (define-key map (kbd "C-M-f") #'projectile-find-file)
+    ;; (define-key map (kbd "C-M-b") #'switch-to-buffer)
 
     (define-key map (kbd "C-x C-f") #'helm-find-files)
     ;; (define-key map (kbd "C-x C-p") #'projectile-find-file)
@@ -901,8 +901,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
-    (define-key evil-normal-state-map (kbd "C-o") 'my-evil-jump-backward)
-    (define-key evil-normal-state-map (kbd "C-i") 'my-evil-jump-forward)
+    (define-key evil-normal-state-map (kbd "C-o") 'my-xref-find-definitions)
+    (define-key evil-normal-state-map (kbd "C-i") 'my-xref-pop-marker-stack)
 
     (define-key evil-visual-state-map (kbd "C-n") 'maple/evil-mc/body)
 
