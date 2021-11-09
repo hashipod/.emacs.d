@@ -111,6 +111,7 @@
   (setq lsp-signature-auto-activate nil)
   (setq lsp-diagnostics-provider :none)
   (setq lsp-imenu-sort-methods '(position))
+  (setq lsp-headerline-breadcrumb-icons-enable nil)
 )
 
 (use-package lsp-ui
