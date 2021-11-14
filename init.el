@@ -158,6 +158,7 @@
 
 
 
+(yas-global-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
