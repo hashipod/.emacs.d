@@ -591,7 +591,7 @@
   (evil-leader/set-key
     "f" 'projectile-find-file
     "p" 'helm-find-files
-    "b" 'switch-to-buffer
+    "b" 'helm-buffers-list
     "o" 'deadgrep
     "n" 'neotree-toggle
     "t" 'flip-buffer-to-window
