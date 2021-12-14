@@ -45,10 +45,10 @@
   )
 
 (unless (display-graphic-p)
-    (load-theme 'kaolin-aurora t)
+    (load-theme 'doom-dracula t)
 )
 (when (display-graphic-p)
-    (load-theme 'kaolin-aurora t)
+    (load-theme 'doom-dracula t)
     ;; (load-theme 'kaolin-ocean t)
 )
 
