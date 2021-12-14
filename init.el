@@ -175,7 +175,9 @@
    '(yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-collection evil-surround evil-leader undo-tree evil-mc evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
- '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer)))))
+ '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
+ '(warning-suppress-log-types '((lsp-mode) (lsp-mode)))
+ '(warning-suppress-types '((lsp-mode))))
 
 
 
@@ -647,8 +649,8 @@
       evil-mode-line-format   '(before . mode-line-front-space)
       )
 
-(global-undo-tree-mode)
-(evil-set-undo-system 'undo-tree)
+; (global-undo-tree-mode)
+; (evil-set-undo-system 'undo-tree)
 
 
 (use-package evil-mc
@@ -707,6 +709,12 @@
 ;; disable evil in deadgrep buffer, we define our own keys
 ;; (evil-set-initial-state 'deadgrep-mode 'emacs)
 
+
+;; treat _ as part of a word, for search
+(with-eval-after-load 'evil
+    (defalias #'forward-evil-word #'forward-evil-symbol)
+    ;; make evil-search-word look for symbol rather than word boundaries
+    (setq-default evil-symbol-word-search t))
 
 (global-evil-visualstar-mode 1)
 
@@ -828,6 +836,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "<end>") 'mwim-end-of-line-or-code)
 
     (define-key map (kbd "C-c .") 'er/expand-region)
+    (define-key map (kbd "M-u") 'upcase-dwim)
 
     ;; (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
     ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
@@ -907,6 +916,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "C-i") 'my-xref-pop-marker-stack)
 
     (define-key evil-visual-state-map (kbd "C-n") 'maple/evil-mc/body)
+    (define-key evil-insert-state-map (kbd "C-c C-n") 'maple/evil-mc/body)
 
     ;; neotree bindings
     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
