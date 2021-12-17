@@ -64,6 +64,7 @@
   (set-cursor-color "red")
 )
 
+(set-face-attribute 'region nil :background "#666")
 
 
 
