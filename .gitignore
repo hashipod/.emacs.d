@@ -34,7 +34,7 @@ cookies
 /newsticker
 /ac-comphist.dat
 \#*
-eshell/
+/eshell
 semanticdb/
 *.swp
 *~
