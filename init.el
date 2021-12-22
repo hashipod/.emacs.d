@@ -173,7 +173,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil-mc evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -654,24 +654,29 @@
 ; (evil-set-undo-system 'undo-tree)
 
 
-(use-package evil-mc
-  :ensure t
-  :defer t
-  :diminish evil-mc-mode "ⓒ"
-  :init (global-evil-mc-mode t)
-  ;; :init (add-hook 'after-init-hook #'global-evil-mc-mode)
-  :config
-  (progn
-    (defhydra maple/evil-mc ()
-      ("C-n" evil-mc-make-and-goto-next-match "next")
-      ("C-x" evil-mc-skip-and-goto-next-match "skip")
-      ("C-p" evil-mc-make-and-goto-prev-match "prev"))
-    (setq evil-mc-enable-bar-cursor nil)
-    )
-;;    :bind (:map evil-mc-key-map
-;;              ([escape] . evil-mc-undo-all-cursors)
-;;    )
-)
+;; (use-package evil-mc
+;;   :ensure t
+;;   :defer t
+;;   :diminish evil-mc-mode "ⓒ"
+;;   :init (global-evil-mc-mode t)
+;;   ;; :init (add-hook 'after-init-hook #'global-evil-mc-mode)
+;;   :config
+;;   (progn
+;;     (defhydra maple/evil-mc ()
+;;       ("C-n" evil-mc-make-and-goto-next-match "next")
+;;       ("C-x" evil-mc-skip-and-goto-next-match "skip")
+;;       ("C-p" evil-mc-make-and-goto-prev-match "prev"))
+;;     (setq evil-mc-enable-bar-cursor nil)
+;;     )
+;; ;;    :bind (:map evil-mc-key-map
+;; ;;              ([escape] . evil-mc-undo-all-cursors)
+;; ;;    )
+;; )
+
+
+(require 'evil-multiedit)
+(evil-multiedit-default-keybinds)
+
 
 
 (defun my-deadgrep-visit-result ()
@@ -763,7 +768,7 @@
 
 ;; must be set as global
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
-(global-set-key (kbd "C-q") '(lambda () (interactive) (evil-mc-undo-all-cursors)) )
+;; (global-set-key (kbd "C-q") '(lambda () (interactive) (evil-mc-undo-all-cursors)) )
 
 
 ;; disable default key bindins in insert mode, but ESC still go to normal
@@ -916,9 +921,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd "C-o") 'my-xref-find-definitions)
     (define-key evil-normal-state-map (kbd "C-i") 'my-xref-pop-marker-stack)
 
-    (define-key evil-visual-state-map (kbd "C-n") 'maple/evil-mc/body)
-    (define-key evil-insert-state-map (kbd "C-c C-n") 'maple/evil-mc/body)
-
     ;; neotree bindings
     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
     (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
@@ -953,6 +955,30 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-deadgrep-state-map (kbd "P") #'deadgrep-backward-match)
     (define-key evil-deadgrep-state-map (kbd "M-n") #'deadgrep-forward-filename)
     (define-key evil-deadgrep-state-map (kbd "M-p") #'deadgrep-backward-filename)
+
+
+
+    ;; ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
+    ;; ;; incrementally add the next unmatched match.
+    ;; (define-key evil-normal-state-map (kbd "C-n") 'evil-multiedit-match-and-next)
+    ;; ;; Match selected region.
+    ;; (define-key evil-visual-state-map (kbd "C-n") 'evil-multiedit-match-and-next)
+    ;; ;; Insert marker at point
+    ;; (define-key evil-insert-state-map (kbd "C-c C-n") 'evil-multiedit-toggle-marker-here)
+    ;; ;; Same as M-d but in reverse.
+    ;; (define-key evil-normal-state-map (kbd "C-p") 'evil-multiedit-match-and-prev)
+    ;; (define-key evil-visual-state-map (kbd "C-p") 'evil-multiedit-match-and-prev)
+
+    ;; ;; RET will toggle the region under the cursor
+    ;; (define-key evil-multiedit-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
+    ;; ;; ...and in visual mode, RET will disable all fields outside the selected region
+    ;; (define-key evil-motion-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
+    ;; ;; For moving between edit regions
+    ;; (define-key evil-multiedit-state-map (kbd "C-n") 'evil-multiedit-next)
+    ;; (define-key evil-multiedit-state-map (kbd "C-p") 'evil-multiedit-prev)
+    ;; (define-key evil-multiedit-insert-state-map (kbd "C-n") 'evil-multiedit-next)
+    ;; (define-key evil-multiedit-insert-state-map (kbd "C-p") 'evil-multiedit-prev)
+
 
     ;; projectile
     (define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
