@@ -585,6 +585,13 @@
   (evil-collection-init))
 
 
+(defun my-helm-ag-thing-at-point ()
+  "Search the symbol at point with `helm-ag'."
+  (interactive)
+  (let ((helm-ag-insert-at-point 'symbol))
+    (helm-do-ag-project-root)))
+
+
 (use-package evil-leader
   :after evil
   :ensure t
@@ -596,6 +603,7 @@
     "p" 'helm-find-files
     "b" 'helm-buffers-list
     "o" 'deadgrep
+    "m" 'my-helm-ag-thing-at-point
     "n" 'neotree-toggle
     "t" 'flip-buffer-to-window
     "l" 'evil-search-highlight-persist-remove-all
