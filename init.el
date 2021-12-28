@@ -16,6 +16,7 @@
 
 
 (add-to-list 'exec-path "/usr/local/bin/")
+(add-to-list 'exec-path "/usr/bin/")
 
 ;; (setq  x-meta-keysym 'super
 ;;         x-super-keysym 'meta)
