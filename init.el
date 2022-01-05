@@ -586,6 +586,7 @@
   (evil-collection-init))
 
 
+
 (defun my-helm-ag-thing-at-point ()
   "Search the symbol at point with `helm-ag'."
   (interactive)
@@ -723,6 +724,11 @@
 
 ;; disable evil in deadgrep buffer, we define our own keys
 ;; (evil-set-initial-state 'deadgrep-mode 'emacs)
+
+
+(evil-set-initial-state 'ebrowse-tree-mode 'emacs)
+
+
 
 
 ;; treat _ as part of a word, for search
@@ -904,7 +910,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
     (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
-    (define-key evil-normal-state-map (kbd "C-n") #'er/expand-region)  ;; will goto visual mode
+
+    (define-key evil-normal-state-map (kbd "C-n") #'next-line)
+    (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
 
     (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
     (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
