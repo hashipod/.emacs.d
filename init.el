@@ -319,6 +319,13 @@
 
 
 
+
+(defun my-compile-goto-error()
+  (interactive)
+  (compile-goto-error)
+  (recenter)
+)
+
 ;;; you should install `global` package, which provide gtags binary
 (require 'ggtags)
 (add-hook 'c-mode-common-hook
@@ -332,8 +339,10 @@
 (define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
 (define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
 (define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
-
 (define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
+(define-key compilation-button-map (kbd "RET") 'my-compile-goto-error)
+
+
 
 
 
