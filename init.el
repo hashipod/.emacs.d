@@ -174,7 +174,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(ggtags helm-gtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -316,6 +316,24 @@
 
 (helm-mode 1)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+
+
+
+;;; you should install `global` package, which provide gtags binary
+(require 'ggtags)
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+              (ggtags-mode 1))))
+
+(define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
+(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
+(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
+(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
+(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
+(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
+
+(define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
 
 
 
@@ -943,8 +961,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
     (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
     (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd ";") 'scroll-up-command)
+    (evil-define-key 'normal neotree-mode-map (kbd "'") 'scroll-down-command)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal neotree-mode-map (kbd "o") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+    (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
     (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
     (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
     (evil-define-key 'normal neotree-mode-map (kbd "j") 'neotree-next-line)
