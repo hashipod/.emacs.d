@@ -174,7 +174,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(ggtags helm-gtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -320,30 +320,48 @@
 
 
 
+
+(require 'rtags)
+(add-hook 'c-mode-hook 'rtags-start-process-unless-running)
+(add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
+
+(use-package rtags
+  :ensure t
+  :hook (c++-mode . rtags-start-process-unless-running)
+  :config (setq rtags-completions-enabled t
+                rtags-use-helm t
+        )
+  :bind (("C-c E" . rtags-find-symbol)
+       ("C-c e" . rtags-find-symbol-at-point)
+       ("C-c O" . rtags-find-references)
+       ("C-c o" . rtags-find-references-at-point)
+       ("C-c s" . rtags-find-file)
+       ("C-c v" . rtags-find-virtuals-at-point)
+       ("C-c F" . rtags-fixit)
+       ("C-c f" . rtags-location-stack-forward)
+       ("C-c b" . rtags-location-stack-back)
+       ("C-c n" . rtags-next-match)
+       ("C-c p" . rtags-previous-match)
+       ("C-c P" . rtags-preprocess-file)
+       ("C-c R" . rtags-rename-symbol)
+       ("C-c x" . rtags-show-rtags-buffer)
+       ("C-c T" . rtags-print-symbol-info)
+       ("C-c t" . rtags-symbol-type)
+       ("C-c I" . rtags-include-file)
+       ("C-c i" . rtags-get-include-file-for-symbol)))
+
+(setq rtags-display-result-backend 'helm)
+
+
+
+
+
+
 (defun my-compile-goto-error()
   (interactive)
   (compile-goto-error)
   (recenter)
 )
-
-;;; you should install `global` package, which provide gtags binary
-(require 'ggtags)
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-              (ggtags-mode 1))))
-
-(define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
-(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
-(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
-(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
-(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
-(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
-(define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
-(define-key compilation-button-map (kbd "RET") 'my-compile-goto-error)
-
-
-
 
 
 
@@ -631,6 +649,7 @@
     "f" 'projectile-find-file
     "p" 'helm-find-files
     "b" 'helm-buffers-list
+    "q" 'delete-window
     "o" 'deadgrep
     "m" 'my-helm-ag-thing-at-point
     "n" 'neotree-toggle
