@@ -319,6 +319,11 @@
 
 
 
+(defun my-rtags-find-symbol-at-point()
+  (interactive)
+  (rtags-find-symbol-at-point)
+  (recenter)
+)
 
 
 (require 'rtags)
@@ -332,7 +337,7 @@
                 rtags-use-helm t
         )
   :bind (("C-c E" . rtags-find-symbol)
-       ("C-c e" . rtags-find-symbol-at-point)
+       ("C-c e" . my-rtags-find-symbol-at-point)
        ("C-c O" . rtags-find-references)
        ("C-c o" . rtags-find-references-at-point)
        ("C-c s" . rtags-find-file)
@@ -897,6 +902,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
     (define-key map (kbd "C-x C-k") #'kill-buffer)
 
+    (define-key map (kbd "C-l") 'evil-scroll-line-to-center)
     (define-key map (kbd "C-a") 'mwim-beginning-of-code-or-line)
     (define-key map (kbd "C-e") 'mwim-end-of-code-or-line)
     (define-key map (kbd "<home>") 'mwim-beginning-of-line-or-code)
@@ -978,11 +984,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key evil-visual-state-map (kbd "{") #'my-wrap-with-parentheses)
     (define-key evil-visual-state-map (kbd "}") #'my-wrap-with-parentheses)
 
-    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-    (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+    ;; (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+    ;; (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
-    (define-key evil-normal-state-map (kbd "C-o") 'my-xref-find-definitions)
-    (define-key evil-normal-state-map (kbd "C-i") 'my-xref-pop-marker-stack)
+    ;; (define-key evil-normal-state-map (kbd "C-o") 'my-xref-find-definitions)
+    ;; (define-key evil-normal-state-map (kbd "C-i") 'my-xref-pop-marker-stack)
 
     ;; neotree bindings
     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
