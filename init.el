@@ -532,7 +532,8 @@
 
 
 ;; Have to use require, not use-package
-(require 'hydra)
+;; (require 'hydra)
+
 (require 'avy)
 (set-face-attribute 'avy-lead-face nil :foreground "#ffffff" :background "#ff0000")
 (set-face-attribute 'avy-lead-face-0 nil :foreground "#ffffff" :background "#ff0000")
