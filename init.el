@@ -343,7 +343,7 @@
        ("C-c s" . rtags-find-file)
        ("C-c v" . rtags-find-virtuals-at-point)
        ("C-c F" . rtags-fixit)
-       ("C-c f" . rtags-location-stack-forward)
+       ("C-c r" . rtags-location-stack-forward)
        ("C-c b" . rtags-location-stack-back)
        ("C-c n" . rtags-next-match)
        ("C-c p" . rtags-previous-match)
