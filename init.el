@@ -900,7 +900,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key map (kbd "C-x C-p") #'projectile-find-file)
 
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
-    (define-key map (kbd "C-x C-k") #'kill-buffer)
+    (define-key map (kbd "C-x C-k") #'kill-this-buffer)
 
     ;; (define-key map (kbd "C-l") 'evil-scroll-line-to-center)
     (define-key map (kbd "C-a") 'mwim-beginning-of-code-or-line)
