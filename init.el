@@ -136,7 +136,7 @@
   (:map lsp-ui-mode-map
         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
         ([remap xref-find-references] . lsp-ui-peek-find-references)
-        ("C-c u" . lsp-ui-imenu)
+        ;; ("C-c u" . lsp-ui-imenu)
         ("C-c k" . lsp-ui-doc-show)
    )
   :config
@@ -343,10 +343,9 @@
        ("C-c s" . rtags-find-file)
        ("C-c v" . rtags-find-virtuals-at-point)
        ("C-c F" . rtags-fixit)
-       ("C-c r" . rtags-location-stack-forward)
+       ("C-c u" . rtags-imenu)
+       ("C-c n" . rtags-location-stack-forward)
        ("C-c b" . rtags-location-stack-back)
-       ("C-c n" . rtags-next-match)
-       ("C-c p" . rtags-previous-match)
        ("C-c P" . rtags-preprocess-file)
        ("C-c R" . rtags-rename-symbol)
        ("C-c x" . rtags-show-rtags-buffer)
@@ -395,7 +394,7 @@
        scroll-conservatively 101
        scroll-up-aggressively 0.01
        scroll-down-aggressively 0.01
-       scroll-preserve-screen-position 'always
+       ;; scroll-preserve-screen-position 'always
        auto-window-vscroll nil)
 
 (defun scroll-half-page-down ()
@@ -903,7 +902,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "C-x C-b") #'switch-to-buffer)
     (define-key map (kbd "C-x C-k") #'kill-buffer)
 
-    (define-key map (kbd "C-l") 'evil-scroll-line-to-center)
+    ;; (define-key map (kbd "C-l") 'evil-scroll-line-to-center)
     (define-key map (kbd "C-a") 'mwim-beginning-of-code-or-line)
     (define-key map (kbd "C-e") 'mwim-end-of-code-or-line)
     (define-key map (kbd "<home>") 'mwim-beginning-of-line-or-code)
