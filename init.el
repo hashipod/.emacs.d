@@ -548,6 +548,7 @@
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
 (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+(setq recenter-redisplay nil)
 
 
 (which-key-mode 1)
