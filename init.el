@@ -204,6 +204,9 @@
   (ace-window-display-mode 1)
   )
 
+;; alternatively, use Shift-<left> Shift-<right> to move cursor to window
+(windmove-default-keybindings 'control)
+
 
 ;; (use-package centaur-tabs
 ;;   :ensure t
@@ -256,7 +259,6 @@
   (delete-char 1)
   (delete-horizontal-space)
   (insert " "))
-
 
 
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
@@ -336,23 +338,23 @@
   :config (setq rtags-completions-enabled t
                 rtags-use-helm t
         )
-  :bind (("C-c E" . rtags-find-symbol)
-       ("C-c e" . my-rtags-find-symbol-at-point)
-       ("C-c O" . rtags-find-references)
-       ("C-c o" . rtags-find-references-at-point)
-       ("C-c s" . rtags-find-file)
-       ("C-c v" . rtags-find-virtuals-at-point)
-       ("C-c F" . rtags-fixit)
-       ("C-c u" . rtags-imenu)
-       ("C-c n" . rtags-location-stack-forward)
-       ("C-c b" . rtags-location-stack-back)
-       ("C-c P" . rtags-preprocess-file)
-       ("C-c R" . rtags-rename-symbol)
-       ("C-c x" . rtags-show-rtags-buffer)
-       ("C-c T" . rtags-print-symbol-info)
-       ("C-c t" . rtags-symbol-type)
-       ("C-c I" . rtags-include-file)
-       ("C-c i" . rtags-get-include-file-for-symbol)))
+  :bind (("C-c r E" . rtags-find-symbol)
+       ("C-c r e" . my-rtags-find-symbol-at-point)
+       ("C-c r O" . rtags-find-references)
+       ("C-c r o" . rtags-find-references-at-point)
+       ("C-c r s" . rtags-find-file)
+       ("C-c r v" . rtags-find-virtuals-at-point)
+       ("C-c r F" . rtags-fixit)
+       ("C-c r u" . rtags-imenu)
+       ("C-c r n" . rtags-location-stack-forward)
+       ("C-c r b" . rtags-location-stack-back)
+       ("C-c r P" . rtags-preprocess-file)
+       ("C-c r R" . rtags-rename-symbol)
+       ("C-c r x" . rtags-show-rtags-buffer)
+       ("C-c r T" . rtags-print-symbol-info)
+       ("C-c r t" . rtags-symbol-type)
+       ("C-c r I" . rtags-include-file)
+       ("C-c r i" . rtags-get-include-file-for-symbol)))
 
 (setq rtags-display-result-backend 'helm)
 
@@ -596,6 +598,13 @@
 
 
 
+(defun my-neotree-find()
+  (interactive)
+  (unless (neo-global--window-exists-p) (neotree-show))
+  (neotree-find)
+)
+
+
 (setq all-the-icons-scale-factor 1)
 (setq all-the-icons-default-adjust 0.0)
 (use-package neotree
@@ -605,13 +614,10 @@
   (setq neo-confirm-create-file 'off-p)
   (setq neo-confirm-create-directory 'off-p)
   (setq neo-smart-open 't)
-)
-(global-set-key [f8] 'neotree-toggle)
-
-(defun my-neotree-find()
-  (interactive)
-  (unless (neo-global--window-exists-p) (neotree-show))
-  (neotree-find)
+  :bind (
+       ("C-c t t" . neotree-toggle)
+       ("C-c t 2" . my-neotree-find)
+  )
 )
 
 
@@ -623,10 +629,12 @@
   (setq evil-want-keybinding nil)
   (setq evil-want-fine-undo t)
   :config
-  (evil-mode 1))
-
-(evil-define-state deadgrep "Evil deadgrep state" :cursor 'bar :enable (motion)) ;; add a deadgrep state
-(add-hook 'deadgrep-mode-hook #'evil-deadgrep-state)
+  (evil-mode -1)
+  :bind
+  (
+    ("C-c e" . evil-mode)  ;; toggle evil mode globally
+  )
+)
 
 
 (use-package evil-collection
@@ -715,25 +723,6 @@
 ; (evil-set-undo-system 'undo-tree)
 
 
-;; (use-package evil-mc
-;;   :ensure t
-;;   :defer t
-;;   :diminish evil-mc-mode "ⓒ"
-;;   :init (global-evil-mc-mode t)
-;;   ;; :init (add-hook 'after-init-hook #'global-evil-mc-mode)
-;;   :config
-;;   (progn
-;;     (defhydra maple/evil-mc ()
-;;       ("C-n" evil-mc-make-and-goto-next-match "next")
-;;       ("C-x" evil-mc-skip-and-goto-next-match "skip")
-;;       ("C-p" evil-mc-make-and-goto-prev-match "prev"))
-;;     (setq evil-mc-enable-bar-cursor nil)
-;;     )
-;; ;;    :bind (:map evil-mc-key-map
-;; ;;              ([escape] . evil-mc-undo-all-cursors)
-;; ;;    )
-;; )
-
 
 (require 'evil-multiedit)
 (evil-multiedit-default-keybinds)
@@ -765,16 +754,25 @@
 
 (use-package deadgrep
   :ensure t
-  ;; :bind
-  ;; (:map deadgrep-mode-map
-  ;;       ("RET"  . my-deadgrep-visit-result))
   :config
-  (setq-default deadgrep--context (cons 3 3))
+    (setq-default deadgrep--context (cons 3 3))
+  :bind(
+    ("C-c g" . deadgrep)
+    (:map deadgrep-mode-map
+          ("RET"  . my-deadgrep-visit-result)
+          ("o"    . my-deadgrep-visit-file-other-window)
+          ("v"    . my-deadgrep-view-file)
+          ("S"    . deadgrep-search-term)
+          ("D"    . deadgrep-directory)
+          ("g"    . deadgrep-restart)
+          ("n"    . deadgrep-forward-match)
+          ("p"    . deadgrep-backward-match)
+          ("N"    . deadgrep-forward-filename)
+          ("P"    . deadgrep-backward-filename)
+    )
+  )
 )
 
-
-;; disable evil in deadgrep buffer, we define our own keys
-;; (evil-set-initial-state 'deadgrep-mode 'emacs)
 
 
 (evil-set-initial-state 'ebrowse-tree-mode 'emacs)
@@ -834,7 +832,6 @@
 
 ;; must be set as global
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
-;; (global-set-key (kbd "C-q") '(lambda () (interactive) (evil-mc-undo-all-cursors)) )
 
 
 ;; disable default key bindins in insert mode, but ESC still go to normal
@@ -922,7 +919,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key map (kbd "C-M-u") 'my-backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'my-forward-sexp)
 
-    (define-key map (kbd "C-M-m") 'deadgrep)
 
     (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
     ;; (define-key map (kbd "M-}") 'indent-region)
@@ -945,38 +941,30 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "M-n") 'gcm-scroll-down)
     (define-key map (kbd "M-p") 'gcm-scroll-up)
 
-    ;; God mode key mappings
+    ;; Evil mode key mappings
     (define-key evil-normal-state-map (kbd "L") #'mwim-end-of-code-or-line)
     (define-key evil-normal-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
     (define-key evil-visual-state-map (kbd "L") #'mwim-end-of-code-or-line)
     (define-key evil-visual-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
     (define-key evil-operator-state-map (kbd "L") #'mwim-end-of-code-or-line)
     (define-key evil-operator-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
-
     (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
     (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
-
     (define-key evil-emacs-state-map   (kbd "C-o") 'evil-execute-in-normal-state)
     (define-key evil-insert-state-map  (kbd "C-o") 'evil-execute-in-normal-state)
-
     (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
     (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
     (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
-
     (define-key evil-normal-state-map (kbd "C-n") #'next-line)
     (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
-
     (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
     (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
-
     (define-key evil-normal-state-map (kbd "M-.") #'my-xref-find-definitions)
     (define-key evil-normal-state-map (kbd "M-,") #'my-xref-pop-marker-stack)
-
     (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
     (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
     (define-key evil-normal-state-map (kbd "C-w h") #'evil-window-left)
     (define-key evil-normal-state-map (kbd "C-w l") #'evil-window-right)
-
     (define-key evil-visual-state-map (kbd ")") #'my-wrap-with-parens)
     (define-key evil-visual-state-map (kbd "(") #'my-wrap-with-parens)
     (define-key evil-visual-state-map (kbd "[") #'my-wrap-with-brackets)
@@ -990,43 +978,22 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key evil-normal-state-map (kbd "C-o") 'my-xref-find-definitions)
     ;; (define-key evil-normal-state-map (kbd "C-i") 'my-xref-pop-marker-stack)
 
-    ;; neotree bindings
-    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd ";") 'scroll-up-command)
-    (evil-define-key 'normal neotree-mode-map (kbd "'") 'scroll-down-command)
-    ;; (evil-define-key 'normal neotree-mode-map (kbd "gg") 'evil-goto-first-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "o") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
-    (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "j") 'neotree-next-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
-    (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-    (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
-
-    ;; deadgrep bindings
-    (define-key evil-deadgrep-state-map (kbd "RET") 'my-deadgrep-visit-result)
-    (define-key evil-deadgrep-state-map (kbd "o") 'my-deadgrep-visit-file-other-window)
-    (define-key evil-deadgrep-state-map (kbd "v") 'my-deadgrep-view-file)
-    (define-key evil-deadgrep-state-map (kbd ";") 'scroll-up-command)
-    (define-key evil-deadgrep-state-map (kbd "'") 'scroll-down-command)
-    (define-key evil-deadgrep-state-map (kbd "C-w C-h") 'evil-window-left)
-    (define-key evil-deadgrep-state-map (kbd "C-w C-l") 'evil-window-right)
-    (define-key evil-deadgrep-state-map (kbd "L") #'mwim-end-of-code-or-line)
-    (define-key evil-deadgrep-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
-
-    (define-key evil-deadgrep-state-map (kbd "S") #'deadgrep-search-term)
-    (define-key evil-deadgrep-state-map (kbd "D") #'deadgrep-directory)
-    (define-key evil-deadgrep-state-map (kbd "g") #'deadgrep-restart)
-    (define-key evil-deadgrep-state-map (kbd "n") #'deadgrep-forward)
-    (define-key evil-deadgrep-state-map (kbd "p") #'deadgrep-backward)
-    (define-key evil-deadgrep-state-map (kbd "N") #'deadgrep-forward-match)
-    (define-key evil-deadgrep-state-map (kbd "P") #'deadgrep-backward-match)
-    (define-key evil-deadgrep-state-map (kbd "M-n") #'deadgrep-forward-filename)
-    (define-key evil-deadgrep-state-map (kbd "M-p") #'deadgrep-backward-filename)
+    ;; ;; neotree bindings
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd ";") 'scroll-up-command)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "'") 'scroll-down-command)
+    ;; ;; (evil-define-key 'normal neotree-mode-map (kbd "gg") 'evil-goto-first-line)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "o") 'neotree-enter)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "j") 'neotree-next-line)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "k") 'neotree-previous-line)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+    ;; (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
 
 
 
@@ -1050,7 +1017,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key evil-multiedit-state-map (kbd "C-p") 'evil-multiedit-prev)
     ;; (define-key evil-multiedit-insert-state-map (kbd "C-n") 'evil-multiedit-next)
     ;; (define-key evil-multiedit-insert-state-map (kbd "C-p") 'evil-multiedit-prev)
-
 
     ;; projectile
     (define-key projectile-mode-map (kbd "C-c f") 'projectile-command-map)
