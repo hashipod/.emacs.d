@@ -338,16 +338,17 @@
   :config (setq rtags-completions-enabled t
                 rtags-use-helm t
         )
-  :bind (("C-c r E" . rtags-find-symbol)
-       ("C-c r e" . my-rtags-find-symbol-at-point)
+  :bind (
+       ("C-c e" . my-rtags-find-symbol-at-point)
+       ("C-c n" . rtags-location-stack-forward)
+       ("C-c b" . rtags-location-stack-back)
+       ("C-c u" . rtags-imenu)
+       ("C-c r E" . rtags-find-symbol)
        ("C-c r O" . rtags-find-references)
        ("C-c r o" . rtags-find-references-at-point)
        ("C-c r s" . rtags-find-file)
        ("C-c r v" . rtags-find-virtuals-at-point)
        ("C-c r F" . rtags-fixit)
-       ("C-c r u" . rtags-imenu)
-       ("C-c r n" . rtags-location-stack-forward)
-       ("C-c r b" . rtags-location-stack-back)
        ("C-c r P" . rtags-preprocess-file)
        ("C-c r R" . rtags-rename-symbol)
        ("C-c r x" . rtags-show-rtags-buffer)
@@ -633,7 +634,7 @@
   (evil-mode -1)
   :bind
   (
-    ("C-c e" . evil-mode)  ;; toggle evil mode globally
+    ("C-c o" . evil-mode)  ;; toggle evil mode globally
   )
 )
 
