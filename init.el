@@ -88,6 +88,7 @@
  '(evil-search-highlight-persist-highlight-face ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(highlight ((t (:background "maroon" :foreground "#e6e6e8"))))
  '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
+ '(mc/region-face ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
  '(isearch ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lazy-highlight ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lsp-face-highlight-read ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
@@ -174,7 +175,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(multiple-cursors rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -311,6 +312,11 @@
   (sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
   (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
   (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+  :bind
+  (
+    ("C-c p d" . sp-splice-sexp)
+    ("C-c p s" . sp-rewrap-sexp)
+   )
 )
 
 
@@ -360,15 +366,6 @@
 (setq rtags-display-result-backend 'helm)
 
 
-
-
-
-
-(defun my-compile-goto-error()
-  (interactive)
-  (compile-goto-error)
-  (recenter)
-)
 
 
 
@@ -533,8 +530,6 @@
 
 
 
-;; Have to use require, not use-package
-;; (require 'hydra)
 
 (require 'avy)
 (set-face-attribute 'avy-lead-face nil :foreground "#ffffff" :background "#ff0000")
@@ -624,26 +619,26 @@
 
 
 
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (setq evil-want-keybinding nil)
-  (setq evil-want-fine-undo t)
-  :config
-  (evil-mode -1)
-  :bind
-  (
-    ("C-c o" . evil-mode)  ;; toggle evil mode globally
-  )
-)
-
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+;; (use-package evil
+;;   :ensure t
+;;   :init
+;;   (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+;;   (setq evil-want-keybinding nil)
+;;   (setq evil-want-fine-undo t)
+;;   :config
+;;   (evil-mode -1)
+;;   :bind
+;;   (
+;;     ("C-c o" . evil-mode)  ;; toggle evil mode globally
+;;   )
+;; )
+;;
+;;
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (evil-collection-init))
 
 
 
@@ -654,81 +649,107 @@
     (helm-do-ag-project-root)))
 
 
-(use-package evil-leader
-  :after evil
-  :ensure t
-  :config
-  (global-evil-leader-mode 1)
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-    "f" 'projectile-find-file
-    "p" 'helm-find-files
-    "b" 'helm-buffers-list
-    "q" 'delete-window
-    "o" 'deadgrep
-    "m" 'my-helm-ag-thing-at-point
-    "n" 'neotree-toggle
-    "t" 'flip-buffer-to-window
-    "l" 'evil-search-highlight-persist-remove-all
-    "k" 'kill-this-buffer)
+;; (use-package evil-leader
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (global-evil-leader-mode 1)
+;;   (evil-leader/set-leader "<SPC>")
+;;   (evil-leader/set-key
+;;     "f" 'projectile-find-file
+;;     "p" 'helm-find-files
+;;     "b" 'helm-buffers-list
+;;     "q" 'delete-window
+;;     "o" 'deadgrep
+;;     "m" 'my-helm-ag-thing-at-point
+;;     "n" 'neotree-toggle
+;;     "t" 'flip-buffer-to-window
+;;     "l" 'evil-search-highlight-persist-remove-all
+;;     "k" 'kill-this-buffer)
+;;   )
+;;
+;;
+;; (use-package evil-surround
+;;   :ensure t
+;;   :config
+;;   (global-evil-surround-mode 1))
+
+
+
+
+;;;  (defun my-evil-jump-backward()
+;;;    (interactive)
+;;;    (evil-jump-backward)
+;;;    (recenter)
+;;;  )
+;;;
+;;;  (defun my-evil-jump-forward()
+;;;    (interactive)
+;;;    (evil-jump-forward)
+;;;    (recenter)
+;;;  )
+;;;
+;;;
+;;;  (defun my-xref-find-definitions()
+;;;    (interactive)
+;;;    (lsp-ui-peek-find-definitions)
+;;;    (recenter)
+;;;  )
+;;;
+;;;  (defun my-xref-pop-marker-stack()
+;;;    (interactive)
+;;;    (xref-pop-marker-stack)
+;;;    (recenter)
+;;;  )
+;;;
+;;;
+;;;  (setq visible-cursor nil)
+;;;  (blink-cursor-mode -1)
+;;;
+;;;  (setq evil-normal-state-tag   (propertize "  NORMAL " 'face '((:background "#e6e600" :foreground "black")))
+;;;        evil-emacs-state-tag    (propertize "  EMACS  " 'face '((:background "turquoise" :foreground "black")))
+;;;        evil-insert-state-tag   (propertize "  INSERT " 'face '((:background "dark sea green" :foreground "black")))
+;;;        evil-replace-state-tag  (propertize " REPLACE " 'face '((:background "dark orange" :foreground "black")))
+;;;        evil-motion-state-tag   (propertize "  MOTION " 'face '((:background "khaki" :foreground "black")))
+;;;        evil-visual-state-tag   (propertize "  VISUAL " 'face '((:background "light salmon" :foreground "black")))
+;;;        evil-operator-state-tag (propertize " OPERATE " 'face '((:background "sandy brown" :foreground "black")))
+;;;        evil-mode-line-format   '(before . mode-line-front-space)
+;;;        )
+;;;
+;;;  ; (global-undo-tree-mode)
+;;;  ; (evil-set-undo-system 'undo-tree)
+
+
+
+;;; (require 'evil-multiedit)
+;;; (evil-multiedit-default-keybinds)
+
+
+(use-package multiple-cursors
+  :ensure   t
+  ;;; :bind (
+  ;;;        ("C-c m n" . mc/mark-next-like-this)
+  ;;;        ("C-c m p" . mc/mark-previous-like-this)
+  ;;;        ("C-c m a" . mc/mark-all-like-this)
+  ;;;        ("C-c m s" . mc/skip-to-next-like-this)
+  ;;;        ("C-c m S" . mc/skip-to-previous-like-this)
+  ;;;        ("C-c C-SPC" . mc/edit-lines)
+  ;;;        )
   )
 
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-
-
-
-(defun my-evil-jump-backward()
-  (interactive)
-  (evil-jump-backward)
-  (recenter)
+;; Have to use require, not use-package
+(require 'hydra)
+(defhydra multiple-cursors-menu (global-map "C-c m")
+  "
+_m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
+"
+  ("m" mc/mark-next-like-this)
+  ("M" mc/mark-previous-like-this)
+  ("a" mc/mark-all-like-this)
+  ("s" mc/skip-to-next-like-this)
+  ("S" mc/skip-to-previous-like-this)
 )
-
-(defun my-evil-jump-forward()
-  (interactive)
-  (evil-jump-forward)
-  (recenter)
-)
-
-
-(defun my-xref-find-definitions()
-  (interactive)
-  (lsp-ui-peek-find-definitions)
-  (recenter)
-)
-
-(defun my-xref-pop-marker-stack()
-  (interactive)
-  (xref-pop-marker-stack)
-  (recenter)
-)
-
-
-(setq visible-cursor nil)
-(blink-cursor-mode -1)
-
-(setq evil-normal-state-tag   (propertize "  NORMAL " 'face '((:background "#e6e600" :foreground "black")))
-      evil-emacs-state-tag    (propertize "  EMACS  " 'face '((:background "turquoise" :foreground "black")))
-      evil-insert-state-tag   (propertize "  INSERT " 'face '((:background "dark sea green" :foreground "black")))
-      evil-replace-state-tag  (propertize " REPLACE " 'face '((:background "dark orange" :foreground "black")))
-      evil-motion-state-tag   (propertize "  MOTION " 'face '((:background "khaki" :foreground "black")))
-      evil-visual-state-tag   (propertize "  VISUAL " 'face '((:background "light salmon" :foreground "black")))
-      evil-operator-state-tag (propertize " OPERATE " 'face '((:background "sandy brown" :foreground "black")))
-      evil-mode-line-format   '(before . mode-line-front-space)
-      )
-
-; (global-undo-tree-mode)
-; (evil-set-undo-system 'undo-tree)
-
-
-
-(require 'evil-multiedit)
-(evil-multiedit-default-keybinds)
-
 
 
 (defun my-deadgrep-visit-result ()
@@ -777,23 +798,26 @@
 
 
 
-(evil-set-initial-state 'ebrowse-tree-mode 'emacs)
+;;; (evil-set-initial-state 'ebrowse-tree-mode 'emacs)
 
 
 
-
-;; treat _ as part of a word, for search
-(with-eval-after-load 'evil
-    (defalias #'forward-evil-word #'forward-evil-symbol)
-    ;; make evil-search-word look for symbol rather than word boundaries
-    (setq-default evil-symbol-word-search t))
-
-(global-evil-visualstar-mode 1)
+;;;  treats underscores as part of words
+(superword-mode 1)
 
 
+;;;  ;; treat _ as part of a word, for search
+;;;  (with-eval-after-load 'evil
+;;;      (defalias #'forward-evil-word #'forward-evil-symbol)
+;;;      ;; make evil-search-word look for symbol rather than word boundaries
+;;;      (setq-default evil-symbol-word-search t))
+;;;
+;;;  (global-evil-visualstar-mode 1)
+;;;
+;;;
 (require 'highlight)
-(require 'evil-search-highlight-persist)
-(global-evil-search-highlight-persist t)
+;;;  (require 'evil-search-highlight-persist)
+;;;  (global-evil-search-highlight-persist t)
 
 
 
@@ -836,9 +860,9 @@
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
 
 
-;; disable default key bindins in insert mode, but ESC still go to normal
-(setcdr evil-insert-state-map nil)
-(define-key evil-insert-state-map [escape] 'evil-normal-state)
+;;;  ;; disable default key bindins in insert mode, but ESC still go to normal
+;;;  (setcdr evil-insert-state-map nil)
+;;;  (define-key evil-insert-state-map [escape] 'evil-normal-state)
 
 
 ;; use esc to quit, like C-g, esc quits
@@ -851,15 +875,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
+;;; (define-key evil-normal-state-map [escape] 'keyboard-quit)
+;;; (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (define-key helm-map (kbd "ESC") 'keyboard-escape-quit)
-(global-set-key [escape] 'evil-exit-emacs-state)
+;;; (global-set-key [escape] 'evil-exit-emacs-state)
 
 
 
@@ -871,15 +895,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (goto-char (match-beginning 0)))
 
 
-(defun my-save-buffer-and-goto-normal-state()
-  (interactive)
-  (save-buffer)
-  (evil-normal-state))
-
-
-(evil-define-operator my-wrap-with-parens (beg end) (goto-char beg) (insert "(") (goto-char (1+ end)) (insert ")"))
-(evil-define-operator my-wrap-with-brackets (beg end) (goto-char beg) (insert "[") (goto-char (1+ end)) (insert "]"))
-(evil-define-operator my-wrap-with-parentheses (beg end) (goto-char beg) (insert "{") (goto-char (1+ end)) (insert "}"))
+;;;  (defun my-save-buffer-and-goto-normal-state()
+;;;    (interactive)
+;;;    (save-buffer)
+;;;    (evil-normal-state))
+;;;
+;;;
+;;;  (evil-define-operator my-wrap-with-parens (beg end) (goto-char beg) (insert "(") (goto-char (1+ end)) (insert ")"))
+;;;  (evil-define-operator my-wrap-with-brackets (beg end) (goto-char beg) (insert "[") (goto-char (1+ end)) (insert "]"))
+;;;  (evil-define-operator my-wrap-with-parentheses (beg end) (goto-char beg) (insert "{") (goto-char (1+ end)) (insert "}"))
 
 
 
@@ -908,11 +932,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "<end>") 'mwim-end-of-line-or-code)
 
     (define-key map (kbd "C-c .") 'er/expand-region)
+    (define-key map (kbd "C-c v") 'set-rectangular-region-anchor)
+
     (define-key map (kbd "M-u") 'upcase-dwim)
-
-    ;; (define-key map (kbd "C-M-k") 'sp-beginning-of-sexp)
-    ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
-
     (define-key map (kbd "C-j") 'save-buffer)
 
     (define-key map (kbd "C-c s") 'my-helm-ag-thing-at-point)
@@ -922,7 +944,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     ;; (define-key map (kbd "C-M-u") 'my-backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'my-forward-sexp)
-
 
     ;; (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
     ;; (define-key map (kbd "M-}") 'indent-region)
@@ -937,44 +958,41 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     ;; (define-key map (kbd "C-c C-j") 'lsp-find-definition)
 
-    ;; (define-key map (kbd "C-c d s") 'sp-rewrap-sexp)
-    ;; (define-key map (kbd "C-c d d") 'sp-splice-sexp)
-
     (define-key map (kbd "M-t") 'flip-buffer-to-window)
 
     (define-key map (kbd "M-n") 'gcm-scroll-down)
     (define-key map (kbd "M-p") 'gcm-scroll-up)
 
-    ;; Evil mode key mappings
-    (define-key evil-normal-state-map (kbd "L") #'mwim-end-of-code-or-line)
-    (define-key evil-normal-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
-    (define-key evil-visual-state-map (kbd "L") #'mwim-end-of-code-or-line)
-    (define-key evil-visual-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
-    (define-key evil-operator-state-map (kbd "L") #'mwim-end-of-code-or-line)
-    (define-key evil-operator-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
-    (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
-    (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
-    (define-key evil-emacs-state-map   (kbd "C-o") 'evil-execute-in-normal-state)
-    (define-key evil-insert-state-map  (kbd "C-o") 'evil-execute-in-normal-state)
-    (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
-    (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
-    (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
-    (define-key evil-normal-state-map (kbd "C-n") #'next-line)
-    (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
-    (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
-    (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
-    (define-key evil-normal-state-map (kbd "M-.") #'my-xref-find-definitions)
-    (define-key evil-normal-state-map (kbd "M-,") #'my-xref-pop-marker-stack)
-    (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
-    (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
-    (define-key evil-normal-state-map (kbd "C-w h") #'evil-window-left)
-    (define-key evil-normal-state-map (kbd "C-w l") #'evil-window-right)
-    (define-key evil-visual-state-map (kbd ")") #'my-wrap-with-parens)
-    (define-key evil-visual-state-map (kbd "(") #'my-wrap-with-parens)
-    (define-key evil-visual-state-map (kbd "[") #'my-wrap-with-brackets)
-    (define-key evil-visual-state-map (kbd "]") #'my-wrap-with-brackets)
-    (define-key evil-visual-state-map (kbd "{") #'my-wrap-with-parentheses)
-    (define-key evil-visual-state-map (kbd "}") #'my-wrap-with-parentheses)
+    ;;;; ;; Evil mode key mappings
+    ;;;; (define-key evil-normal-state-map (kbd "L") #'mwim-end-of-code-or-line)
+    ;;;; (define-key evil-normal-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
+    ;;;; (define-key evil-visual-state-map (kbd "L") #'mwim-end-of-code-or-line)
+    ;;;; (define-key evil-visual-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
+    ;;;; (define-key evil-operator-state-map (kbd "L") #'mwim-end-of-code-or-line)
+    ;;;; (define-key evil-operator-state-map (kbd "H") #'mwim-beginning-of-code-or-line)
+    ;;;; (define-key evil-visual-state-map (kbd "C-g") #'keyboard-escape-quit)
+    ;;;; (define-key evil-emacs-state-map  (kbd "C-g") #'keyboard-escape-quit)
+    ;;;; (define-key evil-emacs-state-map   (kbd "C-o") 'evil-execute-in-normal-state)
+    ;;;; (define-key evil-insert-state-map  (kbd "C-o") 'evil-execute-in-normal-state)
+    ;;;; (define-key evil-normal-state-map (kbd ";") #'scroll-up-command)
+    ;;;; (define-key evil-normal-state-map (kbd "'") #'scroll-down-command)
+    ;;;; (define-key evil-normal-state-map (kbd "\\") #'evil-scroll-line-to-center)
+    ;;;; (define-key evil-normal-state-map (kbd "C-n") #'next-line)
+    ;;;; (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
+    ;;;; (define-key evil-normal-state-map (kbd "@") #'my-neotree-find)
+    ;;;; (define-key evil-normal-state-map (kbd "f") #'avy-goto-word-0)
+    ;;;; (define-key evil-normal-state-map (kbd "M-.") #'my-xref-find-definitions)
+    ;;;; (define-key evil-normal-state-map (kbd "M-,") #'my-xref-pop-marker-stack)
+    ;;;; (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
+    ;;;; (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
+    ;;;; (define-key evil-normal-state-map (kbd "C-w h") #'evil-window-left)
+    ;;;; (define-key evil-normal-state-map (kbd "C-w l") #'evil-window-right)
+    ;;;; (define-key evil-visual-state-map (kbd ")") #'my-wrap-with-parens)
+    ;;;; (define-key evil-visual-state-map (kbd "(") #'my-wrap-with-parens)
+    ;;;; (define-key evil-visual-state-map (kbd "[") #'my-wrap-with-brackets)
+    ;;;; (define-key evil-visual-state-map (kbd "]") #'my-wrap-with-brackets)
+    ;;;; (define-key evil-visual-state-map (kbd "{") #'my-wrap-with-parentheses)
+    ;;;; (define-key evil-visual-state-map (kbd "}") #'my-wrap-with-parentheses)
 
     ;; (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     ;; (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
