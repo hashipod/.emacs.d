@@ -617,8 +617,8 @@
   (setq neo-confirm-create-directory 'off-p)
   (setq neo-smart-open 't)
   :bind (
-       ("C-c t t" . neotree-toggle)
-       ("C-c t 2" . my-neotree-find)
+       ("C-c w o" . neotree-toggle)
+       ("C-c w f" . my-neotree-find)
   )
 )
 
@@ -894,11 +894,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key map (kbd "M-x") #'helm-M-x)
     ;; (define-key map (kbd "C-M-f") #'projectile-find-file)
     ;; (define-key map (kbd "C-M-b") #'switch-to-buffer)
+    ;; (define-key map (kbd "C-x C-b") #'switch-to-buffer)
 
     (define-key map (kbd "C-x C-f") #'helm-find-files)
     ;; (define-key map (kbd "C-x C-p") #'projectile-find-file)
 
-    (define-key map (kbd "C-x C-b") #'switch-to-buffer)
     (define-key map (kbd "C-x C-k") #'kill-this-buffer)
 
     ;; (define-key map (kbd "C-l") 'evil-scroll-line-to-center)
@@ -914,6 +914,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key map (kbd "C-M-j") 'sp-end-of-sexp)
 
     (define-key map (kbd "C-j") 'save-buffer)
+
+    (define-key map (kbd "C-c s") 'my-helm-ag-thing-at-point)
 
     ;; (define-key map (kbd "C-M-u") 'backward-sexp)
     ;; (define-key map (kbd "C-M-d") 'forward-sexp)
