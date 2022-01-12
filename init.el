@@ -924,7 +924,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     ;; (define-key map (kbd "C-M-d") 'my-forward-sexp)
 
 
-    (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
+    ;; (define-key map (kbd "M-{") 'un-indent-by-removing-4-spaces)
     ;; (define-key map (kbd "M-}") 'indent-region)
 
     (define-key map (kbd "C-o") 'my-toggle-fold)
