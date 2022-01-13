@@ -88,7 +88,7 @@
  '(evil-search-highlight-persist-highlight-face ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(highlight ((t (:background "maroon" :foreground "#e6e6e8"))))
  '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
- '(mc/region-face ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
+ '(mc/region-face ((t (:foreground "#ff77cc" :inverse-video t :weight normal))))
  '(isearch ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lazy-highlight ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lsp-face-highlight-read ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
