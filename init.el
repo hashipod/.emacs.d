@@ -947,6 +947,7 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
     (define-key map (kbd "C-c .") 'er/expand-region)
     (define-key map (kbd "C-c v") 'set-rectangular-region-anchor)
+    (define-key map (kbd "C-c o") #'helm-occur)
 
     (define-key map (kbd "M-u") 'upcase-dwim)
     (define-key map (kbd "C-j") 'save-buffer)
