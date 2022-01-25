@@ -325,6 +325,8 @@
 (require 'helm)
 (helm-mode 1)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(setq helm-display-buffer-default-height 0.4)
+(setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
 
 
 
