@@ -5,7 +5,7 @@
 ;; (define-key input-decode-map [?\C-m] [C-m])
 
 ;; Set garbage collection threshold to 1GB.
-(setq gc-cons-threshold #x40000000)
+(setq gc-cons-threshold #x20000000)
 
 
 (require 'package)
@@ -88,12 +88,12 @@
  '(evil-search-highlight-persist-highlight-face ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(highlight ((t (:background "maroon" :foreground "#e6e6e8"))))
  '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
- '(mc/region-face ((t (:foreground "#ff77cc" :inverse-video t :weight normal))))
  '(isearch ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lazy-highlight ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lsp-face-highlight-read ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
  '(lsp-face-highlight-textual ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
  '(lsp-face-highlight-write ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
+ '(mc/region-face ((t (:foreground "#ff77cc" :inverse-video t :weight normal))))
  '(next-error ((t (:foreground "#000000" :background "#00ff00"))))
  '(vertical-border ((t (:foreground "#00ff00" :background "#000000")))))
 
@@ -175,7 +175,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(multiple-cursors rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(scala-mode multiple-cursors rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -233,6 +233,13 @@
 (use-package rust-mode
   :defer t
   :init
+)
+
+
+
+(use-package scala-mode
+  :interpreter
+  ("scala" . scala-mode)
 )
 
 
