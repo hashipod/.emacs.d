@@ -620,8 +620,13 @@
 
 (defun my-neotree-find()
   (interactive)
-  (unless (neo-global--window-exists-p) (neotree-show))
-  (neotree-find)
+  (if (and (fboundp 'neo-global--window-exists-p) (neo-global--window-exists-p))
+    (neotree-toggle)
+    (progn
+       (neotree-show)
+       ;; (neo-global--select-window) ;; work with neo-toggle-window-keep-p
+    )
+  )
 )
 
 
@@ -634,9 +639,10 @@
   (setq neo-confirm-create-file 'off-p)
   (setq neo-confirm-create-directory 'off-p)
   (setq neo-smart-open 't)
+  ;; (setq neo-toggle-window-keep-p 't)
   :bind (
-       ("C-c w o" . neotree-toggle)
-       ("C-c w f" . my-neotree-find)
+       ;; ("C-c w o" . neotree-toggle)
+       ("C-c l" . my-neotree-find)
   )
 )
 
