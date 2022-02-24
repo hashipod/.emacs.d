@@ -642,7 +642,7 @@
   ;; (setq neo-toggle-window-keep-p 't)
   :bind (
        ;; ("C-c w o" . neotree-toggle)
-       ("C-c l" . my-neotree-find)
+       ("C-c h" . my-neotree-find)
   )
 )
 
