@@ -105,6 +105,20 @@
 
 
 
+(global-set-key [remap lsp-ui-peek-find-definitions] 'my-lsp-ui-peek-find-definitions )
+(global-set-key [remap xref-pop-marker-stack] 'my-xref-pop-marker-stack )
+(defun my-lsp-ui-peek-find-definitions()
+  (interactive)
+  (lsp-ui-peek-find-definitions)
+  (recenter)
+)
+(defun my-xref-pop-marker-stack()
+  (interactive)
+  (xref-pop-marker-stack)
+  (recenter)
+)
+
+
 
 
 (use-package lsp-mode
@@ -395,8 +409,6 @@
 
 
 (delete-selection-mode 1)
-
-
 
 
 ;; (require 'smooth-scrolling)
