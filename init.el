@@ -175,7 +175,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(scala-mode multiple-cursors rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(iedit idle-highlight-mode scala-mode multiple-cursors rtags evil-multiedit evil-collection yasnippet erlang highlight-parentheses all-the-icons evil-search-highlight-persist evil-visualstar evil-surround evil-leader undo-tree evil nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -189,6 +189,13 @@
 (setq whitespace-style '(face trailing tabs tab-mark))
 (setq whitespace-line-column 85)
 
+
+
+(use-package iedit
+  :ensure t
+  :bind
+  ("M-j" . iedit-mode)
+)
 
 
 
@@ -618,7 +625,7 @@
 
 
 
-(defun my-neotree-find()
+(defun my-neotree-toggle()
   (interactive)
   (if (and (fboundp 'neo-global--window-exists-p) (neo-global--window-exists-p))
     (neotree-toggle)
@@ -627,6 +634,12 @@
        ;; (neo-global--select-window) ;; work with neo-toggle-window-keep-p
     )
   )
+)
+
+(defun my-neotree-find()
+  (interactive)
+  (unless (neo-global--window-exists-p) (neotree-show))
+  (neotree-find)
 )
 
 
@@ -642,7 +655,8 @@
   ;; (setq neo-toggle-window-keep-p 't)
   :bind (
        ;; ("C-c w o" . neotree-toggle)
-       ("C-c h" . my-neotree-find)
+       ("C-c h" . my-neotree-toggle)
+       ("C-c j" . my-neotree-find)
   )
 )
 
