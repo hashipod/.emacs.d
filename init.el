@@ -701,8 +701,14 @@
 (defun my-helm-ag-thing-at-point ()
   "Search the symbol at point with `helm-ag'."
   (interactive)
-  (let ((helm-ag-insert-at-point 'symbol))
-    (helm-do-ag-project-root)))
+  (
+   let (
+        (helm-ag-insert-at-point 'symbol)
+        (helm-ag-command-option " -Q ")
+   )
+   (helm-do-ag-project-root)
+  )
+)
 
 
 ;; (use-package evil-leader
