@@ -61,7 +61,7 @@
 
 (setq-default line-spacing 0)
 (when (display-graphic-p)
-  (set-face-attribute 'default nil :font "Dejavu Sans Mono for Powerline-14")
+  (set-face-attribute 'default nil :font "Dejavu Sans Mono for Powerline-12")
   (set-cursor-color "red")
 )
 
