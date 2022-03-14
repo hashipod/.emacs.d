@@ -575,8 +575,10 @@
 
 
 (require 'avy)
-(set-face-attribute 'avy-lead-face nil :foreground "#ffffff" :background "#ff0000")
-(set-face-attribute 'avy-lead-face-0 nil :foreground "#ffffff" :background "#ff0000")
+(set-face-attribute 'avy-lead-face nil :foreground "#000000" :background "#ffff00")
+(set-face-attribute 'avy-lead-face-0 nil :foreground "#000000" :background "#ffff00")
+;; (set-face-attribute 'avy-lead-face nil :foreground "#ffffff" :background "#ff0000")
+;; (set-face-attribute 'avy-lead-face-0 nil :foreground "#ffffff" :background "#ff0000")
 (setq avy-keys (list ?a ?c ?d ?e ?f ?h ?i ?j ?k ?l ?m ?n ?o ?s ?v ?w ?\;))
 
 
@@ -920,6 +922,11 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
 ;; must be set as global
 (global-set-key (kbd "M-k") '(lambda () (interactive) (kill-line 0)) )
+(global-set-key (kbd "C-g") '(lambda ()
+                               (interactive)
+                               (when (bound-and-true-p iedit-mode) (iedit-done))  ;; exit iedit mode, if needed.
+                               (keyboard-quit)
+                            ))
 
 
 ;;;  ;; disable default key bindins in insert mode, but ESC still go to normal
