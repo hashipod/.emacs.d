@@ -610,6 +610,16 @@
 
 
 
+
+(defun my-god-above-newline-and-insert-mode()
+  (interactive)
+  (previous-line)
+  (end-of-line)
+  (newline-and-indent)
+  (god-mode-all)
+  )
+
+
 (require 'god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
@@ -619,9 +629,33 @@
       (god-mode-all))
   (keyboard-quit)
 )
-(global-set-key (kbd "C-c c") 'my-god-mode)
+(global-set-key (kbd "C-c C-c") 'my-god-mode)
 (god-mode-all) ; god-mode by default
 
+(defun my-god-below-newline-and-insert-mode()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent)
+  (god-mode-all)
+  )
+
+(defun my-god-mwin-end-and-insert-mode()
+  (interactive)
+  (mwim-end-of-code-or-line)
+  (god-mode-all)
+  )
+
+(defun my-god-mwin-beginning-and-insert-mode()
+  (interactive)
+  (mwim-beginning-of-code-or-line)
+  (god-mode-all)
+  )
+
+(defun my-god-char-forward-and-insert-mode()
+  (interactive)
+  (forward-char)
+  (god-mode-all)
+  )
 
 
 (toggle-truncate-lines t)
@@ -876,8 +910,8 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
     (define-key god-local-mode-map (kbd "I") #'my-god-mwin-beginning-and-insert-mode)
 
     (define-key god-local-mode-map (kbd "C-m") #'next-line)
-    (define-key god-local-mode-map (kbd ";") #'golden-ratio-scroll-screen-up)
-    (define-key god-local-mode-map (kbd "'") #'golden-ratio-scroll-screen-down)
+    (define-key god-local-mode-map (kbd ";") #'scroll-up-command)
+    (define-key god-local-mode-map (kbd "'") #'scroll-down-command)
     (define-key god-local-mode-map (kbd "\\") #'recenter)
 
 
