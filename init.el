@@ -153,7 +153,7 @@
   (setq lsp-signature-auto-activate nil)
   (setq lsp-diagnostics-provider :none)
   (setq lsp-imenu-sort-methods '(position))
-  (setq lsp-headerline-breadcrumb-icons-enable nil)
+  (setq lsp-headerline-breadcrumb-enable nil)
 )
 
 (use-package lsp-ui
@@ -182,6 +182,12 @@
   :config
   (setq lsp-ui-sideline-ignore-duplicate t)
 )
+
+(lsp-headerline-breadcrumb-mode -1)
+
+;; https://emacs.stackexchange.com/questions/64970/how-can-i-disable-lsp-headerline
+;; (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+
 
 (add-hook 'go-mode-hook 'lsp-deferred)
 (add-hook 'rust-mode-hook 'lsp-deferred)
@@ -821,8 +827,30 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
 
 
+ '(iedit-occurrence ((t (:background "black" :foreground "yellow"))))
 
-;; (add-hook 'post-command-hook 'my-god-mode-update-mode-line)
+(defun my-god-mode-update-mode-line ()
+  (cond
+   (god-global-mode
+    (set-face-attribute 'mode-line nil
+                        :background "yellow"
+                        :foreground "black")
+    (set-face-attribute 'mode-line-inactive nil
+                        :background "#565063"
+                        :foreground "white"
+                        :box '(:line-width 8 :color "#565063")
+                        :overline nil
+                        :underline nil))
+   ;; below, the default color is borrowed from monokai theme
+   (t
+    (set-face-attribute 'mode-line nil
+                        :foreground "#F5F5F5"
+                        :background "#1B1E1C")
+    (set-face-attribute 'mode-line-inactive nil
+                        :foreground "#8B8878"
+                        :background "#1B1E1C"))
+   ))
+(add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
 (with-eval-after-load 'subr-x
         (setq-default mode-line-buffer-identification
@@ -917,7 +945,7 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
     ;; God mode key mappings
     (define-key god-local-mode-map (kbd "z") #'repeat)
     (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
-    (define-key god-local-mode-map (kbd "f") #'forward-word)
+    (define-key god-local-mode-map (kbd "f") #'avy-goto-word-0)
     (define-key god-local-mode-map (kbd "w") #'forward-word)
     (define-key god-local-mode-map (kbd "b") #'backward-word)
     (define-key god-local-mode-map (kbd "k") #'previous-line)
@@ -938,6 +966,10 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
     (define-key god-local-mode-map (kbd "C-m") #'next-line)
     (define-key god-local-mode-map (kbd ";") #'scroll-up-command)
     (define-key god-local-mode-map (kbd "'") #'scroll-down-command)
+    (define-key god-local-mode-map (kbd "C-u") #'scroll-down-command)
+    (define-key god-local-mode-map (kbd "C-d") #'scroll-up-command)
+    (define-key god-local-mode-map (kbd "C-f") #'View-scroll-page-forward)
+    (define-key god-local-mode-map (kbd "C-b") #'View-scroll-page-backward)
     (define-key god-local-mode-map (kbd "\\") #'recenter)
 
 
