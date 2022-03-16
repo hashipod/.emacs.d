@@ -689,6 +689,15 @@
   (god-mode-all)
   )
 
+(defun my-god-end-of-word ()
+  "Move to the next 'last character' of a word."
+  (interactive)
+  (forward-char)
+  (re-search-forward "\\w\\b" nil t)
+  (goto-char (match-beginning 0)))
+
+
+
 
 (toggle-truncate-lines t)
 
@@ -943,7 +952,6 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
 
     ;; God mode key mappings
-    (define-key god-local-mode-map (kbd "z") #'repeat)
     (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
     (define-key god-local-mode-map (kbd "f") #'avy-goto-word-0)
     (define-key god-local-mode-map (kbd "w") #'forward-word)
@@ -956,12 +964,16 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
     (define-key god-local-mode-map (kbd "H") #'mwim-beginning-of-code-or-line)
     (define-key god-local-mode-map (kbd "v") #'set-mark-command)
     (define-key god-local-mode-map (kbd "y") #'kill-ring-save)
+    (define-key god-local-mode-map (kbd "p") #'yank)
     (define-key god-local-mode-map (kbd "u") #'undo)
     (define-key god-local-mode-map (kbd "o") #'my-god-below-newline-and-insert-mode)
     (define-key god-local-mode-map (kbd "O") #'my-god-above-newline-and-insert-mode)
     (define-key god-local-mode-map (kbd "a") #'my-god-char-forward-and-insert-mode)
     (define-key god-local-mode-map (kbd "A") #'my-god-mwin-end-and-insert-mode)
     (define-key god-local-mode-map (kbd "I") #'my-god-mwin-beginning-and-insert-mode)
+    (define-key god-local-mode-map (kbd "e") #'my-god-end-of-word)
+
+    (define-key god-local-mode-map (kbd "z") #'recenter)
 
     (define-key god-local-mode-map (kbd "C-m") #'next-line)
     (define-key god-local-mode-map (kbd ";") #'scroll-up-command)
