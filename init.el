@@ -608,6 +608,22 @@
 )
 
 
+
+
+(require 'god-mode)
+(setq god-exempt-major-modes nil)
+(setq god-exempt-predicates nil)
+(defun my-god-mode ()
+  (interactive)
+  (if (not god-global-mode)
+      (god-mode-all))
+  (keyboard-quit)
+)
+(global-set-key (kbd "C-c c") 'my-god-mode)
+(god-mode-all) ; god-mode by default
+
+
+
 (toggle-truncate-lines t)
 
 
@@ -833,6 +849,39 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
     (define-key map (kbd "M-n") 'gcm-scroll-down)
     (define-key map (kbd "M-p") 'gcm-scroll-up)
+
+
+
+
+
+    ;; God mode key mappings
+    (define-key god-local-mode-map (kbd "z") #'repeat)
+    (define-key god-local-mode-map (kbd "i") #'god-mode-all) ; toggle to disable god-mod globally
+    (define-key god-local-mode-map (kbd "f") #'forward-word)
+    (define-key god-local-mode-map (kbd "w") #'forward-word)
+    (define-key god-local-mode-map (kbd "b") #'backward-word)
+    (define-key god-local-mode-map (kbd "k") #'previous-line)
+    (define-key god-local-mode-map (kbd "j") #'next-line)
+    (define-key god-local-mode-map (kbd "l") #'forward-char)
+    (define-key god-local-mode-map (kbd "h") #'backward-char)
+    (define-key god-local-mode-map (kbd "L") #'mwim-end-of-code-or-line)
+    (define-key god-local-mode-map (kbd "H") #'mwim-beginning-of-code-or-line)
+    (define-key god-local-mode-map (kbd "v") #'set-mark-command)
+    (define-key god-local-mode-map (kbd "y") #'kill-ring-save)
+    (define-key god-local-mode-map (kbd "u") #'undo)
+    (define-key god-local-mode-map (kbd "o") #'my-god-below-newline-and-insert-mode)
+    (define-key god-local-mode-map (kbd "O") #'my-god-above-newline-and-insert-mode)
+    (define-key god-local-mode-map (kbd "a") #'my-god-char-forward-and-insert-mode)
+    (define-key god-local-mode-map (kbd "A") #'my-god-mwin-end-and-insert-mode)
+    (define-key god-local-mode-map (kbd "I") #'my-god-mwin-beginning-and-insert-mode)
+
+    (define-key god-local-mode-map (kbd "C-m") #'next-line)
+    (define-key god-local-mode-map (kbd ";") #'golden-ratio-scroll-screen-up)
+    (define-key god-local-mode-map (kbd "'") #'golden-ratio-scroll-screen-down)
+    (define-key god-local-mode-map (kbd "\\") #'recenter)
+
+
+
 
 
     ;; projectile
