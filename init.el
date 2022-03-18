@@ -652,16 +652,31 @@
   )
 
 
+(setq special-buffers (list "*Minibuf" "*deadgrep" "*xref" "*Buffer"))
 (require 'god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
 
+(defun my-test-if-special-buffer(bufname)
+  (interactive)
+  (seq-filter
+    (lambda (n) (string-prefix-p n bufname))
+    special-buffers)
+)
+
 (defun my-god-mode ()
   (interactive)
-  (god-local-mode 1)
-  (keyboard-quit)
+  (if (my-test-if-special-buffer (string-trim (buffer-name)))
+            (progn
+                (message "is special buffer")
+                (ignore)
+            )
+            (progn
+                (message "not a special buffer")
+                (god-local-mode 1)                  ;; start local mode
+             )
+    nil)
 )
-(global-set-key (kbd "<escape>") 'my-god-mode)
 
 (defun my-god-below-newline-and-insert-mode()
   (interactive)
@@ -701,6 +716,27 @@
   (god-local-mode)
 )
 
+
+
+(global-set-key (kbd "<escape>")
+                '(lambda ()
+                  (interactive)
+                  (my-god-mode)
+                  (ignore-errors (helm-keyboard-quit))
+                  (ignore-errors (minibuffer-keyboard-quit))
+                  (ignore-errors (keyboard-quit))
+                  )
+                )
+
+
+(add-hook 'switch-buffer-functions
+        (lambda (prev curr)
+          (cl-assert (eq curr (current-buffer)))  ;; Always t
+          (message "%S -> %S -> %S" prev curr (string-trim (buffer-name curr)))
+          (my-god-mode)
+        ))
+
+
 (defun my-god-mode-update-mode-line ()
   (cond
    (god-local-mode
@@ -723,36 +759,8 @@
                         :background "#1B1E1C"))
    ))
 
-
-
-(setq special-buffers (list "*Minibuf" "*deadgrep"))
-(defun my-test-if-special-buffer(bufname)
-  (interactive)
-  (seq-filter
-    (lambda (n) (string-prefix-p n bufname))
-    special-buffers)
-)
-
-(add-hook 'switch-buffer-functions
-        (lambda (prev curr)
-          (cl-assert (eq curr (current-buffer)))  ;; Always t
-          (message "%S -> %S -> %S" prev curr (string-trim (buffer-name curr)))
-
-          (if (my-test-if-special-buffer (string-trim (buffer-name curr)))
-                    (progn
-                        (message "is special buffer")
-                        (ignore)
-                    )
-                    (progn
-                        (message "not a special buffer")
-                        (god-local-mode 1)                  ;; start local mode
-                        (my-god-mode-update-mode-line)      ;; change mode
-                     )
-            nil)
-
-        ))
-
-(add-hook 'post-command-hook 'my-god-mode-update-mode-line)
+(add-hook 'god-mode-enabled-hook  'my-god-mode-update-mode-line)
+(add-hook 'god-mode-disabled-hook  'my-god-mode-update-mode-line)
 
 
 
