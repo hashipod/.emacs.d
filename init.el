@@ -244,6 +244,7 @@
 
 
 
+
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 
@@ -652,7 +653,7 @@
   )
 
 
-(setq special-buffers (list "*Minibuf" "*deadgrep" "*xref" "*Buffer"))
+(setq special-buffers (list "*Minibuf" "*deadgrep" "*xref" "*Buffer" "*Packages"))
 (require 'god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
