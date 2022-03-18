@@ -653,7 +653,7 @@
   )
 
 
-(setq special-buffers (list "*Minibuf" "*deadgrep" "*xref" "*Buffer" "*Packages"))
+(setq special-buffers (list "*Minibuf" "*deadgrep" "*xref" "*Buffer" "*Packages" "*scratch"))
 (require 'god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
@@ -939,6 +939,22 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
 
 
+
+
+(defun my-select-current-line-and-forward-line (arg)
+  "Select the current line and move the cursor by ARG lines IF
+no region is selected.
+If a region is already selected when calling this command, only move
+the cursor by ARG lines."
+  (interactive "p")
+  (when (not (use-region-p))
+    (forward-line 0)
+    (set-mark-command nil))
+  (forward-line arg))
+
+
+
+
 (use-package highlight-parentheses
   :ensure t)
 (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
@@ -1011,7 +1027,9 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
     (define-key god-local-mode-map (kbd "L") #'mwim-end-of-code-or-line)
     (define-key god-local-mode-map (kbd "H") #'mwim-beginning-of-code-or-line)
     (define-key god-local-mode-map (kbd "v") #'set-mark-command)
+    (define-key god-local-mode-map (kbd "V") #'my-select-current-line-and-forward-line)
     (define-key god-local-mode-map (kbd "y") #'kill-ring-save)
+    (define-key god-local-mode-map (kbd "d") #'kill-region)
     (define-key god-local-mode-map (kbd "p") #'yank)
     (define-key god-local-mode-map (kbd "u") #'undo)
     (define-key god-local-mode-map (kbd "o") #'my-god-below-newline-and-insert-mode)
@@ -1026,10 +1044,6 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
     (define-key god-local-mode-map (kbd "C-m") #'next-line)
     (define-key god-local-mode-map (kbd ";") #'scroll-up-command)
     (define-key god-local-mode-map (kbd "'") #'scroll-down-command)
-    (define-key god-local-mode-map (kbd "C-u") #'scroll-down-command)
-    (define-key god-local-mode-map (kbd "C-d") #'scroll-up-command)
-    (define-key god-local-mode-map (kbd "C-f") #'View-scroll-page-forward)
-    (define-key god-local-mode-map (kbd "C-b") #'View-scroll-page-backward)
     (define-key god-local-mode-map (kbd "\\") #'recenter)
 
 
