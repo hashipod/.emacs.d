@@ -24,6 +24,7 @@ CVS
 *.log
 .yas-compiled-snippets.el
 .bookmarks.el
+bookmarks
 .cvsignore
 .*.lock
 /tramp
