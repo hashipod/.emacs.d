@@ -112,12 +112,12 @@
  ;; If there is more than one, they won't work right.
  '(highlight ((t (:background "maroon" :foreground "#e6e6e8"))))
  '(hydra-face-red ((t (:foreground "chocolate" :weight bold))))
+ '(iedit-occurrence ((t (:background "black" :foreground "yellow"))))
  '(isearch ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lazy-highlight ((t (:background "#ffff00" :foreground "#000000" :underline nil :weight normal))))
  '(lsp-face-highlight-read ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
  '(lsp-face-highlight-textual ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
  '(lsp-face-highlight-write ((t (:foreground "#000000" :background "#00ff00" :weight normal))))
- '(iedit-occurrence ((t (:background "black" :foreground "yellow"))))
  '(mc/region-face ((t (:foreground "#ff77cc" :inverse-video t :weight normal))))
  '(next-error ((t (:foreground "#000000" :background "#00ff00"))))
  '(vertical-border ((t (:foreground "#00ff00" :background "#000000")))))
@@ -220,7 +220,7 @@
  '(helm-minibuffer-history-key "M-p")
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(iedit scala-mode multiple-cursors rtags yasnippet erlang highlight-parentheses all-the-icons undo-tree nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
+   '(switch-buffer-functions iedit scala-mode multiple-cursors rtags yasnippet erlang highlight-parentheses all-the-icons undo-tree nimbus-theme challenger-deep-theme kaolin-themes spacemacs-theme afternoon-theme ivy golden-ratio-scroll-screen smooth-scrolling yaml-mode projectile-mode doom-themes smart-mode-line cyberpunk-theme cmake-mode magit lsp-python-ms protobuf-mode vue-mode web-mode centaur-tabs xclip smartparens god-mode rust-mode flycheck mwim which-key deadgrep ripgrep lsp-ui neotree expand-region easy-kill projectile helm-rg helm-ag use-package helm fzf company lsp-mode go-mode))
  '(pos-tip-background-color "#1d1d2b")
  '(pos-tip-foreground-color "#d4d4d6")
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
@@ -655,14 +655,13 @@
 (require 'god-mode)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
+
 (defun my-god-mode ()
   (interactive)
-  (if (not god-global-mode)
-      (god-mode-all))
+  (god-local-mode 1)
   (keyboard-quit)
 )
 (global-set-key (kbd "<escape>") 'my-god-mode)
-(god-mode-all) ; god-mode by default
 
 (defun my-god-below-newline-and-insert-mode()
   (interactive)
@@ -696,10 +695,72 @@
   (re-search-forward "\\w\\b" nil t)
   (goto-char (match-beginning 0)))
 
+(defun my-active-god-mode ()
+  (interactive)
+  (lambda (window) (message "%s is active" (current-buffer)))
+  (god-local-mode)
+)
+
+(defun my-god-mode-update-mode-line ()
+  (cond
+   (god-local-mode
+    (set-face-attribute 'mode-line nil
+                        :background "yellow"
+                        :foreground "black")
+    (set-face-attribute 'mode-line-inactive nil
+                        :background "#565063"
+                        :foreground "white"
+                        :box '(:line-width 8 :color "#565063")
+                        :overline nil
+                        :underline nil))
+   ;; below, the default color is borrowed from monokai theme
+   (t
+    (set-face-attribute 'mode-line nil
+                        :foreground "#F5F5F5"
+                        :background "#1B1E1C")
+    (set-face-attribute 'mode-line-inactive nil
+                        :foreground "#8B8878"
+                        :background "#1B1E1C"))
+   ))
+
+
+
+(setq special-buffers (list "*Minibuf" "*deadgrep"))
+(defun my-test-if-special-buffer(bufname)
+  (interactive)
+  (seq-filter
+    (lambda (n) (string-prefix-p n bufname))
+    special-buffers)
+)
+
+(add-hook 'switch-buffer-functions
+        (lambda (prev curr)
+          (cl-assert (eq curr (current-buffer)))  ;; Always t
+          (message "%S -> %S -> %S" prev curr (string-trim (buffer-name curr)))
+
+          (if (my-test-if-special-buffer (string-trim (buffer-name curr)))
+                    (progn
+                        (message "is special buffer")
+                        (ignore)
+                    )
+                    (progn
+                        (message "not a special buffer")
+                        (god-local-mode 1)                  ;; start local mode
+                        (my-god-mode-update-mode-line)      ;; change mode
+                     )
+            nil)
+
+        ))
+
+(add-hook 'post-command-hook 'my-god-mode-update-mode-line)
+
+
 
 
 
 (toggle-truncate-lines t)
+
+
 
 
 
@@ -838,28 +899,6 @@ _m_: next      _M_: prev     _a_: all      _s_: skip next       _S_: skip prev
 
  '(iedit-occurrence ((t (:background "black" :foreground "yellow"))))
 
-(defun my-god-mode-update-mode-line ()
-  (cond
-   (god-global-mode
-    (set-face-attribute 'mode-line nil
-                        :background "yellow"
-                        :foreground "black")
-    (set-face-attribute 'mode-line-inactive nil
-                        :background "#565063"
-                        :foreground "white"
-                        :box '(:line-width 8 :color "#565063")
-                        :overline nil
-                        :underline nil))
-   ;; below, the default color is borrowed from monokai theme
-   (t
-    (set-face-attribute 'mode-line nil
-                        :foreground "#F5F5F5"
-                        :background "#1B1E1C")
-    (set-face-attribute 'mode-line-inactive nil
-                        :foreground "#8B8878"
-                        :background "#1B1E1C"))
-   ))
-(add-hook 'post-command-hook 'my-god-mode-update-mode-line)
 
 (with-eval-after-load 'subr-x
         (setq-default mode-line-buffer-identification
